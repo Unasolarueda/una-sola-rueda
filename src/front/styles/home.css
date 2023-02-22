@@ -5,3 +5,49 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+body{
+    background-color: #212529;
+}
+
+h1{
+    color: white;
+    font-size: 80px;
+}
+.logonav{
+    height: 218px;
+    width: 330px;
+    margin-top: 15px;
+    
+
+}
+
+.botonvr{
+    border-radius: 50px;
+    padding: 0 20px;
+    font-size: 30px; 
+    margin-top: 50px;
+    border-color: white;
+    /* height: 40px; */
+    /* width: 120px; */
+}
+
+.fi{
+    width: 400px;
+    height: 350px;
+}
+
+.cuadro{
+    width: 80%;
+    height: 300px;
+    background-color:   #4545456f;
+    border-radius: 10px;
+    margin-bottom: 50px;
+}
+
+.fotosinicio{
+    margin-top: 50px;
+}
+
+.ia{
+    margin-top: 50px;
+}

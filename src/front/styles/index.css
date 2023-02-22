@@ -1,3 +1,10 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+/* #212529 negro
+#DC3545 rojo */
+
+
+body{
+    background-color: #212529;
+}
