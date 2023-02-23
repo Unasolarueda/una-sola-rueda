@@ -4,7 +4,7 @@ import "../../styles/administrador.css";
 
 export const Administrador = () => {
   return (
-    <div className="container">
+    <div className="container-login">
       <div className="login text-center">
         <h1>Panel Administrativo</h1>
         <form>
