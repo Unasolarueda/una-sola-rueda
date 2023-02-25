@@ -10,7 +10,7 @@ h1 {
   color: white;
   font-size: 80px;
 }
-.logonav {
+.logonav-main {
   height: 218px;
   width: 330px;
   margin-top: 15px;
@@ -45,4 +45,8 @@ h1 {
 
 .ia {
   margin-top: 50px;
+}
+
+.logonav-secondary {
+  width: 130px;
 }

@@ -17,12 +17,12 @@ export const Home = () => {
       <button type="button" class="botonvr btn btn-danger">
         Rifa Activa
       </button>
-      <div className="fotosinicio d-flex justify-content-center">
+      {/* <div className="fotosinicio d-flex justify-content-center">
         <img src={imagen1} className="fi" />
         <img src={imagen2} className="fi" />
         <img src={imagen3} className="fi" />
         <img src={imagen4} className="fi" />
-      </div>
+      </div> */}
       <div className="ia d-flex justify-content-center">
         <div className="cuadro">informacion </div>
         {/* <div className="cuadro"></div> */}
