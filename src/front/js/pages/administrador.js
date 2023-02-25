@@ -15,7 +15,7 @@ export const Administrador = () => {
     if (login) {
       toast.success("Logueado correctamente");
     } else {
-      toast.error("Credenciales invalidas");
+      toast.error("Credenciales inválidas");
     }
   };
 
