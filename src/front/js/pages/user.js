@@ -1,25 +1,25 @@
 import React, { useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
+import { useJwt } from "react-jwt";
 import "../../styles/user.css";
+import { NewUser } from "../component/newUser";
 
 export const User = () => {
   const { store, actions } = useContext(Context);
+  const { decodedToken, isExpired } = useJwt(store.token);
+
   useEffect(() => {
     if (store.users && store.users.length > 0) return;
     actions.getUsers();
   }, []);
 
-  console.log(store.users);
-
   return (
-    <div className="container table-user  mt-4">
+    <div className="container table-user  mt-4 mb-4">
       <div className="d-flex justify-content-between">
-        <h2>Usuarios</h2>
-        <button className="btn btn-success text-dark fw-bold">
-          Añadir Usuario
-        </button>
+        <h2 className="text-white">Usuarios</h2>
+        <NewUser />
       </div>
-      <table className="table">
+      <table className="table text-white">
         <thead>
           <tr>
             <th scope="col">#</th>

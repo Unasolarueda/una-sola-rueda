@@ -54,9 +54,11 @@ def gell_all_user():
     if request.method == 'GET':
         all_users = User.query.all()
         user_id = User.query.get(get_jwt_identity())
-        print(user_id)
-
-        return jsonify(list(map(lambda user: user.serialize(), all_users)))           
+        
+        if(user_id.role.value == "admin" or user_id.role.value == "super_admin"):
+            return jsonify(list(map(lambda user: user.serialize(), all_users))),200          
+        else:
+            return jsonify([]),200
 
 @api.route('/login', methods=['POST'])
 def handle_login():
@@ -75,7 +77,7 @@ def handle_login():
             else:
                  if check_password(login.password, password, login.salt):
                      token = create_access_token(identity=login.id)
-                     return jsonify({"token": token}),200
+                     return jsonify({"token": token, "role": login.role.value}),200
                  else:
                      return jsonify({"message":"bad credentials"}), 400
          

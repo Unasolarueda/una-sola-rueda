@@ -4,7 +4,11 @@
 /* #212529 negro
 #DC3545 rojo */
 
-
-body{
-    background-color: #212529;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  background-color: #212529;
 }

@@ -1,11 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import toast, { Toaster } from "react-hot-toast";
 
 import "../../styles/administrador.css";
 
 export const Administrador = () => {
-  const { actions } = useContext(Context);
+  const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -14,15 +16,22 @@ export const Administrador = () => {
     const login = await actions.login(email, password);
     if (login) {
       toast.success("Logueado correctamente");
+      navigate("/administrador/users");
     } else {
       toast.error("Credenciales inválidas");
     }
   };
 
+  useEffect(() => {
+    if (store.token && store.token !== "" && store.token !== undefined) {
+      navigate("/administrador/users");
+    }
+  }, [store.token]);
+
   return (
     <div className="container-login">
       <Toaster />
-      <div className="login text-center">
+      <div className="login text-center text-white">
         <h1>Panel Administrativo</h1>
         <form onSubmit={sendData}>
           <div className="form-group">

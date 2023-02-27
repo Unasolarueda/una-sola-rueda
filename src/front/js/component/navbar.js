@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { Context } from "../store/appContext";
 import logonav from "../../img/STICKERS CRUZANGELO.png";
 
 export const Navbar = () => {
+  const { store, actions } = useContext(Context);
   const location = useLocation();
   return (
     <nav className="navbar navbar-expand-lg bg-dark">
@@ -27,18 +29,21 @@ export const Navbar = () => {
               <ul className="navbar-nav">
                 <li className="nav-item px-2">
                   <Link
-                    className="nav-link active text-light fw-bold"
+                    className="nav-link active text-white fw-bold"
                     aria-current="page"
                     to="/administrador/talonarios"
                   >
                     Talonarios
                   </Link>
                 </li>
-                <li className="nav-item px-2">
-                  <Link className="nav-link text-light fw-bold" to="#">
-                    Usuarios
-                  </Link>
-                </li>
+                {store.role && store.role !== "raffler" && (
+                  <li className="nav-item px-2">
+                    <Link className="nav-link text-white fw-bold" to="#">
+                      Usuarios
+                    </Link>
+                  </li>
+                )}
+
                 <li className="nav-item px-2">
                   <Link
                     className="nav-link text-dark fw-bold btn btn-danger"
