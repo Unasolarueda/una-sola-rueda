@@ -86,7 +86,33 @@ const getState = ({ getStore, getActions, setStore }) => {
             return false;
           }
           const data = await response.json();
-          console.log(data);
+
+          actions.getUsers();
+          return true;
+        } catch (error) {
+          console.error(error);
+        }
+      },
+
+      deleteUser: async (userId) => {
+        const actions = getActions();
+        const opts = {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/api/user/${userId}`,
+            opts
+          );
+
+          if (!response.ok) {
+            alert("No se pudo eliminar");
+            return false;
+          }
+          let data = await response.json();
           actions.getUsers();
           return true;
         } catch (error) {

@@ -36,6 +36,17 @@ class User(db.Model):
         except Exception as error:
             db.session.rollback()
             raise Exception(error.args[0],400)
+    
+    @classmethod
+    def delete_user(cls,kwargs):
+        db.session.delete(kwargs)
+        try:
+            db.session.commit()
+            return {"msg":"el usuario fue eliminado correctamente"}
+        except Exception as error:
+            print("error")
+            raise Exception(error.args[0],400)
+       
 
 
     def serialize(self):

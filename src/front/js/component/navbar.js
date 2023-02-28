@@ -22,7 +22,15 @@ export const Navbar = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon">
+              <span className="" role="button">
+                <i
+                  className="fa fa-bars"
+                  aria-hidden="true"
+                  style={{ color: "white" }}
+                ></i>
+              </span>
+            </span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <div className="w-100 d-flex justify-content-end">

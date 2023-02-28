@@ -59,6 +59,26 @@ def gell_all_user():
             return jsonify(list(map(lambda user: user.serialize(), all_users))),200          
         else:
             return jsonify([]),200
+        
+@api.route('/user/<int:user_id>', methods=['DELETE'])
+def delete_user(user_id=None):
+    if request.method == "DELETE":
+        if user_id is None:
+            return jsonify({"message": "Bad request"})
+        if user_id is not None:
+            user = User.query.get(user_id)
+
+            if user is None:
+                return jsonify({"message": "user not found"}),404
+            else:
+                try:
+                    user_delete = User.delete_user(user)
+                    return jsonify(user_delete),200
+        
+                except Exception as error:
+                    return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+                    
+       
 
 @api.route('/login', methods=['POST'])
 def handle_login():

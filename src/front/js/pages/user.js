@@ -3,6 +3,7 @@ import { Context } from "../store/appContext";
 import { useJwt } from "react-jwt";
 import "../../styles/user.css";
 import { NewUser } from "../component/newUser";
+import toast, { Toaster } from "react-hot-toast";
 
 export const User = () => {
   const { store, actions } = useContext(Context);
@@ -13,8 +14,18 @@ export const User = () => {
     actions.getUsers();
   }, []);
 
+  const deleteUser = async (userId) => {
+    const response = await actions.deleteUser(userId);
+    if (response) {
+      toast.success("Usuario eliminado correctamente");
+    } else {
+      toast.error("No se pudo eliminar el usuario");
+    }
+  };
+
   return (
     <div className="container table-user  mt-4 mb-4">
+      <Toaster />
       <div className="d-flex justify-content-between">
         <h2 className="text-white">Usuarios</h2>
         <NewUser />
@@ -27,15 +38,22 @@ export const User = () => {
           </tr>
         </thead>
         <tbody>
-          {store.users.map((user, index) => (
-            <tr key={user.id}>
-              <th scope="row">{index + 1}</th>
-              <td>{user.email}</td>
-              <td>
-                <button className="btn btn-danger">Eliminar</button>
-              </td>
-            </tr>
-          ))}
+          {store.users
+            .filter((user) => user.role == "raffler")
+            .map((user, index) => (
+              <tr key={user.id}>
+                <th scope="row">{index + 1}</th>
+                <td>{user.email}</td>
+                <td>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteUser(user.id)}
+                  >
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

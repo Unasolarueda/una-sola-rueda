@@ -36,7 +36,7 @@ export const NewUser = () => {
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
-        Añadir Usuario <i class="fa-solid fa-plus"></i>
+        Añadir Usuario <i className="fa-solid fa-plus"></i>
       </button>
 
       {/* <!-- Modal --> */}
