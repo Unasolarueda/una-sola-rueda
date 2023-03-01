@@ -1,0 +1,120 @@
+@media (min-width: 576px) {
+    body{
+        background-color: #212529;
+    }
+}
+
+@media (min-width: 1200px) { 
+    body{
+        background-color: #212529;
+    }
+}
+
+@media (min-width: 1400px) { 
+    body{
+        background-color: #212529;
+    }
+}
+
+body{
+    background-color: #212529;
+}
+
+.rifaf{
+    height: auto;
+    width: auto;
+}
+
+
+p{
+    color: white;
+}
+.cuadro{
+    margin-top: 10%;
+    height: 70%;
+    width: 60%;
+    background-color: #4545456f;
+}
+
+.opcion{
+    height: 100px;
+    width: 40%;
+    background-color: #212529;
+    margin-top: 15px;
+    margin-left: 35px;
+    color: white;
+}
+
+.botonc{
+    margin-bottom: 10%;
+    margin-top: auto;
+    border-radius: 10px;
+    padding: 0 40%;
+    font-size: 20px; 
+    margin-top: 50px;
+    border-color: white;
+}
+
+.p2{
+    font-size: 25px;
+}
+
+.imput{
+    background-color:  #212529;
+}
+
+.perfil-usuario .avatar-perfil{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+}
+
+.perfil-usuario .portada-perfil{
+    display: block;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    height: 20rem;
+    border-radius: 0 0 12px 12px;
+}
+
+.perfil-usuario .avatar-perfil{
+    display: block;
+    width: 230px;
+    height: 230px;
+    background-color: #d9dcf1;
+    position: absolute;
+    bottom: -65px;
+    left: 4rem;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 8px solid #ffffff;
+    box-shadow: 0 0 12px 2px rgba(0, 0, 0, .2);
+}
+
+.datos-comprar{
+    margin-top: 10%;
+    height: 70%;
+    width: 60%;
+    background-color: #4545456f;
+    color: white;
+}
+
+.datos-crear{
+    margin-top: 10%;
+    height: 50%;
+    width: 50%;
+    color: white;
+    background-color: #4545456f;
+}
+
+/* .imputcrear{
+    background-color: #4545456f;
+   
+} */
+
+.boton{
+    margin-top: 15px;
+}

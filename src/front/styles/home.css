@@ -5,6 +5,24 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+@media (min-width: 576px) {
+    body{
+        background-color: #212529;
+    }
+}
+
+@media (min-width: 1200px) { 
+    body{
+        background-color: #212529;
+    }
+}
+
+@media (min-width: 1400px) { 
+    body{
+        background-color: #212529;
+    }
+}
+
 body{
     background-color: #212529;
 }
