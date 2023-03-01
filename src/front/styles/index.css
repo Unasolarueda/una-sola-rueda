@@ -9,19 +9,12 @@
     }
 }
 
-@media (min-width: 1200px) { 
-    body{
-        background-color: #212529;
-    }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
-@media (min-width: 1400px) { 
-    body{
-        background-color: #212529;
-    }
-}
-
-body{
-    background-color: #212529;
+body {
+  background-color: #212529;
 }
 
