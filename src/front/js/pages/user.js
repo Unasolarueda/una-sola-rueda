@@ -17,7 +17,13 @@ export const User = () => {
   }, []);
 
   useEffect(() => {
-    if (!store.token) navigate("/");
+    if (!store.token) {
+      navigate("/");
+    } else if (store.role !== "raffler") {
+      navigate("/administrador/users");
+    } else {
+      navigate("/administrador/talonarios");
+    }
   }, [store.token]);
 
   const deleteUser = async (userId) => {

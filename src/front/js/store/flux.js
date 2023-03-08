@@ -3,10 +3,15 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       message: null,
       token: sessionStorage.getItem("token") || null,
-      role: sessionStorage.getItem("token") || null,
+      role: sessionStorage.getItem("role") || null,
       users: [],
+      message: { text: "", type: false },
     },
     actions: {
+      toggleMessage: (text, type) => {
+        setStore({ message: { text: text, type: type } });
+      },
+
       login: async (email, password) => {
         const opts = {
           method: "POST",

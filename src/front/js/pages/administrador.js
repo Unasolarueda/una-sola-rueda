@@ -13,18 +13,26 @@ export const Administrador = () => {
 
   const sendData = async (event) => {
     event.preventDefault();
-    const login = await actions.login(email, password);
-    if (login) {
-      toast.success("Logueado correctamente");
-      navigate("/administrador/users");
+    if (email !== "" && password !== "") {
+      const login = await actions.login(email, password);
+      if (login) {
+        actions.toggleMessage("Logueado correctamente", true);
+        setEmail("");
+        setPassword("");
+        navigate("/administrador/users");
+      } else {
+        actions.toggleMessage("Credenciales inválidas", false);
+      }
     } else {
-      toast.error("Credenciales inválidas");
+      actions.toggleMessage("Complete todos los campos", false);
     }
   };
 
   useEffect(() => {
-    if (store.token && store.token !== "" && store.token !== undefined) {
+    if (store.token && store.token !== "" && store.role !== "raffler") {
       navigate("/administrador/users");
+    } else if (store.token !== null) {
+      navigate("/administrador/talonarios");
     }
   }, [store.token]);
 

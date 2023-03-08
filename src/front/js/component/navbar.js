@@ -1,18 +1,29 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Context } from "../store/appContext";
 import logonav from "../../img/STICKERS CRUZANGELO.png";
+import toast, { Toaster } from "react-hot-toast";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const location = useLocation();
+  useEffect(() => {
+    if (store.message.text === "") return;
+    if (store.message.type) {
+      toast.success(store.message.text);
+    } else {
+      toast.error(store.message.text);
+    }
+  }, [store.message]);
   return (
     <nav className="navbar navbar-expand-lg bg-dark">
-      {location.pathname == "/administrador/users" ? (
+      {location.pathname == "/administrador/users" ||
+      location.pathname == "/administrador/talonarios" ? (
         <div className="container">
           <Link className="navbar-brand" to="/">
             <img src={logonav} className="logonav-secondary"></img>
           </Link>
+          <Toaster />
           <button
             className="navbar-toggler"
             type="button"
@@ -46,7 +57,10 @@ export const Navbar = () => {
                 </li>
                 {store.role && store.role !== "raffler" && (
                   <li className="nav-item px-2">
-                    <Link className="nav-link text-white fw-bold" to="#">
+                    <Link
+                      className="nav-link text-white fw-bold"
+                      to="/administrador/users"
+                    >
                       Usuarios
                     </Link>
                   </li>
