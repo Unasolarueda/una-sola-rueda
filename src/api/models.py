@@ -57,6 +57,37 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
     
+class User_ticket(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    phone = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
+
+    def __init__(self, **kwargs):
+        self.name = kwargs['name']
+        self.phone = kwargs['phone']
+        self.email = kwargs['email']
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_user = cls(**kwargs)
+        db.session.add(new_user) # INSERT INTO
+
+        try:
+            db.session.commit() # Se ejecuta el INSERT INTO
+            return new_user
+        except Exception as error:
+            raise Exception(error.args[0],400)
+
+    def serialize(self):
+        return{
+            "id": self.id,
+            "name": self.name,
+            "phone": self.phone,
+            "email": self.email,
+
+        }
+    
 class Talonario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=False, nullable=False)
@@ -111,3 +142,45 @@ class Talonario(db.Model):
         
             # do not serialize the password, its a security breach
         }
+    
+class Ticket(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    numero = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.String, nullable=False )
+    talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
+    user_ticket_id = db.Column(db.Integer, db.ForeignKey('user_ticket.id'))
+
+    def __init__(self, **kwargs):
+        self.numero = kwargs['numero']
+        self.talonario_id = kwargs['talonario_id']
+        self.status = kwargs['status']
+        self.user_ticket_id = kwargs['user_ticket_id']
+    
+    @classmethod
+    def create(cls, **kwargs):
+        new_ticket = cls(**kwargs)
+        db.session.add(new_ticket)
+        
+        try:
+            db.session.commit()
+            return new_ticket
+        except Exception as error:
+            raise Exception(error.args[0],400)
+        
+
+class Payments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    payment_method = db.Column(db.String(100), unique=False, nullable=False)
+    payment_id = db.Column(db.String(200), unique=False, nullable=False)
+    amount = db.Column(db.Float(10), unique=False, nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
+    user_ticket_id = db.Column(db.Integer, db.ForeignKey('user_ticket.id'))
+
+    def __init__(self, **kwargs):
+        self.payment_method = kwargs['payment_method']
+        self.payment_id = kwargs['payment_id']
+        self.amount = kwargs['amount']
+        self.date = kwargs['date']
+        self.talonario_id = kwargs['talonario_id']
+        self.user_ticket_id = kwargs['user_ticket_id']
