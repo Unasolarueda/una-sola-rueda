@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User
+from api.models import db, User, Talonario
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -17,15 +17,7 @@ def set_password(password, salt):
 def check_password(hash_password, password, salt):
     return check_password_hash(hash_password, f"{password}{salt}")
 
-@api.route('/hello', methods=['POST', 'GET'])
-def handle_hello():
-
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
-    }
-
-    return jsonify(response_body), 200
-
+#endpoints user
 @api.route('/user', methods=['POST'])
 def add_user():
     if request.method == 'POST':
@@ -80,7 +72,7 @@ def delete_user(user_id=None):
                     
        
 
-@api.route('/login', methods=['POST'])
+@api.route('/user/login', methods=['POST'])
 def handle_login():
      if request.method == 'POST':
          body = request.json 
@@ -100,8 +92,56 @@ def handle_login():
                      return jsonify({"token": token, "role": login.role.value}),200
                  else:
                      return jsonify({"message":"bad credentials"}), 400
-         
-            
+
+#endpoints talonario
+@api.route('/talonario', methods=['GET'])
+def get_talonarios():
+    if request.method == 'GET':
+        talonarios = Talonario.query.all()
+
+        return (list(map(lambda talonario: talonario.serialize(),talonarios ))),200
+
+
+@api.route('/talonario', methods=['POST'])
+def  create_talonario():
+    if request.method == 'POST':
+        body = request.json
+
+        name = body.get('name', None)
+        prize = body.get('prize', None)
+        numbers= body.get('numbers',None)
+        price = body.get('price', None)
+        img_prize = body.get('img_prize', False)
+        date = body.get('date', None)
+        payment_method = body.get('payment_method', None)
+        user_id = body.get('user_id', None)
+
+        if name is None or prize is None or numbers is None or price is None or img_prize is None or date is None or payment_method is None or user_id is None:
+            return jsonify({"message": "incomplete data"})
+        else:
+            try:
+                new_talonario = Talonario.create(**body)
+                return jsonify(new_talonario.serialize()),201
+            except Exception as error: 
+                db.session.rollback()
+                return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+
+@api.route('/talonario/<int:talonario_id>', methods=['DELETE'])
+def  delete_talonario(talonario_id):      
+     if request.method == 'DELETE': 
+         talonario = Talonario.query.get(talonario_id)
+
+         if talonario is None:
+             return jsonify({"message": "Talonario no encontrado"}),404
+         else:
+             try:
+                talonario_to_delete = Talonario.delete_talonario(talonario)
+                return jsonify(talonario_to_delete)
+             except Exception as error: 
+                db.session.rollback()
+                return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+
+#endpoints ticket     
 
  
         

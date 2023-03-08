@@ -25,7 +25,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         };
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/api/login`,
+            `${process.env.BACKEND_URL}/user/login`,
             opts
           );
 
@@ -59,10 +59,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         };
 
         try {
-          const response = await fetch(
-            `${process.env.BACKEND_URL}/api/user`,
-            opts
-          );
+          const response = await fetch(`${process.env.BACKEND_URL}/user`, opts);
           if (!response.ok) {
             alert("no se pudo obteber usuarios");
             return false;
@@ -91,10 +88,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           }),
         };
         try {
-          const response = await fetch(
-            `${process.env.BACKEND_URL}/api/user`,
-            opts
-          );
+          const response = await fetch(`${process.env.BACKEND_URL}/user`, opts);
           if (!response.ok) {
             return false;
           }
@@ -117,7 +111,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         };
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/api/user/${userId}`,
+            `${process.env.BACKEND_URL}/user/${userId}`,
             opts
           );
 

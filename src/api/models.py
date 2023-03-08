@@ -61,6 +61,7 @@ class Talonario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=False, nullable=False)
     prize = db.Column(db.String(200), unique=False, nullable=False)
+    numbers = db.Column(db.Integer, unique=False, nullable=False)
     price = db.Column(db.Float(10), unique=False, nullable=False)
     img_prize = db.Column(db.String(200), unique=False, nullable=False)
     date = db.Column(db.Date, nullable=False)
@@ -70,6 +71,7 @@ class Talonario(db.Model):
     def __init__(self, **kwargs):
         self.name = kwargs['name']
         self.prize = kwargs['prize']
+        self.numbers = kwargs['numbers']
         self.price = kwargs['price']
         self.img_prize = kwargs['img_prize']
         self.date = kwargs['date']
@@ -86,6 +88,15 @@ class Talonario(db.Model):
             return new_talonario
         except Exception as error:
             raise Exception(error.args[0], 400)
+    @classmethod
+    def delete_talonario(cls,kwargs):
+        db.session.delete(kwargs)
+        try:
+            db.session.commit()
+            return {"msg":"el talonario fue eliminado correctamente"}
+        except Exception as error:
+            print("error")
+            raise Exception(error.args[0],400)
 
     def serialize(self):
         return {
