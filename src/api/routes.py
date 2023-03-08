@@ -141,7 +141,59 @@ def  delete_talonario(talonario_id):
                 db.session.rollback()
                 return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
 
-#endpoints ticket     
+#endpoints user_ticket
+@api.route('/user-ticket', methods=['POST'])
+def add_user_ticket():
+    if request.method == 'POST':
+
+        body = request.json
+        name=body.get("name", None)
+        phone= body.get("phone",None)
+        email = body.get("email", None)
+
+       
+        if name is None or phone is None or email is None:
+            return "you need an name and a phone and a email",400
+        else:
+            try:
+                User.create(name = name, phone = phone, email=email)
+                return jsonify({"message": "User created"}),201
+                
+            except Exception as error: 
+                db.session.rollback()
+                return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+            
+@api.route('/user-ticket', methods=['GET'])
+def gell_all_user_ticket():
+    if request.method == 'GET':
+        all_users = User.query.all()
+        user_id = User.query.get(get_jwt_identity())
+        
+        if(user_id.role.value == "admin" or user_id.role.value == "super_admin"):
+            return jsonify(list(map(lambda user: user.serialize(), all_users))),200          
+        else:
+            return jsonify([]),200
+        
+@api.route('/user-ticket/<int:user_id>', methods=['DELETE'])
+def delete_user_ticket(user_id=None):
+    if request.method == "DELETE":
+        if user_id is None:
+            return jsonify({"message": "Bad request"})
+        if user_id is not None:
+            user = User.query.get(user_id)
+
+            if user is None:
+                return jsonify({"message": "user not found"}),404
+            else:
+                try:
+                    user_delete = User.delete_user(user)
+                    return jsonify(user_delete),200
+        
+                except Exception as error:
+                    return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+                    
+      
+
 
  
         
