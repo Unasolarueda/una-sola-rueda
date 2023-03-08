@@ -56,3 +56,47 @@ class User(db.Model):
             "role": self.role.value
             # do not serialize the password, its a security breach
         }
+    
+class Talonario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), unique=False, nullable=False)
+    prize = db.Column(db.String(200), unique=False, nullable=False)
+    price = db.Column(db.Float(10), unique=False, nullable=False)
+    img_prize = db.Column(db.String(200), unique=False, nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    payment_method = db.Column(db.String(100), unique=False, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def __init__(self, **kwargs):
+        self.name = kwargs['name']
+        self.prize = kwargs['prize']
+        self.price = kwargs['price']
+        self.img_prize = kwargs['img_prize']
+        self.date = kwargs['date']
+        self.payment_method = kwargs['payment_method']
+        self.user_id = kwargs['user_id']
+
+    @classmethod
+    def create(cls, **kwargs):
+        new_talonario = cls(**kwargs)
+        db.session.add(new_talonario)
+
+        try:
+            db.session.commit()
+            return new_talonario
+        except Exception as error:
+            raise Exception(error.args[0], 400)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "prize": self.prize,
+            "price": self.price,
+            "img_prize": self.img_prize,
+            "date": self.date,
+            "payment_method": self.payment_method,
+            "user_id" : self.user_id
+        
+            # do not serialize the password, its a security breach
+        }
