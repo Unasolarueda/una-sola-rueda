@@ -3,7 +3,7 @@ const getState = ({ getStore, getActions, setStore }) => {
     store: {
       message: null,
       token: sessionStorage.getItem("token") || null,
-      role: null,
+      role: sessionStorage.getItem("token") || null,
       users: [],
     },
     actions: {
@@ -29,12 +29,20 @@ const getState = ({ getStore, getActions, setStore }) => {
           }
           const data = await response.json();
           sessionStorage.setItem("token", data.token);
+          sessionStorage.setItem("role", data.role);
           setStore({ token: data.token });
           setStore({ role: data.role });
           return true;
         } catch (error) {
           console.error("There was been an error login in");
         }
+      },
+
+      logout: () => {
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("role");
+        setStore({ token: null });
+        setStore({ role: null });
       },
 
       getUsers: async () => {

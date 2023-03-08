@@ -53,12 +53,12 @@ export const Navbar = () => {
                 )}
 
                 <li className="nav-item px-2">
-                  <Link
+                  <button
                     className="nav-link text-dark fw-bold btn btn-danger"
-                    to="#"
+                    onClick={() => actions.logout()}
                   >
                     Cerrar Sesión
-                  </Link>
+                  </button>
                 </li>
               </ul>
             </div>

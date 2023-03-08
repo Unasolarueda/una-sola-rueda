@@ -1,18 +1,24 @@
 import React, { useEffect, useContext } from "react";
 import { Context } from "../store/appContext";
 import { useJwt } from "react-jwt";
+import { useNavigate } from "react-router-dom";
 import "../../styles/user.css";
 import { NewUser } from "../component/newUser";
 import toast, { Toaster } from "react-hot-toast";
 
 export const User = () => {
   const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
   const { decodedToken, isExpired } = useJwt(store.token);
 
   useEffect(() => {
     if (store.users && store.users.length > 0) return;
     actions.getUsers();
   }, []);
+
+  useEffect(() => {
+    if (!store.token) navigate("/");
+  }, [store.token]);
 
   const deleteUser = async (userId) => {
     const response = await actions.deleteUser(userId);
