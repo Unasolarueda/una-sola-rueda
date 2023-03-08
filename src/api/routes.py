@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Talonario
+from api.models import db, User, Talonario, User_ticket, Payments, Ticket
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -65,7 +65,7 @@ def delete_user(user_id=None):
             else:
                 try:
                     user_delete = User.delete_user(user)
-                    return jsonify(user_delete),200
+                    return jsonify(user_delete),204
         
                 except Exception as error:
                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
@@ -156,7 +156,7 @@ def add_user_ticket():
             return "you need an name and a phone and a email",400
         else:
             try:
-                User.create(name = name, phone = phone, email=email)
+                User_ticket.create(name = name, phone = phone, email=email)
                 return jsonify({"message": "User created"}),201
                 
             except Exception as error: 
@@ -166,28 +166,24 @@ def add_user_ticket():
 @api.route('/user-ticket', methods=['GET'])
 def gell_all_user_ticket():
     if request.method == 'GET':
-        all_users = User.query.all()
-        user_id = User.query.get(get_jwt_identity())
+        all_users = User_ticket.query.all()
         
-        if(user_id.role.value == "admin" or user_id.role.value == "super_admin"):
-            return jsonify(list(map(lambda user: user.serialize(), all_users))),200          
-        else:
-            return jsonify([]),200
+        return jsonify(list(map(lambda user: user.serialize(), all_users))),200          
+
+       
         
 @api.route('/user-ticket/<int:user_id>', methods=['DELETE'])
 def delete_user_ticket(user_id=None):
     if request.method == "DELETE":
-        if user_id is None:
-            return jsonify({"message": "Bad request"})
         if user_id is not None:
-            user = User.query.get(user_id)
+            user = User_ticket.query.get(user_id)
 
             if user is None:
                 return jsonify({"message": "user not found"}),404
             else:
                 try:
-                    user_delete = User.delete_user(user)
-                    return jsonify(user_delete),200
+                    user_delete = User_ticket.delete_user(user)
+                    return jsonify(user_delete),204
         
                 except Exception as error:
                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]

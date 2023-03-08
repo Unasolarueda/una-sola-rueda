@@ -72,12 +72,22 @@ class User_ticket(db.Model):
     def create(cls, **kwargs):
         new_user = cls(**kwargs)
         db.session.add(new_user) # INSERT INTO
-
         try:
             db.session.commit() # Se ejecuta el INSERT INTO
             return new_user
         except Exception as error:
             raise Exception(error.args[0],400)
+        
+    @classmethod
+    def delete_user(cls,kwargs):
+        db.session.delete(kwargs)
+        try:
+            db.session.commit()
+            return {"msg":"el usuario fue eliminado correctamente"}
+        except Exception as error:
+            print("error")
+            raise Exception(error.args[0],400)
+
 
     def serialize(self):
         return{
@@ -172,7 +182,8 @@ class Payments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     payment_method = db.Column(db.String(100), unique=False, nullable=False)
     payment_id = db.Column(db.String(200), unique=False, nullable=False)
-    amount = db.Column(db.Float(10), unique=False, nullable=False)
+    number_of_tickets=db.Column(db.Integer, unique=False, nullable=False)
+    total = db.Column(db.Float(10), unique=False, nullable=False)
     date = db.Column(db.Date, nullable=False)
     talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
     user_ticket_id = db.Column(db.Integer, db.ForeignKey('user_ticket.id'))
