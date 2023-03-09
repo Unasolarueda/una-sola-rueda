@@ -106,9 +106,8 @@ class Talonario(db.Model):
     prize = db.Column(db.String(200), unique=False, nullable=False)
     numbers = db.Column(db.Integer, unique=False, nullable=False)
     price = db.Column(db.Float(10), unique=False, nullable=False)
-    img_prize = db.Column(db.String(200), unique=False, nullable=False)
-    date = db.Column(db.Date, nullable=False)
-    payment_method = db.Column(db.String(100), unique=False, nullable=False)
+    img_url_prize = db.Column(db.String(200), unique=False, nullable=False)
+    cloud_id = db.Column(db.String(120), unique=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, **kwargs):

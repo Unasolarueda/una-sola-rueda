@@ -4,7 +4,6 @@ import { useJwt } from "react-jwt";
 import { useNavigate } from "react-router-dom";
 import "../../styles/user.css";
 import { NewUser } from "../component/newUser";
-import toast, { Toaster } from "react-hot-toast";
 
 export const User = () => {
   const { store, actions } = useContext(Context);
@@ -29,15 +28,14 @@ export const User = () => {
   const deleteUser = async (userId) => {
     const response = await actions.deleteUser(userId);
     if (response) {
-      toast.success("Usuario eliminado correctamente");
+      actions.toggleMessage("Usuario eliminado correctamente", true);
     } else {
-      toast.error("No se pudo eliminar el usuario");
+      actions.toggleMessage("No se pudo eliminar el usuario", false);
     }
   };
 
   return (
     <div className="container table-user  mt-4 mb-4">
-      <Toaster />
       <div className="d-flex justify-content-between">
         <h2 className="text-white">Usuarios</h2>
         <NewUser />
