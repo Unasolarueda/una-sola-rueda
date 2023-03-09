@@ -225,13 +225,14 @@ def get_all_ticket():
 def delete_ticket(ticket_id=None):
     if request.method == "DELETE":
         if ticket_id is not None:
-            ticket = User_ticket.query.get(ticket_id)
+            ticket = Ticket.query.get(ticket_id)
+            
 
             if ticket is None:
                 return jsonify({"message": "ticket not found"}),404
             else:
                 try:
-                    ticket_delete = User_ticket.delete_user(ticket)
+                    ticket_delete = Ticket.delete(ticket)
                     return jsonify(ticket_delete),204
         
                 except Exception as error:

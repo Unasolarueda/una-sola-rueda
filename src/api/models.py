@@ -62,6 +62,8 @@ class User_ticket(db.Model):
     name = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
+    
+    
 
     def __init__(self, **kwargs):
         self.name = kwargs['name']
@@ -159,6 +161,8 @@ class Ticket(db.Model):
     status = db.Column(db.String, nullable=False )
     talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
     user_ticket_id = db.Column(db.Integer, db.ForeignKey('user_ticket.id'))
+    
+    
 
     def __init__(self, **kwargs):
         self.number = kwargs['number']
