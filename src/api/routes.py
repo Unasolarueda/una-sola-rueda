@@ -189,8 +189,50 @@ def delete_user_ticket(user_id=None):
                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
                     
       
+#endpoints user_ticket
+@api.route('/ticket', methods=['POST'])
+def create_ticket():
 
+    if request.method == "POST":
+        body = request.json
+        number=body.get("number", None)
+        status= body.get("status",None)
+        talonario_id = body.get("talonario_id", None)
+        user_ticket_id = body.get("talonario_id", None)
 
+        if number is None or status is None or talonario_id is None or user_ticket_id is None:
+            return jsonify({"message": "missing data"}),400
+
+        try:
+            new_ticket = Ticket.create(**body)
+            return jsonify(new_ticket.serialize()), 201
+        
+        except Exception as error:
+            return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
  
         
+@api.route('/ticket', methods=['GET'])
+def get_all_ticket():
+    if request.method == "GET":
+        tickets = Ticket.query.all()
+        tickets_dictionaries = []
+        for ticket in tickets :
+            tickets_dictionaries.append(ticket.serialize())
+        
+        return jsonify(tickets_dictionaries)
 
+@api.route('/ticket/<int:ticket_id>', methods=['DELETE'])
+def delete_ticket(ticket_id=None):
+    if request.method == "DELETE":
+        if ticket_id is not None:
+            ticket = User_ticket.query.get(ticket_id)
+
+            if ticket is None:
+                return jsonify({"message": "ticket not found"}),404
+            else:
+                try:
+                    ticket_delete = User_ticket.delete_user(ticket)
+                    return jsonify(ticket_delete),204
+        
+                except Exception as error:
+                    return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]

@@ -155,13 +155,13 @@ class Talonario(db.Model):
     
 class Ticket(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    numero = db.Column(db.Integer, nullable=False)
+    number = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String, nullable=False )
     talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
     user_ticket_id = db.Column(db.Integer, db.ForeignKey('user_ticket.id'))
 
     def __init__(self, **kwargs):
-        self.numero = kwargs['numero']
+        self.number = kwargs['number']
         self.talonario_id = kwargs['talonario_id']
         self.status = kwargs['status']
         self.user_ticket_id = kwargs['user_ticket_id']
@@ -177,6 +177,25 @@ class Ticket(db.Model):
         except Exception as error:
             raise Exception(error.args[0],400)
         
+    @classmethod
+    def delete(cls,kwargs):
+        db.session.delete(kwargs)
+        try:
+            db.session.commit()
+            return {"msg":"el ticket fue eliminado correctamente"}
+        except Exception as error:
+            print("error")
+            raise Exception(error.args[0],400)
+        
+    def serialize(self):
+        return {
+            "id": self.id,
+            "number": self.number,
+            "status": self.status,
+            "talonario_id": self.talonario_id,
+            "user_ticket_id": self.user_ticket_id
+        
+        } 
 
 class Payments(db.Model):
     id = db.Column(db.Integer, primary_key=True)
