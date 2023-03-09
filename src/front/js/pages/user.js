@@ -12,19 +12,19 @@ export const User = () => {
   const { decodedToken, isExpired } = useJwt(store.token);
 
   useEffect(() => {
-    if (store.users && store.users.length > 0) return;
-    actions.getUsers();
-  }, []);
-
-  useEffect(() => {
     if (!store.token) {
       navigate("/");
     } else if (store.role !== "raffler") {
-      navigate("/administrador/users");
+      return;
     } else {
       navigate("/administrador/talonarios");
     }
   }, [store.token]);
+
+  useEffect(() => {
+    if (store.users && store.users.length > 0) return;
+    actions.getUsers();
+  }, []);
 
   const deleteUser = async (userId) => {
     const response = await actions.deleteUser(userId);

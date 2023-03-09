@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Talonario, User_ticket, Payments, Ticket
+from api.models import db, User, Talonario, User_ticket, Payment, Ticket
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -234,6 +234,56 @@ def delete_ticket(ticket_id=None):
                 try:
                     ticket_delete = Ticket.delete(ticket)
                     return jsonify(ticket_delete),204
+        
+                except Exception as error:
+                    return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+                
+#endpoints payments
+@api.route('/payment', methods=['POST'])
+def create_payment():
+
+    if request.method == "POST":
+        body = request.json
+        payment_method=body.get("payment_method", None)
+        number_of_tickets= body.get("number_of_tickets",None)
+        total = body.get("total", None)
+        date = body.get("date", None)
+        talonario_id = body.get("talonario_id", None)
+        user_ticket_id = body.get("user_ticket_id", None)
+
+        if payment_method is None or number_of_tickets is None or total is None or date is None or talonario_id is None or user_ticket_id is None:
+            return jsonify({"message": "missing data"}),400
+
+        try:
+            new_payment = Payment.create(**body)
+            return jsonify(new_payment.serialize()), 201
+        
+        except Exception as error:
+            return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+
+@api.route('/payment', methods=['GET'])
+def get_all_payments():
+    if request.method == "GET":
+        payments = Payment.query.all()
+        payments_dictionaries = []
+        for payment in payments :
+            payments_dictionaries.append(payment.serialize())
+
+        return jsonify(payments_dictionaries)
+
+@api.route('/payment/<int:payment_id>', methods=['DELETE'])
+def delete_payment(payment_id=None):
+    if request.method == "DELETE":
+        if payment_id is not None:
+            payment = Payment.query.get(payment_id)
+            
+
+            if payment is None:
+                return jsonify({"message": "payment not found"}),404
+            else:
+                try:
+                    payment_delete = Ticket.delete(payment)
+                    return jsonify(payment_delete),204
         
                 except Exception as error:
                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]

@@ -201,7 +201,7 @@ class Ticket(db.Model):
         
         } 
 
-class Payments(db.Model):
+class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     payment_method = db.Column(db.String(100), unique=False, nullable=False)
     payment_id = db.Column(db.String(200), unique=False, nullable=False)
@@ -214,7 +214,41 @@ class Payments(db.Model):
     def __init__(self, **kwargs):
         self.payment_method = kwargs['payment_method']
         self.payment_id = kwargs['payment_id']
-        self.amount = kwargs['amount']
+        self.number_of_tickets = kwargs['number_of_tickets']
+        self.total = kwargs['total']
         self.date = kwargs['date']
         self.talonario_id = kwargs['talonario_id']
         self.user_ticket_id = kwargs['user_ticket_id']
+    
+    @classmethod
+    def create(cls, **kwargs):
+        new_payment = cls(**kwargs)
+        db.session.add(new_payment)
+        
+        try:
+            db.session.commit()
+            return new_payment
+        except Exception as error:
+            raise Exception(error.args[0],400)
+        
+    @classmethod
+    def delete(cls,kwargs):
+        db.session.delete(kwargs)
+        try:
+            db.session.commit()
+            return {"msg":"el pago fue eliminado correctamente"}
+        except Exception as error:
+            print("error")
+            raise Exception(error.args[0],400)
+        
+    def serialize(self):
+        return {
+            "id": self.id,
+            "payment_method": self.payment_method,
+            "number_of_tickets": self.number_of_tickets,
+            "total": self.total,
+            "date": self.date,
+            "talonario_id": self.talonario_id,
+            "user_ticket_id": self.user_ticket_id
+        
+        } 
