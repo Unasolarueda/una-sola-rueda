@@ -107,7 +107,8 @@ class Talonario(db.Model):
     numbers = db.Column(db.Integer, unique=False, nullable=False)
     price = db.Column(db.Float(10), unique=False, nullable=False)
     img_url_prize = db.Column(db.String(200), unique=False, nullable=False)
-    cloud_id = db.Column(db.String(120), unique=True, nullable=False)
+    img_cloud_id = db.Column(db.String(120), unique=True, nullable=False)
+    talonario_id = db.Column(db.String(120), unique=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __init__(self, **kwargs):
@@ -115,9 +116,9 @@ class Talonario(db.Model):
         self.prize = kwargs['prize']
         self.numbers = kwargs['numbers']
         self.price = kwargs['price']
-        self.img_prize = kwargs['img_prize']
-        self.date = kwargs['date']
-        self.payment_method = kwargs['payment_method']
+        self.img_url_prize = kwargs['img_url_prize']
+        self.img_cloud_id = kwargs['img_cloud_id']
+        self.talonario_id = kwargs['talonario_id']
         self.user_id = kwargs['user_id']
 
     @classmethod
@@ -145,10 +146,10 @@ class Talonario(db.Model):
             "id": self.id,
             "name": self.name,
             "prize": self.prize,
+            "numbers": self.numbers,
             "price": self.price,
-            "img_prize": self.img_prize,
-            "date": self.date,
-            "payment_method": self.payment_method,
+            "img_url_prize": self.img_url_prize,
+            "img_cloud_id": self.img_cloud_id,
             "user_id" : self.user_id
         
             # do not serialize the password, its a security breach
