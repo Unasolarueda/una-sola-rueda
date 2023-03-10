@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
-import toast, { Toaster } from "react-hot-toast";
+import CloudinaryUploadWidget from "../component/cloudinary";
 
 import "../../styles/newuser.css";
 
@@ -10,18 +10,29 @@ export const NewTalonario = () => {
   const [prize, setPrize] = useState("");
   const [numbers, setNumbers] = useState("");
   const [price, setPrice] = useState("");
-  const [img_prize, setImgPrize] = useState("");
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
 
   const sendData = async (event) => {
     event.preventDefault();
-    if (name.trim() !== "" && prize.trim() !== "") {
-      const response = await actions.addUser(name, prize);
+    if (
+      name.trim() !== "" &&
+      prize.trim() !== "" &&
+      numbers !== "" &&
+      price !== ""
+    ) {
+      const response = await actions.createTalonario(
+        name,
+        prize,
+        numbers,
+        price
+      );
       if (response) {
         actions.toggleMessage("Talonario añadido exitosamente", true);
         setName("");
         setPrize("");
+        setNumbers("");
+        setPrice("");
       } else {
         actions.toggleMessage("No se pudo añadir el talonario", false);
       }
@@ -134,15 +145,8 @@ export const NewTalonario = () => {
                 <div className="form-group">
                   <label className="form-label text-white" htmlFor="img_prize">
                     <b>Imagen del premio:</b>
+                    <CloudinaryUploadWidget />
                   </label>
-                  <input
-                    className="form-control"
-                    type="file"
-                    id="img_prize"
-                    required
-                    value={img_prize}
-                    onChange={(event) => setImgPrize(event.target.value)}
-                  />
                 </div>
 
                 <div className="modal-footer mt-4">
