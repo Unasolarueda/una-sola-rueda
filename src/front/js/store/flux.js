@@ -6,6 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       token: sessionStorage.getItem("token") || null,
       role: sessionStorage.getItem("role") || null,
       users: [],
+      talonarios: [],
       message: { text: "", type: false },
     },
     actions: {
@@ -161,6 +162,33 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error(error.message);
           }
           return true;
+        } catch (error) {
+          console.error(error);
+          return false;
+        }
+      },
+
+      getTalonarios: async () => {
+        const store = getStore();
+        const actions = getActions();
+
+        const opts = {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+        };
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/talonario`,
+            opts
+          );
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+          const data = await response.json();
+          setStore({ talonarios: data });
         } catch (error) {
           console.error(error);
           return false;

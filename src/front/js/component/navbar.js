@@ -7,6 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
   const location = useLocation();
+
   useEffect(() => {
     if (store.message.text === "") return;
     if (store.message.type) {
@@ -15,8 +16,9 @@ export const Navbar = () => {
       toast.error(store.message.text);
     }
   }, [store.message]);
+
   return (
-    <nav className="navbar navbar-expand-lg bg-dark">
+    <nav className="navbar navbar-expand-md bg-dark navbar-dark bg-dark">
       {location.pathname == "/administrador/users" ||
       location.pathname == "/administrador/talonarios" ? (
         <div className="container">
@@ -33,27 +35,41 @@ export const Navbar = () => {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span className="navbar-toggler-icon">
-              <span className="" role="button">
-                <i
-                  className="fa fa-bars"
-                  aria-hidden="true"
-                  style={{ color: "white" }}
-                ></i>
-              </span>
-            </span>
+            <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse" id="navbarNav">
             <div className="w-100 d-flex justify-content-end">
               <ul className="navbar-nav">
                 <li className="nav-item px-2">
-                  <Link
-                    className="nav-link active text-white fw-bold"
-                    aria-current="page"
-                    to="/administrador/talonarios"
-                  >
-                    Talonarios
-                  </Link>
+                  {location.pathname !== "/administrador/talonarios" ? (
+                    <Link
+                      className="nav-link active text-white fw-bold"
+                      aria-current="page"
+                      to="/administrador/talonarios"
+                    >
+                      Talonarios
+                    </Link>
+                  ) : (
+                    <div className="dropdown dropdown-menu-start">
+                      <button
+                        className="btn btn-dark fw-bold dropdown-toggle"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        Talonarios
+                      </button>
+                      <ul className="dropdown-menu dropdown-navbar px-4">
+                        {store.talonarios.map((talonario) => (
+                          <li key={talonario.id}>
+                            <span className="dropdown-item dropdown-item-navbar">
+                              {talonario.name}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
                 </li>
                 {store.role && store.role !== "raffler" && (
                   <li className="nav-item px-2">

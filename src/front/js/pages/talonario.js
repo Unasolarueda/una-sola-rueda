@@ -13,6 +13,11 @@ export const Talonario = () => {
     }
   }, [store.token]);
 
+  useEffect(() => {
+    if (store.talonarios && store.talonarios.length > 0) return;
+    actions.getTalonarios();
+  }, []);
+
   return (
     <>
       <>
