@@ -213,11 +213,21 @@ def create_ticket():
         except Exception as error:
             return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
  
-        
+#enpoinst ticket     
 @api.route('/ticket', methods=['GET'])
 def get_all_ticket():
     if request.method == "GET":
         tickets = Ticket.query.all()
+        tickets_dictionaries = []
+        for ticket in tickets :
+            tickets_dictionaries.append(ticket.serialize())
+        
+        return jsonify(tickets_dictionaries)
+
+@api.route('/ticket/<int:talonario_id>', methods=['GET'])
+def get_ticket(talonario_id):
+    if request.method == "GET":
+        tickets = Ticket.query.filter_by(talonario_id = talonario_id)
         tickets_dictionaries = []
         for ticket in tickets :
             tickets_dictionaries.append(ticket.serialize())

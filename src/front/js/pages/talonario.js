@@ -1,11 +1,13 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { NewTalonario } from "../component/newTalonario";
 import { Context } from "../store/appContext";
+import "../../styles/talonario.css";
 
 export const Talonario = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
+  const [ticketSelected, setTicketSelected] = useState({});
 
   useEffect(() => {
     if (!store.token) {
@@ -18,17 +20,61 @@ export const Talonario = () => {
     actions.getTalonarios();
   }, []);
 
+  useEffect(() => {
+    actions.numberFilter(store.reservedTickets);
+  }, [store.reservedTickets]);
+
+  useEffect(() => {
+    if (store.talonarioSelect !== undefined) {
+      actions.getTickets(store?.talonarioSelect?.id);
+    }
+  }, [store.talonarioSelect]);
+
+  useEffect(() => {
+    if (store.talonarios.length > 0) {
+      actions.selectTalonario(store.talonarios[0].id);
+    }
+  }, [store.talonarios]);
+
   return (
     <>
-      <>
-        <div className="text-center mt-5 mb-5">
-          <h1>Tickets</h1>
+      <div className="text-center mt-5 mb-5">
+        <h1>Tickets</h1>
 
-          <div className="talonario d-flex flex-wrap justify-content-center p-2 gap-2">
-            <div data-bs-toggle="modal" data-bs-target="#exampleModal"></div>
-          </div>
+        <div className="talonario d-flex flex-wrap justify-content-center p-2 gap-2">
+          <div data-bs-toggle="modal" data-bs-target="#exampleModal2"></div>
         </div>
-      </>
+      </div>
+      <div className="text-center mt-5 mb-5">
+        <h1>Tickets</h1>
+        <div className="talonario d-flex flex-wrap justify-content-center p-2 gap-2  text-white">
+          {store.tickets.map((numero, index) => (
+            <div
+              value={`${numero.status} ${numero.value}`}
+              key={index}
+              className={
+                numero.status == "reservado"
+                  ? "numero_reservado numero"
+                  : numero.status == "pagado"
+                  ? "numero_pagado numero"
+                  : "numero numero_disponible"
+              }
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal2"
+              onClick={(e) =>
+                setTicketSelected({
+                  value: numero.value,
+                  numero: numero.numero,
+                  status: numero.status,
+                })
+              }
+            >
+              {numero.value}
+            </div>
+          ))}
+        </div>
+      </div>
+
       <div className="text-center min-vh-100 d-flex justify-content-center align-items-center">
         <NewTalonario />
       </div>
@@ -37,16 +83,16 @@ export const Talonario = () => {
 
       <div
         className="modal fade"
-        id="exampleModal"
+        id="exampleModal2"
         tabIndex={-1}
-        aria-labelledby="exampleModalLabel"
+        aria-labelledby="exampleModal2Label"
         aria-hidden="true"
       >
         <div className="modal-dialog">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalLabel">
-                Ticket
+              <h1 className="modal-title fs-5" id="exampleModal2Label">
+                Ticket {ticketSelected.value}
               </h1>
               <button
                 type="button"
@@ -57,12 +103,12 @@ export const Talonario = () => {
             </div>
             <div className="modal-body d-flex flex-column">
               <span>
-                <strong>Estado:</strong>
+                <strong>Estado: {ticketSelected.status}</strong>
               </span>
 
               <button
                 className="btn btn-outline-dark btn-closed"
-                data-bs-target="#exampleModalToggle2"
+                data-bs-target="#exampleModal2Toggle2"
                 data-bs-toggle="modal"
               >
                 Ver datos del participante
@@ -99,15 +145,15 @@ export const Talonario = () => {
       {/*Segundo modal */}
       <div
         className="modal fade"
-        id="exampleModalToggle2"
+        id="exampleModal2Toggle2"
         aria-hidden="true"
-        aria-labelledby="exampleModalToggleLabel2"
+        aria-labelledby="exampleModal2ToggleLabel2"
         tabIndex={-1}
       >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">
-              <h1 className="modal-title fs-5" id="exampleModalToggleLabel2">
+              <h1 className="modal-title fs-5" id="exampleModal2ToggleLabel2">
                 Información del ticket
               </h1>
               <button
@@ -133,7 +179,7 @@ export const Talonario = () => {
             <div className="modal-footer">
               <button
                 className="btn btn-outline-dark btn-closed"
-                data-bs-target="#exampleModalToggle"
+                data-bs-target="#exampleModal2Toggle"
                 data-bs-toggle="modal"
               >
                 Volver

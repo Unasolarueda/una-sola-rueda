@@ -61,7 +61,12 @@ export const Navbar = () => {
                       </button>
                       <ul className="dropdown-menu dropdown-navbar px-4">
                         {store.talonarios.map((talonario) => (
-                          <li key={talonario.id}>
+                          <li
+                            key={talonario.id}
+                            onClick={(e) =>
+                              actions.selectTalonario(talonario.id)
+                            }
+                          >
                             <span className="dropdown-item dropdown-item-navbar">
                               {talonario.name}
                             </span>

@@ -7,6 +7,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       role: sessionStorage.getItem("role") || null,
       users: [],
       talonarios: [],
+      talonarioSelect: null,
+      reservedTickets: [],
+      tickets: [],
       message: { text: "", type: false },
     },
     actions: {
@@ -194,6 +197,76 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error(error);
           return false;
         }
+      },
+
+      selectTalonario: (talonarioId) => {
+        const store = getStore();
+        const talonario = store.talonarios.find(
+          (talonario) => talonario.id == talonarioId
+        );
+        setStore({ talonarioSelect: talonario });
+      },
+
+      getTickets: async (talonarioID) => {
+        const store = getStore();
+        const opts = {
+          headers: {
+            Authorization: `Bearer ${store.tokenUserTalonario}`,
+          },
+        };
+        const resp = await fetch(
+          `${process.env.BACKEND_URL}/ticket/${talonarioID}`,
+          opts
+        );
+        try {
+          if (!resp.ok) {
+            alert("No se obtuvieros tickets");
+          }
+          let data = await resp.json();
+          setStore({ reservedTickets: data });
+        } catch (error) {
+          console.error(error);
+        }
+      },
+
+      numberFilter: (numeros) => {
+        const store = getStore();
+        let num = [];
+        const numerosReservados = numeros.map((numero) => {
+          if (numero.status == "reservado") {
+            return numero.number;
+          }
+        });
+
+        const numerosPagados = numeros.map((numero) => {
+          if (numero.status == "pagado") {
+            return numero.number;
+          }
+        });
+
+        for (let i = 0; i < 1000; i++) {
+          if (numerosReservados.includes(i)) {
+            num.push({
+              value: i.toString().padStart(3, "0"),
+              numero: i,
+              status: "reservado",
+            });
+          } else if (numerosPagados.includes(i)) {
+            num.push({
+              value: i.toString().padStart(3, "0"),
+              numero: i,
+              status: "pagado",
+            });
+          } else {
+            num.push({
+              value: i.toString().padStart(3, "0"),
+              numero: i,
+              status: "disponible",
+            });
+          }
+        }
+
+        setStore({ tickets: num });
       },
     },
   };

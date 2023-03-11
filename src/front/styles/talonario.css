@@ -1,0 +1,47 @@
+:root {
+  --color-azul: #293250;
+  --color-amarillo: #fed163;
+  --color-lima: #6dd47e;
+}
+
+.talonario {
+  width: 50%;
+  margin: 0 auto;
+  margin-top: 10px;
+  background: #fed163;
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5.1px);
+  -webkit-backdrop-filter: blur(5.1px);
+  border: 1px solid #fed163;
+}
+
+.numero {
+  font-weight: bold;
+  top: calc(50% - 150px);
+  left: calc(50% - 150px);
+  font-size: 18px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  padding: 10px;
+}
+
+.numero_disponible {
+  color: black;
+  border: 2px dashed black;
+}
+
+.numero_reservado {
+  background: var(--color-azul);
+  color: #fed163;
+  border: 2px solid var(--color-azul);
+}
+
+.numero_pagado {
+  background: var(--color-lima);
+  color: #fed163;
+  font-weight: bold;
+  border: 2px solid var(--color-lima);
+  padding: 10px;
+}
