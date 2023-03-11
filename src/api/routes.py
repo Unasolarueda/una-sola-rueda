@@ -95,9 +95,11 @@ def handle_login():
 
 #endpoints talonario
 @api.route('/talonario', methods=['GET'])
+@jwt_required()
 def get_talonarios():
     if request.method == 'GET':
-        talonarios = Talonario.query.all()
+        user_id = get_jwt_identity()
+        talonarios = Talonario.query.filter_by(user_id = user_id)
 
         return (list(map(lambda talonario: talonario.serialize(),talonarios ))),200
 

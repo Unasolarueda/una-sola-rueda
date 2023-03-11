@@ -173,6 +173,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         const actions = getActions();
 
         const opts = {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${store.token}`,
