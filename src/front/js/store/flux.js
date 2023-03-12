@@ -1,7 +1,6 @@
 const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
-      message: null,
       imageUrls: {},
       token: sessionStorage.getItem("token") || null,
       role: sessionStorage.getItem("role") || null,
@@ -10,6 +9,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       talonarioSelect: null,
       reservedTickets: [],
       tickets: [],
+      infoTicket: null,
       message: { text: "", type: false },
     },
     actions: {
@@ -226,6 +226,24 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ reservedTickets: data });
         } catch (error) {
           console.error(error);
+        }
+      },
+
+      infoTicket: async (numero, talonarioID) => {
+        const response = await fetch(
+          `${process.env.BACKEND_URL}/ticket/${numero}/${talonarioID}`
+        );
+        try {
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+          const data = await response.json();
+          setStore({ infoTicket: data });
+          return true;
+        } catch (error) {
+          console.error(error);
+          return false;
         }
       },
 

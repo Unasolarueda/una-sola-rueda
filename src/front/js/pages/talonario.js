@@ -110,6 +110,12 @@ export const Talonario = () => {
                 className="btn btn-outline-dark btn-closed"
                 data-bs-target="#exampleModal2Toggle2"
                 data-bs-toggle="modal"
+                onClick={(e) =>
+                  actions.infoTicket(
+                    ticketSelected.numero,
+                    store.talonarioSelect.id
+                  )
+                }
               >
                 Ver datos del participante
               </button>
@@ -154,7 +160,7 @@ export const Talonario = () => {
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title fs-5" id="exampleModal2ToggleLabel2">
-                Información del ticket
+                Información del ticket {ticketSelected.value}
               </h1>
               <button
                 type="button"

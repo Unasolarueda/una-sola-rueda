@@ -234,6 +234,16 @@ def get_ticket(talonario_id):
         
         return jsonify(tickets_dictionaries)
 
+@api.route('/ticket/<int:number>/<int:talonario_id>', methods=['GET'])
+def get_one_ticket(number, talonario_id):
+    if request.method == "GET":
+        ticket = Ticket.query.filter_by(talonario_id = talonario_id, number = number).one_or_none()
+        
+        if ticket is None:
+            return jsonify({"message": "the ticket not found"}),400
+        else:
+            return jsonify(ticket.serialize())
+
 @api.route('/ticket/<int:ticket_id>', methods=['DELETE'])
 def delete_ticket(ticket_id=None):
     if request.method == "DELETE":
