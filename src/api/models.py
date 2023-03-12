@@ -62,6 +62,7 @@ class User_ticket(db.Model):
     name = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
+    ticket = db.relationship("Ticket", backref="user_ticket")
     
     
 
@@ -196,8 +197,12 @@ class Ticket(db.Model):
             "id": self.id,
             "number": self.number,
             "status": self.status,
+            "user_name": self.user_ticket.name,
+            "user_phone": self.user_ticket.phone,
+            "user_email": self.user_ticket.email,
             "talonario_id": self.talonario_id,
-            "user_ticket_id": self.user_ticket_id
+            "user_ticket_id": self.user_ticket_id,
+
         
         } 
 

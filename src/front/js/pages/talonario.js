@@ -172,13 +172,13 @@ export const Talonario = () => {
             <div className="modal-body">
               <div className="d-flex flex-column">
                 <span>
-                  <strong>Nombre: </strong>
+                  <strong>Nombre: {store.infoTicket?.user_name}</strong>
                 </span>
                 <span>
-                  <strong>Teléfono: </strong>
+                  <strong>Teléfono: {store.infoTicket?.user_phone}</strong>
                 </span>
                 <span>
-                  <strong>Email: </strong>
+                  <strong>Email: {store.infoTicket?.user_email}</strong>
                 </span>
               </div>
             </div>
