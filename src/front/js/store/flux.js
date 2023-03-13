@@ -214,15 +214,16 @@ const getState = ({ getStore, getActions, setStore }) => {
             Authorization: `Bearer ${store.tokenUserTalonario}`,
           },
         };
-        const resp = await fetch(
+        const response = await fetch(
           `${process.env.BACKEND_URL}/ticket/${talonarioID}`,
           opts
         );
         try {
-          if (!resp.ok) {
-            alert("No se obtuvieros tickets");
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
           }
-          let data = await resp.json();
+          let data = await response.json();
           setStore({ reservedTickets: data });
         } catch (error) {
           console.error(error);
