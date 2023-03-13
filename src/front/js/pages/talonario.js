@@ -105,20 +105,21 @@ export const Talonario = () => {
               <span>
                 <strong>Estado: {ticketSelected.status}</strong>
               </span>
-
-              <button
-                className="btn btn-outline-dark btn-closed"
-                data-bs-target="#exampleModal2Toggle2"
-                data-bs-toggle="modal"
-                onClick={(e) =>
-                  actions.infoTicket(
-                    ticketSelected.numero,
-                    store.talonarioSelect.id
-                  )
-                }
-              >
-                Ver datos del participante
-              </button>
+              {ticketSelected.status !== "disponible" && (
+                <button
+                  className="btn btn-outline-dark btn-closed"
+                  data-bs-target="#exampleModal2Toggle2"
+                  data-bs-toggle="modal"
+                  onClick={(e) =>
+                    actions.infoTicket(
+                      ticketSelected.numero,
+                      store.talonarioSelect.id
+                    )
+                  }
+                >
+                  Ver datos del participante
+                </button>
+              )}
             </div>
             <div className="modal-footer">
               <button

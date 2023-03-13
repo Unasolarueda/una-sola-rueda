@@ -118,14 +118,6 @@ export const NewTalonario = () => {
                   >
                     <option value="">Selecciona</option>
                     <option value={1000}>1000</option>
-                    <option value={2000}>2000</option>
-                    <option value={3000}>3000</option>
-                    <option value={4000}>4000</option>
-                    <option value={5000}>5000</option>
-                    <option value={6000}>6000</option>
-                    <option value={7000}>7000</option>
-                    <option value={8000}>8000</option>
-                    <option value={9000}>9000</option>
                     <option value={10000}>10000</option>
                   </select>
                 </div>
@@ -160,7 +152,7 @@ export const NewTalonario = () => {
                   <input
                     className="btn btn-success"
                     data-bs-dismiss={
-                      name.trim() !== "" && prize.trim() !== "" && "modal"
+                      name.trim() !== "" && prize.trim() !== "" ? "modal" : ""
                     }
                     type="submit"
                     value="Guardar"
