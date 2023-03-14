@@ -8,12 +8,12 @@
   width: 50%;
   margin: 0 auto;
   margin-top: 10px;
-  background: #fed163;
+  background: rgba(0, 0, 0, 0);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(5.1px);
   -webkit-backdrop-filter: blur(5.1px);
-  border: 1px solid #fed163;
+  border: 1px solid rgba(0, 0, 0, 0);
 }
 
 .numero {
@@ -28,14 +28,14 @@
 }
 
 .numero_disponible {
-  color: black;
-  border: 2px dashed black;
+  color: white;
+  border: 1px dashed white;
 }
 
 .numero_reservado {
-  background: var(--color-azul);
-  color: #fed163;
-  border: 2px solid var(--color-azul);
+  background: #dc3545;
+  color: white;
+  border: 2px solid rgba(0, 0, 0, 0);
 }
 
 .numero_pagado {
