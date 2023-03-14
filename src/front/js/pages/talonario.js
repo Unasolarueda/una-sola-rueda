@@ -21,7 +21,7 @@ export const Talonario = () => {
   }, []);
 
   useEffect(() => {
-    actions.numberFilter(store.reservedTickets);
+    actions.numberFilter(store.reservedTickets, store.talonarioSelect?.numbers);
   }, [store.reservedTickets]);
 
   useEffect(() => {
@@ -42,17 +42,42 @@ export const Talonario = () => {
         <>
           <div className="text-center mt-5 mb-5 text-white">
             <h1>Tickets</h1>
+
+            <div className="d-flex flex-column align-items-center">
+              <label className="h3">Nuestra meta:</label>
+
+              <div className="progress">
+                <div
+                  className="progress-bar bg-danger text-dark"
+                  role="progressbar"
+                  aria-label="Example with label"
+                  style={{
+                    width: `${
+                      (store.reservedTickets.length * 100) /
+                      store.talonarioSelect?.numbers
+                    }%`,
+                  }}
+                  aria-valuenow="25"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  {(store.reservedTickets.length * 100) /
+                    store.talonarioSelect?.numbers}
+                  %
+                </div>
+              </div>
+            </div>
+
             <div className="talonario d-flex flex-wrap justify-content-center p-2 gap-2  text-white">
               {store.tickets.map((numero, index) => (
                 <div
-                  value={`${numero.status} ${numero.value}`}
                   key={index}
                   className={
                     numero.status == "reservado"
-                      ? "numero_reservado numero"
+                      ? "numero_reservado numero d-flex justify-content-center"
                       : numero.status == "pagado"
-                      ? "numero_pagado numero"
-                      : "numero numero_disponible"
+                      ? "numero_pagado numero d-flex justify-content-center"
+                      : "numero numero_disponible d-flex justify-content-center"
                   }
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModalToggle"

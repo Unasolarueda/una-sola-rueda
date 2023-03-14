@@ -248,37 +248,37 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      numberFilter: (numeros) => {
+      numberFilter: (reservedTickets, numeros) => {
         const store = getStore();
         let num = [];
-        const numerosReservados = numeros.map((numero) => {
+        const numerosReservados = reservedTickets.map((numero) => {
           if (numero.status == "reservado") {
             return numero.number;
           }
         });
 
-        const numerosPagados = numeros.map((numero) => {
+        const numerosPagados = reservedTickets.map((numero) => {
           if (numero.status == "pagado") {
             return numero.number;
           }
         });
 
-        for (let i = 0; i < 1000; i++) {
+        for (let i = 0; i < numeros; i++) {
           if (numerosReservados.includes(i)) {
             num.push({
-              value: i.toString().padStart(3, "0"),
+              value: i.toString().padStart(String(numeros).length - 1, "0"),
               numero: i,
               status: "reservado",
             });
           } else if (numerosPagados.includes(i)) {
             num.push({
-              value: i.toString().padStart(3, "0"),
+              value: i.toString().padStart(String(numeros).length - 1, "0"),
               numero: i,
               status: "pagado",
             });
           } else {
             num.push({
-              value: i.toString().padStart(3, "0"),
+              value: i.toString().padStart(String(numeros).length - 1, "0"),
               numero: i,
               status: "disponible",
             });
