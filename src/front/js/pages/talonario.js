@@ -41,10 +41,11 @@ export const Talonario = () => {
       {store.talonarios.length > 0 ? (
         <>
           <div className="text-center mt-5 mb-5 text-white">
-            <h1>Tickets</h1>
+            <h1>{store.talonarioSelect?.name}</h1>
+            <NewTalonario />
 
-            <div className="d-flex flex-column align-items-center">
-              <label className="h3">Nuestra meta:</label>
+            <div className="d-flex flex-column align-items-center mt-3">
+              <label className="h4">Nuestra meta:</label>
 
               <div className="progress">
                 <div

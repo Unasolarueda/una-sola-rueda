@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { Context } from "../store/appContext";
 import logonav from "../../img/STICKERS CRUZANGELO.png";
 import toast, { Toaster } from "react-hot-toast";
+import { NewTalonario } from "./newTalonario";
 
 export const Navbar = () => {
   const { store, actions } = useContext(Context);
@@ -18,7 +19,7 @@ export const Navbar = () => {
   }, [store.message]);
 
   return (
-    <nav className="navbar navbar-expand-md bg-dark navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-md sticky-top bg-dark navbar-dark bg-dark">
       {location.pathname == "/administrador/users" ||
       location.pathname == "/administrador/talonarios" ? (
         <div className="container">

@@ -140,6 +140,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       createTalonario: async (name, prize, numbers, price) => {
         const store = getStore();
+        const actions = getActions();
         const opts = {
           method: "POST",
           headers: {
@@ -164,6 +165,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             const error = await response.json();
             throw new Error(error.message);
           }
+          actions.getTalonarios();
           return true;
         } catch (error) {
           console.error(error);
