@@ -284,10 +284,10 @@ def create_payment():
         except Exception as error:
             return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
 
-@api.route('/payment', methods=['GET'])
-def get_all_payments():
+@api.route('/payment/<int:talonario_id>', methods=['GET'])
+def get_all_payments(talonario_id):
     if request.method == "GET":
-        payments = Payment.query.all()
+        payments = Payment.query.filter_by(talonario_id = talonario_id)
         payments_dictionaries = []
         for payment in payments :
             payments_dictionaries.append(payment.serialize())

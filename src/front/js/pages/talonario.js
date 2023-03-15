@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { NewTalonario } from "../component/newTalonario";
 import { Context } from "../store/appContext";
 import "../../styles/talonario.css";
+import { Payments } from "../component/payments";
 
 export const Talonario = () => {
   const { store, actions } = useContext(Context);
@@ -25,7 +26,7 @@ export const Talonario = () => {
   }, [store.reservedTickets]);
 
   useEffect(() => {
-    if (store.talonarioSelect !== undefined) {
+    if (store.talonarioSelect !== null) {
       actions.getTickets(store?.talonarioSelect?.id);
     }
   }, [store.talonarioSelect]);
@@ -94,6 +95,7 @@ export const Talonario = () => {
                 </div>
               ))}
             </div>
+            <Payments />
           </div>
         </>
       ) : (

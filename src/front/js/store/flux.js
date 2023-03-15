@@ -8,6 +8,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       talonarios: [],
       talonarioSelect: null,
       reservedTickets: [],
+      payments: [],
       tickets: [],
       infoTicket: null,
       message: { text: "", type: false },
@@ -247,6 +248,23 @@ const getState = ({ getStore, getActions, setStore }) => {
         } catch (error) {
           console.error(error);
           return false;
+        }
+      },
+
+      getPayments: async (talonarioId) => {
+        const store = getStore();
+        const response = await fetch(
+          `${process.env.BACKEND_URL}/payment/${talonarioId}`
+        );
+        try {
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+          let data = await response.json();
+          setStore({ payments: data });
+        } catch (error) {
+          console.error(error);
         }
       },
 

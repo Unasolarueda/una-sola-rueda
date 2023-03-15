@@ -251,6 +251,7 @@ class Payment(db.Model):
             "id": self.id,
             "payment_method": self.payment_method,
             "number_of_tickets": self.number_of_tickets,
+            "payment_id": self.payment_id,
             "total": self.total,
             "date": self.date,
             "talonario_id": self.talonario_id,
