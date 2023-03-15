@@ -44,7 +44,6 @@ export const Talonario = () => {
           <div className="text-center mt-5 mb-5 text-white">
             <h1>{store.talonarioSelect?.name}</h1>
             <NewTalonario />
-
             <div className="d-flex flex-column align-items-center mt-3">
               <label className="h4">Nuestra meta:</label>
 
