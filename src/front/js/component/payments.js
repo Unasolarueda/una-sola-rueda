@@ -32,7 +32,18 @@ export const Payments = () => {
               <td>{payment.number_of_tickets}</td>
               <td>{payment.total}</td>
               <td>
-                <button className="btn btn-success">Aprobar</button>
+                <button
+                  className="btn btn-success"
+                  onClick={() =>
+                    actions.buyTickets(
+                      payment.number_of_tickets,
+                      payment.talonario_id,
+                      payment.user_ticket_id
+                    )
+                  }
+                >
+                  Aprobar
+                </button>
               </td>
               <td>
                 <button className="btn btn-danger">Eliminar</button>

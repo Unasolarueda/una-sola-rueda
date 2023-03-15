@@ -233,6 +233,69 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      reserveTickets: async (numbers, talonario_id, user_ticket_id) => {
+        const store = getStore();
+        const actions = getActions();
+        console.log(numbers);
+        for (let i = 0; i < numbers.length; i++) {
+          const opts = {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              number: numbers[i],
+              status: "reservado",
+              talonario_id: talonario_id,
+              user_ticket_id: user_ticket_id,
+            }),
+          };
+          try {
+            const response = await fetch(
+              `${process.env.BACKEND_URL}/ticket`,
+              opts
+            );
+            if (!response.ok) {
+              const error = await response.json();
+              throw new Error(error.message);
+            }
+            actions.getTickets(talonario_id);
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      },
+
+      buyTickets: (numberOfTickets, talonarioId, userId) => {
+        const store = getStore();
+        const actions = getActions();
+        function getRandomTicketNumbers(tickets, numberOfTickets) {
+          if (numberOfTickets > tickets.length) {
+            throw new Error(
+              "Count cannot be greater than the length of the tickets array"
+            );
+          }
+
+          let result = [];
+
+          while (result.length < numberOfTickets) {
+            let randomIndex = Math.floor(Math.random() * tickets.length);
+            let ticketNumber = tickets[randomIndex].numero;
+            if (result.indexOf(ticketNumber) === -1) {
+              result.push(ticketNumber);
+            }
+          }
+
+          return result;
+        }
+        let randomTicketNumbers = getRandomTicketNumbers(
+          store.tickets,
+          numberOfTickets
+        );
+        console.log(randomTicketNumbers);
+        actions.reserveTickets(randomTicketNumbers, talonarioId, userId);
+      },
+
       infoTicket: async (numero, talonarioID) => {
         const response = await fetch(
           `${process.env.BACKEND_URL}/ticket/${numero}/${talonarioID}`

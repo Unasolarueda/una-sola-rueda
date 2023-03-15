@@ -16,6 +16,10 @@ export const Talonario = () => {
     }
   }, [store.token]);
 
+  // useEffect(() => {
+  //   if (store.tickets.length > 0) actions.buyTickets();
+  // }, [store.tickets]);
+
   useEffect(() => {
     if (store.talonarios && store.talonarios.length > 0) return;
     actions.getTalonarios();

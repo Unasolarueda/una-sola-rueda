@@ -192,7 +192,8 @@ def delete_user_ticket(user_id=None):
                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
                     
       
-#endpoints user_ticket
+
+#enpoinst ticket     
 @api.route('/ticket', methods=['POST'])
 def create_ticket():
 
@@ -213,7 +214,6 @@ def create_ticket():
         except Exception as error:
             return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
  
-#enpoinst ticket     
 @api.route('/ticket', methods=['GET'])
 def get_all_ticket():
     if request.method == "GET":
