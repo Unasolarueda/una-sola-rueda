@@ -213,6 +213,7 @@ class Payment(db.Model):
     number_of_tickets=db.Column(db.Integer, unique=False, nullable=False)
     total = db.Column(db.Float(10), unique=False, nullable=False)
     date = db.Column(db.Date, nullable=False)
+    status = db.Column(db.String, nullable=False )
     talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
     user_ticket_id = db.Column(db.Integer, db.ForeignKey('user_ticket.id'))
 
@@ -222,6 +223,7 @@ class Payment(db.Model):
         self.number_of_tickets = kwargs['number_of_tickets']
         self.total = kwargs['total']
         self.date = kwargs['date']
+        self.status = "verificado"
         self.talonario_id = kwargs['talonario_id']
         self.user_ticket_id = kwargs['user_ticket_id']
     
@@ -254,6 +256,7 @@ class Payment(db.Model):
             "payment_id": self.payment_id,
             "total": self.total,
             "date": self.date,
+            "status": self.status,
             "talonario_id": self.talonario_id,
             "user_ticket_id": self.user_ticket_id
         
