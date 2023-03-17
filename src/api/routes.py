@@ -293,6 +293,23 @@ def get_all_payments(talonario_id):
             payments_dictionaries.append(payment.serialize())
 
         return jsonify(payments_dictionaries)
+    
+@api.route('/payment/<int:payment_id>', methods=['PUT'])
+def update_payment(payment_id):
+    if request.method == "PUT":
+        payment = Payment.query.filter_by(id = payment_id).first()
+
+        if payment is None:
+             return jsonify({"message": "payment not found"}),404
+        else:
+            payment.status = "aprobado"
+            try:
+                db.session.commit()
+                return jsonify({"message":"Payment updated"}),200
+            except Exception as error:
+                return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+            
+
 
 @api.route('/payment/<int:payment_id>', methods=['DELETE'])
 def delete_payment(payment_id=None):

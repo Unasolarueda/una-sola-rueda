@@ -10,6 +10,27 @@ export const Payments = () => {
     }
   }, [store.talonarioSelect]);
 
+  const handlePayment = (
+    number_of_tickets,
+    talonario_id,
+    user_ticket_id,
+    paymentId
+  ) => {
+    let response = actions.buyTickets(
+      number_of_tickets,
+      talonario_id,
+      user_ticket_id
+    );
+    if (response) {
+      actions.toggleMessage("Tickets reservados", true);
+      let responsePayment = actions.updatePayment(paymentId, talonario_id);
+      if (responsePayment) actions.toggleMessage("Pago aprobado", true);
+      else actions.toggleMessage("El pago no pudo ser aprobado", false);
+    } else {
+      actions.toggleMessage("No se pudo reservar los tickets", false);
+    }
+  };
+
   return (
     <div className="mt-5">
       <h3>Pagos</h3>
@@ -50,7 +71,7 @@ export const Payments = () => {
                 if (showPayment) {
                   return payment.status == `no-aprobado`;
                 } else {
-                  payment.status == `aprobado`;
+                  return payment.status == `aprobado`;
                 }
               })
               .map((payment, index) => (
@@ -61,23 +82,28 @@ export const Payments = () => {
                   <td>{payment.payment_id}</td>
                   <td>{payment.number_of_tickets}</td>
                   <td>{payment.total}</td>
-                  <td>
-                    <button
-                      className="btn btn-success"
-                      onClick={() =>
-                        actions.buyTickets(
-                          payment.number_of_tickets,
-                          payment.talonario_id,
-                          payment.user_ticket_id
-                        )
-                      }
-                    >
-                      Aprobar
-                    </button>
-                  </td>
-                  <td>
-                    <button className="btn btn-danger">Eliminar</button>
-                  </td>
+                  {payment.status == `no-aprobado` && (
+                    <>
+                      <td>
+                        <button
+                          className="btn btn-success"
+                          onClick={() =>
+                            handlePayment(
+                              payment.number_of_tickets,
+                              payment.talonario_id,
+                              payment.user_ticket_id,
+                              payment.id
+                            )
+                          }
+                        >
+                          Aprobar
+                        </button>
+                      </td>
+                      <td>
+                        <button className="btn btn-danger">Eliminar</button>
+                      </td>
+                    </>
+                  )}
                 </tr>
               ))}
           </tbody>

@@ -266,7 +266,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      buyTickets: (numberOfTickets, talonarioId, userId) => {
+      buyTickets: async (numberOfTickets, talonarioId, userId) => {
         const store = getStore();
         const actions = getActions();
         function getRandomTicketNumbers(tickets, numberOfTickets) {
@@ -293,7 +293,8 @@ const getState = ({ getStore, getActions, setStore }) => {
           numberOfTickets
         );
         console.log(randomTicketNumbers);
-        actions.reserveTickets(randomTicketNumbers, talonarioId, userId);
+        await actions.reserveTickets(randomTicketNumbers, talonarioId, userId);
+        return true;
       },
 
       infoTicket: async (numero, talonarioID) => {
@@ -328,6 +329,30 @@ const getState = ({ getStore, getActions, setStore }) => {
           setStore({ payments: data });
         } catch (error) {
           console.error(error);
+        }
+      },
+
+      updatePayment: async (paymentId, talonarioId) => {
+        const actions = getActions();
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/payment/${paymentId}`,
+            {
+              method: "PUT",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+          actions.getPayments(talonarioId);
+          return true;
+        } catch (error) {
+          console.error(error);
+          return false;
         }
       },
 

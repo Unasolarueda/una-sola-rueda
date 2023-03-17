@@ -223,7 +223,7 @@ class Payment(db.Model):
         self.number_of_tickets = kwargs['number_of_tickets']
         self.total = kwargs['total']
         self.date = kwargs['date']
-        self.status = "verificado"
+        self.status = "no-aprobado"
         self.talonario_id = kwargs['talonario_id']
         self.user_ticket_id = kwargs['user_ticket_id']
     
