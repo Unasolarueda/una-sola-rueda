@@ -356,6 +356,32 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      deletePayment: async (paymentId, talonarioId) => {
+        const actions = getActions();
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/payment/${paymentId}`,
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+          actions.getPayments(talonarioId);
+          actions.toggleMessage("Pago eliminado", true);
+          return true;
+        } catch (error) {
+          actions.toggleMessage("El pago no pudo ser eliminado", false);
+          console.error(error);
+          return false;
+        }
+      },
+
       numberFilter: (reservedTickets, numeros) => {
         const store = getStore();
         let num = [];

@@ -100,7 +100,17 @@ export const Payments = () => {
                         </button>
                       </td>
                       <td>
-                        <button className="btn btn-danger">Eliminar</button>
+                        <button
+                          className="btn btn-danger"
+                          onClick={() =>
+                            actions.deletePayment(
+                              payment.id,
+                              payment.talonario_id
+                            )
+                          }
+                        >
+                          Eliminar
+                        </button>
                       </td>
                     </>
                   )}
