@@ -111,6 +111,9 @@ class Talonario(db.Model):
     img_cloud_id = db.Column(db.String(120), unique=True, nullable=False)
     talonario_id = db.Column(db.String(120), unique=True, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    ticket = db.relationship("Ticket",back_populates='talonario',cascade='save-update, merge, delete')
+    payment = db.relationship("Payment",back_populates='talonario',cascade='save-update, merge, delete')
+    
 
     def __init__(self, **kwargs):
         self.name = kwargs['name']
@@ -162,6 +165,7 @@ class Ticket(db.Model):
     status = db.Column(db.String, nullable=False )
     talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
     user_ticket_id = db.Column(db.Integer, db.ForeignKey('user_ticket.id'))
+    talonario = db.relationship("Talonario", back_populates="ticket")
     
     
 
@@ -216,6 +220,7 @@ class Payment(db.Model):
     status = db.Column(db.String, nullable=False )
     talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
     user_ticket_id = db.Column(db.Integer, db.ForeignKey('user_ticket.id'))
+    talonario = db.relationship("Talonario", back_populates="payment")
 
     def __init__(self, **kwargs):
         self.payment_method = kwargs['payment_method']
