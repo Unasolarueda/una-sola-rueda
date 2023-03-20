@@ -118,12 +118,13 @@ def  create_talonario():
         img_url_prize = body.get('img_url_prize', False)
         img_cloud_id = body.get('img_cloud_id', None)
         talonario_id = b64encode(os.urandom(32)).decode('utf-8')
+        status = "activa"
 
         if name is None or prize is None or numbers is None or price is None or img_url_prize is None or img_cloud_id is None:
             return jsonify({"message": "incomplete data"}),400
         else:
             try:
-                new_talonario = Talonario.create(**body, talonario_id = talonario_id, user_id = user_id)
+                new_talonario = Talonario.create(**body, talonario_id = talonario_id, user_id = user_id, status = status)
                 return jsonify(new_talonario.serialize()),201
             except Exception as error: 
                 db.session.rollback()

@@ -32,7 +32,7 @@ export const Payments = () => {
   };
 
   return (
-    <div className="mt-5">
+    <div className="mt-3">
       <h3>Pagos</h3>
 
       <div className="container  table-responsive table-user  mb-4">

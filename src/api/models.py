@@ -107,6 +107,7 @@ class Talonario(db.Model):
     prize = db.Column(db.String(200), unique=False, nullable=False)
     numbers = db.Column(db.Integer, unique=False, nullable=False)
     price = db.Column(db.Float(10), unique=False, nullable=False)
+    status = db.Column(db.String, nullable=False )
     img_url_prize = db.Column(db.String(200), unique=False, nullable=False)
     img_cloud_id = db.Column(db.String(120), unique=True, nullable=False)
     talonario_id = db.Column(db.String(120), unique=True, nullable=False)
@@ -120,6 +121,7 @@ class Talonario(db.Model):
         self.prize = kwargs['prize']
         self.numbers = kwargs['numbers']
         self.price = kwargs['price']
+        self.status = kwargs['status']
         self.img_url_prize = kwargs['img_url_prize']
         self.img_cloud_id = kwargs['img_cloud_id']
         self.talonario_id = kwargs['talonario_id']
@@ -152,6 +154,7 @@ class Talonario(db.Model):
             "prize": self.prize,
             "numbers": self.numbers,
             "price": self.price,
+            "status": self.status,
             "img_url_prize": self.img_url_prize,
             "img_cloud_id": self.img_cloud_id,
             "user_id" : self.user_id

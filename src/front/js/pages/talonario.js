@@ -2,6 +2,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { NewTalonario } from "../component/newTalonario";
 import { Context } from "../store/appContext";
+import Swal from "sweetalert2";
 import "../../styles/talonario.css";
 import { Payments } from "../component/payments";
 
@@ -15,10 +16,6 @@ export const Talonario = () => {
       navigate("/");
     }
   }, [store.token]);
-
-  // useEffect(() => {
-  //   if (store.tickets.length > 0) actions.buyTickets();
-  // }, [store.tickets]);
 
   useEffect(() => {
     if (store.talonarios && store.talonarios.length > 0) return;
@@ -40,6 +37,42 @@ export const Talonario = () => {
       actions.selectTalonario(store.talonarios[0].id);
     }
   }, [store.talonarios]);
+
+  const deleteTalonario = () => {
+    Swal.fire({
+      title: "¿Estás seguro de elimnar la rifa?",
+      text: "Se eliminarán todos los datos relacionados al talonario, eliminar unicamente si ya se conoce el ganador",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, eliminar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire("Eliminado!", "El talonario ha sido eliminado.", "success");
+      }
+    });
+  };
+
+  const finishTalonario = () => {
+    Swal.fire({
+      title: "¿Estás seguro de finalizar la rifa?",
+      text: "Al finalizar la rifa ya no se podrán comprar mas tickets de este talonario",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, finalizar",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Swal.fire(
+          "Rifa finalizada!",
+          "El talonario ha sido marcado como finalizado",
+          "success"
+        );
+      }
+    });
+  };
 
   return (
     <>
@@ -97,6 +130,17 @@ export const Talonario = () => {
                   {numero.value}
                 </div>
               ))}
+            </div>
+            <div className="mt-5">
+              {store.talonarioSelect?.status === "activa" ? (
+                <button className="btn btn-danger" onClick={finishTalonario}>
+                  Finalizar Rifa
+                </button>
+              ) : (
+                <button className="btn btn-danger" onClick={deleteTalonario}>
+                  Eliminar Talonario
+                </button>
+              )}
             </div>
             <Payments />
           </div>
