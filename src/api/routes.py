@@ -130,6 +130,21 @@ def  create_talonario():
                 db.session.rollback()
                 return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
 
+@api.route('/talonario/<int:talonario_id>', methods=['PUT'])
+def  update_talonario(talonario_id):      
+     if request.method == 'PUT': 
+         talonario = Talonario.query.filter_by(id = talonario_id).first()
+
+         if talonario is None:
+             return jsonify({"message": "Talonario no encontrado"}),404
+         else:
+             talonario.status = "finalizada"
+             try:
+                db.session.commit()
+                return jsonify({"message":"Talonario updated"}),200
+             except Exception as error: 
+                return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+
 @api.route('/talonario/<int:talonario_id>', methods=['DELETE'])
 def  delete_talonario(talonario_id):      
      if request.method == 'DELETE': 
