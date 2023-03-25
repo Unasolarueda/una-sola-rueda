@@ -31,6 +31,7 @@ else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['CLOUDINARY_URL'] = os.environ.get('CLOUDINARY_URL')
 MIGRATE = Migrate(app, db, compare_type = True)
 db.init_app(app)
 

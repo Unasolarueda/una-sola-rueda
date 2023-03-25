@@ -8,6 +8,7 @@ from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
+import cloudinary.uploader as uploader
 
 api = Blueprint('api', __name__)
 
@@ -154,8 +155,13 @@ def  delete_talonario(talonario_id):
              return jsonify({"message": "Talonario no encontrado"}),404
          else:
              try:
+                cloudinary_delete_response = uploader.destroy(talonario.img_cloud_id)
+
+                if cloudinary_delete_response["result"] != "ok":
+                    return jsonify({"message":"Cloudinary delete error"})
+                
                 talonario_to_delete = Talonario.delete_talonario(talonario)
-                return jsonify(talonario_to_delete)
+                return jsonify(talonario_to_delete),204
              except Exception as error: 
                 db.session.rollback()
                 return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
