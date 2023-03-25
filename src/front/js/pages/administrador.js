@@ -19,7 +19,7 @@ export const Administrador = () => {
         actions.toggleMessage("Logueado correctamente", true);
         setEmail("");
         setPassword("");
-        navigate("/administrador/users");
+        navigate("/administrador/talonarios");
       } else {
         actions.toggleMessage("Credenciales inválidas", false);
       }
@@ -29,9 +29,7 @@ export const Administrador = () => {
   };
 
   useEffect(() => {
-    if (store.token && store.token !== "" && store.role !== "raffler") {
-      navigate("/administrador/users");
-    } else if (store.token !== null) {
+    if (store.token && store.token !== null) {
       navigate("/administrador/talonarios");
     }
   }, [store.token]);

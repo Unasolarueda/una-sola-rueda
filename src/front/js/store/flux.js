@@ -174,6 +174,10 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      updateTalonario: async (talonarioId) => {
+        return true;
+      },
+
       getTalonarios: async () => {
         const store = getStore();
         const actions = getActions();

@@ -65,11 +65,22 @@ export const Talonario = () => {
       confirmButtonText: "Si, finalizar",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire(
-          "Rifa finalizada!",
-          "El talonario ha sido marcado como finalizado",
-          "success"
-        );
+        actions.updateTalonario(store.talonarioSelect.id).then((response) => {
+          console.log(response);
+          if (response) {
+            Swal.fire(
+              "Rifa finalizada!",
+              "El talonario se actualizo a estado finalizado",
+              "success"
+            );
+          } else {
+            Swal.fire(
+              "Rifa no finalizada!",
+              "El talonario no pudo ser marcado como finalizado",
+              "error"
+            );
+          }
+        });
       }
     });
   };
