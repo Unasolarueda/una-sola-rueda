@@ -24,8 +24,9 @@ export const Payments = () => {
     if (response) {
       actions.toggleMessage("Tickets reservados", true);
       let responsePayment = actions.updatePayment(paymentId, talonario_id);
-      if (responsePayment) actions.toggleMessage("Pago aprobado", true);
-      else actions.toggleMessage("El pago no pudo ser aprobado", false);
+      if (responsePayment) {
+        actions.toggleMessage("Pago aprobado", true);
+      } else actions.toggleMessage("El pago no pudo ser aprobado", false);
     } else {
       actions.toggleMessage("No se pudo reservar los tickets", false);
     }

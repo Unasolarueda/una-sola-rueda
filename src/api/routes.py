@@ -9,6 +9,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 import cloudinary.uploader as uploader
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 api = Blueprint('api', __name__)
 
@@ -349,3 +352,183 @@ def delete_payment(payment_id=None):
         
                 except Exception as error:
                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+
+#endpoint emails
+@api.route('verify-pay', methods = ['POST'])
+def verify_pay():
+    if request.method == "POST":
+        data = request.json
+
+        sender = "dmlord17@gmail.com"
+        receptor = "dmlord17@gmail.com"
+
+        
+
+        message = MIMEMultipart('alternatives')
+        message['Subject'] = "Unasolarueda.com - Orden 155878"
+        message['From'] = sender
+        message['To'] = receptor
+
+        text = ""
+        html = """<html>
+                    <head></head>
+                    <body>
+                     <div style="text-align: center">
+      <img
+        style="width: 200px"
+        src="https://res.cloudinary.com/drcuplwe7/image/upload/v1680654977/STICKERS_CRUZANGELO_k8nf24.png"
+      />
+    </div>
+    <h1>Pedido Recibido</h1>
+    <h2>Gracias por tu compra, tu pedido ha sido recibido</h2>
+    <div style="text-align: center">
+      <table border="1" style="margin: 0 auto; width: 100%">
+        <tr>
+          <th># Pedido</th>
+          <th>Fecha</th>
+          <th>Total</th>
+          <th>Método de Pago</th>
+        </tr>
+        <tr>
+          <td>1511818</td>
+          <td>04/04/23</td>
+          <td>$10</td>
+          <td>Pago Movil</td>
+        </tr>
+      </table>
+    </div>
+                    </body>
+                </html>"""
+        
+        message.attach(MIMEText(text,'plain'))
+        message.attach(MIMEText(html,'html'))
+
+        try:
+            server = smtplib.SMTP("smtp.gmail.com",587)
+            server.starttls()
+            server.login("dmlord17@gmail.com","ihdclnptddsmyqfs")
+            server.sendmail("dmlord17@gmail.com","dmlord17@gmail.com",message.as_string())
+            server.quit()
+            print("Email send")
+            return jsonify({"message": "Email send succesfull"}),200
+        except Exception as error:
+            print(error)
+            print("Email not sending, error")
+            return jsonify({"message":"Error, try again, later"}),500
+
+@api.route('verified-payment', methods = ['POST'])
+def verified_payment():
+    if request.method == "POST":
+        body = request.json
+
+        payment_id=body.get("payment_id", None)
+        date = body.get("date",None)
+        total = body.get("total", None)
+        payment_method = body.get("payment_method", None)
+        numbers = body.get("numbers", None)
+
+        print(payment_id, date, total, payment_method, numbers)
+        
+
+        sender = "dmlord17@gmail.com"
+        receptor = "dmlord17@gmail.com"
+
+        
+
+        message = MIMEMultipart('alternatives')
+        message['Subject'] = "Unasolarueda.com - Orden 155878"
+        message['From'] = sender
+        message['To'] = receptor
+
+        text = ""
+        html = """<html>
+                    <head></head>
+                    <body>
+                     <div style="text-align: center">
+      <img
+        style="width: 200px"
+        src="https://www.shutterstock.com/image-vector/auto-motorbikes-logo-design-vector-260nw-1133340668.jpg"
+      />
+    </div>
+    <h1>Pago verificado</h1>
+    <h2>Gracias por tu compra</h2>
+    <div style="text-align: center">
+      <table border="1" style="margin: 0 auto; width: 100%">
+        <tr>
+          <th># Pedido</th>
+          <th>Fecha</th>
+          <th>Total</th>
+          <th>Método de Pago</th>
+        </tr>
+        <tr>
+          <td>1511818</td>
+          <td>04/04/23</td>
+          <td>$10</td>
+          <td>Pago Movil</td>
+        </tr>
+      </table>
+      <h3>Tus números son</h3>
+      <div
+        style="
+          width: 100%;
+          margin-top: 25px;
+          display: flex;
+          gap: 10px;
+          flex-wrap: wrap;
+          justify-content: center;
+        "
+      >
+        <div
+          style="
+            border: 1px solid black;
+            border-radius: 50%;
+            background-color: black;
+            color: white;
+            padding: 10px;
+          "
+        >
+          011
+        </div>
+        <div
+          style="
+            border: 1px solid black;
+            border-radius: 50%;
+            background-color: black;
+            color: white;
+            padding: 10px;
+          "
+        >
+          099
+        </div>
+        <div
+          style="
+            border: 1px solid black;
+            border-radius: 50%;
+            background-color: black;
+            color: white;
+            padding: 10px;
+          "
+        >
+          205
+        </div>
+      </div>
+    </div>
+                    </body>
+                </html>"""
+        
+        message.attach(MIMEText(text,'plain'))
+        message.attach(MIMEText(html,'html'))
+
+        try:
+            server = smtplib.SMTP("smtp.gmail.com",587)
+            server.starttls()
+            server.login("dmlord17@gmail.com","ihdclnptddsmyqfs")
+            server.sendmail("dmlord17@gmail.com","dmlord17@gmail.com",message.as_string())
+            server.quit()
+            print("Email send")
+            return jsonify({"message": "Email send succesfull"}),200
+        except Exception as error:
+            print(error)
+            print("Email not sending, error")
+            return jsonify({"message":"Error, try again, later"}),500
+        

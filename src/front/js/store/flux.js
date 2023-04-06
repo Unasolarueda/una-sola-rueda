@@ -8,6 +8,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       talonarios: [],
       talonarioSelect: null,
       reservedTickets: [],
+      ticketToreserve: [],
       payments: [],
       tickets: [],
       infoTicket: null,
@@ -296,8 +297,14 @@ const getState = ({ getStore, getActions, setStore }) => {
           store.tickets,
           numberOfTickets
         );
+        setStore({ ticketToreserve: randomTicketNumbers });
         console.log(randomTicketNumbers);
         await actions.reserveTickets(randomTicketNumbers, talonarioId, userId);
+        return true;
+      },
+
+      sendEmailVerifiedPayment: (data) => {
+        console.log(data);
         return true;
       },
 
