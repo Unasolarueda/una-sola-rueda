@@ -6,7 +6,12 @@ const getState = ({ getStore, getActions, setStore }) => {
       role: null,
       users: [],
     },
-    actions: {
+    actions: 
+    
+    
+    
+    
+    {
       login: async (email, password) => {
         const opts = {
           method: "POST",

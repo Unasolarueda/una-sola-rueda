@@ -1,23 +1,14 @@
-@media (min-width: 576px) {
-    body{
-        background-color: #212529;
-    }
-}
-
-@media (min-width: 1200px) { 
-    body{
-        background-color: #212529;
-    }
-}
-
-@media (min-width: 1400px) { 
-    body{
-        background-color: #212529;
-    }
-}
-
 body{
     background-color: #212529;
+}
+
+h2 {
+    font-size: 35px;
+}
+
+h3 {
+    font-size: 150%;
+    margin-top: -30px;
 }
 
 .rifaf{
@@ -30,10 +21,11 @@ p{
     color: white;
 }
 .cuadro{
-    margin-top: 10%;
+    /* margin-top: 15%; */
     height: 70%;
-    width: 60%;
+    width: 45%;
     background-color: #4545456f;
+    color: white;
 }
 
 .opcion{
@@ -43,13 +35,18 @@ p{
     margin-top: 15px;
     margin-left: 35px;
     color: white;
+    font-size: 60%;
+}
+
+.cuatro{
+    margin-top: -20px;
 }
 
 .botonc{
     margin-bottom: 10%;
     margin-top: auto;
     border-radius: 10px;
-    padding: 0 40%;
+    padding: 0 35%;
     font-size: 20px; 
     margin-top: 50px;
     border-color: white;
@@ -63,35 +60,39 @@ p{
     background-color:  #212529;
 }
 
-.perfil-usuario .avatar-perfil{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 90%;
+.wrapper{
+    width: 380px;
+    /* height: 680px; */
+    margin: auto;
+    border-radius: 18px;
 }
 
-.perfil-usuario .portada-perfil{
-    display: block;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    position: relative;
-    height: 20rem;
-    border-radius: 0 0 12px 12px;
+.cover{
+    height: 200px;
+    width: 200px;
 }
 
-.perfil-usuario .avatar-perfil{
-    display: block;
-    width: 230px;
-    height: 230px;
-    background-color: #d9dcf1;
-    position: absolute;
-    bottom: -65px;
-    left: 4rem;
+.cover img{
+    width: 380px;
+    height: 160px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.circle{
+    width: 155px;
+    height: 155px;
+    margin: auto;
     border-radius: 50%;
-    overflow: hidden;
-    border: 8px solid #ffffff;
-    box-shadow: 0 0 12px 2px rgba(0, 0, 0, .2);
+    border: 3px solid #fff;
+    position: relative;
+    top: -90px;
+}
+
+.logo{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
 }
 
 .datos-comprar{
@@ -102,19 +103,60 @@ p{
     color: white;
 }
 
-.datos-crear{
-    margin-top: 10%;
-    height: 50%;
-    width: 50%;
-    color: white;
-    background-color: #4545456f;
-}
-
-/* .imputcrear{
-    background-color: #4545456f;
-   
-} */
-
 .boton{
     margin-top: 15px;
+}
+
+.datos-transferencia{
+    text-align: center;
+    background-color: #212529;
+    margin-top: 15px;
+}
+
+.adjuntar-archivo{
+    font-size: 10px;
+}
+
+.tasa-cambio {
+    background-color: green;
+}
+
+
+@media screen and (max-width:480px)
+{
+    h2{
+        font-size: 25px;
+    }
+    
+    h3{
+        font-size: 8px;
+        margin-top: -40px;
+    }
+
+    .cuadro{
+        margin-top: -50px;
+        height: 70%;
+        width: 60%;
+        background-color: #4545456f;
+        color: white;
+    }
+
+    .tasa-cambio {
+        background-color: green;
+        font-size: 16px;
+    }
+
+    .opcion{
+        height: 100px;
+        width: 40%;
+        background-color: #212529;
+        margin-top: 10px;
+        margin-left: 10px;
+        color: white;
+        font-size: 60%;
+    }
+
+    .cuatro{
+        margin-top: -20px;
+    }
 }

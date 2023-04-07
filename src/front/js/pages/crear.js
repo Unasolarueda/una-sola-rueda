@@ -1,10 +1,18 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 
 import "../../styles/crear.css";
 
 export const Crear = () => {
     const { store, actions } = useContext(Context);
+	const { nombreRifa, setNombreRifa } = useEffect("")
+	const { premio, setPremio } = useEffect("")
+	const { precioTiket, setPrecioTiket } = useEffect("")
+	const { descripcion, setDescripcion } = useEffect("")
+	const { contacto, setContacto } = useEffect("")
+	
+
+
 
 	return (
         <div className="d-flex justify-content-center">
@@ -62,7 +70,8 @@ export const Crear = () => {
 
 					<div className="col-12">
 						<button type="button" 
-								className="boton btn btn-success d-flex justify-content-center">Crear Rifa
+								className="boton btn btn-success d-flex justify-content-center"
+								onClick={crearRifa}>Crear Rifa
 						</button>
 					</div>
 

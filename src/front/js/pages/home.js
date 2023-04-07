@@ -14,18 +14,20 @@ export const Home = () => {
   return (
     <div className="text-center mt-5">
       <h1 className="title">PARTICIPA YA!</h1>
-      <button type="button" class="botonvr btn btn-danger">
+      <button type="button" 
+              className="botonvr btn btn-danger"
+              // onClick={rifaActiva}>
+              >
         Rifa Activa
       </button>
-      {/* <div className="fotosinicio d-flex justify-content-center">
+      <div className="fotosinicio d-flex justify-content-center">
         <img src={imagen1} className="fi" />
         <img src={imagen2} className="fi" />
         <img src={imagen3} className="fi" />
         <img src={imagen4} className="fi" />
-      </div> */}
+      </div>
       <div className="ia d-flex justify-content-center">
-        <div className="cuadro">informacion </div>
-        {/* <div className="cuadro"></div> */}
+          <h2 className="tittle">Donde los Sueños los hacemos realidad</h2>
       </div>
     </div>
   );
