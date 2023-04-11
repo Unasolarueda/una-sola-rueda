@@ -274,18 +274,23 @@ const getState = ({ getStore, getActions, setStore }) => {
       buyTickets: async (numberOfTickets, talonarioId, userId) => {
         const store = getStore();
         const actions = getActions();
+        console.log(numberOfTickets);
         function getRandomTicketNumbers(tickets, numberOfTickets) {
-          if (numberOfTickets > tickets.length) {
-            throw new Error(
-              "Count cannot be greater than the length of the tickets array"
-            );
+          const ticketsAvailable = tickets.filter(
+            (ticket) => ticket.status == "disponible"
+          );
+          if (numberOfTickets > ticketsAvailable.length) {
+            console.log("muchos tickets");
+            return false;
           }
 
           let result = [];
 
           while (result.length < numberOfTickets) {
-            let randomIndex = Math.floor(Math.random() * tickets.length);
-            let ticketNumber = tickets[randomIndex].numero;
+            let randomIndex = Math.floor(
+              Math.random() * ticketsAvailable.length
+            );
+            let ticketNumber = ticketsAvailable[randomIndex].numero;
             if (result.indexOf(ticketNumber) === -1) {
               result.push(ticketNumber);
             }
@@ -293,19 +298,51 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           return result;
         }
+        //Llamamos la funcion return false en caso de haber muchos tickets hay que colocar un if para ver si return false o result
         let randomTicketNumbers = getRandomTicketNumbers(
           store.tickets,
           numberOfTickets
         );
-        setStore({ ticketToreserve: randomTicketNumbers });
-        console.log(randomTicketNumbers);
-        await actions.reserveTickets(randomTicketNumbers, talonarioId, userId);
-        return true;
+        if (randomTicketNumbers) {
+          setStore({ ticketToreserve: randomTicketNumbers });
+          console.log(randomTicketNumbers);
+          await actions.reserveTickets(
+            randomTicketNumbers,
+            talonarioId,
+            userId
+          );
+          return true;
+        } else {
+          return false;
+        }
       },
 
-      sendEmailVerifiedPayment: (data) => {
-        console.log(data);
-        return true;
+      sendEmailVerifiedPayment: async (userId) => {
+        const store = getStore();
+        const opts = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${store.token}`,
+          },
+          body: JSON.stringify({
+            numbers: store.ticketToreserve,
+          }),
+        };
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/verified-payment/${userId}`,
+            opts
+          );
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+          return true;
+        } catch (error) {
+          console.error(error);
+          return false;
+        }
       },
 
       infoTicket: async (numero, talonarioID) => {

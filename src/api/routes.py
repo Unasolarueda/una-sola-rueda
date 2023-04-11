@@ -227,7 +227,7 @@ def create_ticket():
         number=body.get("number", None)
         status= body.get("status",None)
         talonario_id = body.get("talonario_id", None)
-        user_ticket_id = body.get("talonario_id", None)
+        user_ticket_id = body.get("user_ticket_id", None)
 
         if number is None or status is None or talonario_id is None or user_ticket_id is None:
             return jsonify({"message": "missing data"}),400
@@ -354,7 +354,7 @@ def delete_payment(payment_id=None):
                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
 
 #endpoint emails
-@api.route('verify-pay', methods = ['POST'])
+@api.route('/verify-pay', methods = ['POST'])
 def verify_pay():
     if request.method == "POST":
         data = request.json
@@ -416,19 +416,20 @@ def verify_pay():
             print("Email not sending, error")
             return jsonify({"message":"Error, try again, later"}),500
 
-@api.route('verified-payment', methods = ['POST'])
-def verified_payment():
+@api.route('/verified-payment/<int:user_ticket_id>', methods = ['POST'])
+def verified_payment(user_ticket_id):
     if request.method == "POST":
         body = request.json
 
-        payment_id=body.get("payment_id", None)
-        date = body.get("date",None)
-        total = body.get("total", None)
-        payment_method = body.get("payment_method", None)
-        numbers = body.get("numbers", None)
+        numbers=body.get("numbers", None)
 
-        print(payment_id, date, total, payment_method, numbers)
-        
+        data_user = User_ticket.query.get(user_ticket_id)
+        data_payment = Payment.query.filter_by(user_ticket_id = user_ticket_id).first()
+
+        numbers_div = ""
+
+        for number in numbers:
+            numbers_div = numbers_div + f"<span  style='border: 1px solid black;border-radius: 50%;background-color: black;color: white;padding: 10px;'>{number}</span>"
 
         sender = "dmlord17@gmail.com"
         receptor = "dmlord17@gmail.com"
@@ -441,9 +442,9 @@ def verified_payment():
         message['To'] = receptor
 
         text = ""
-        html = """<html>
+        html = f"""<html>
                     <head></head>
-                    <body>
+                    <body style="height: 100vh">
                      <div style="text-align: center">
       <img
         style="width: 200px"
@@ -451,7 +452,7 @@ def verified_payment():
       />
     </div>
     <h1>Pago verificado</h1>
-    <h2>Gracias por tu compra</h2>
+    <h2>Gracias por tu compra, {data_user.name}</h2>
     <div style="text-align: center">
       <table border="1" style="margin: 0 auto; width: 100%">
         <tr>
@@ -461,58 +462,18 @@ def verified_payment():
           <th>Método de Pago</th>
         </tr>
         <tr>
-          <td>1511818</td>
-          <td>04/04/23</td>
-          <td>$10</td>
-          <td>Pago Movil</td>
+          <td>{data_payment.id}</td>
+          <td>{data_payment.date}</td>
+          <td>{data_payment.total}</td>
+          <td>{data_payment.payment_method}</td>
         </tr>
-      </table>
+      </table></div>
       <h3>Tus números son</h3>
-      <div
-        style="
-          width: 100%;
-          margin-top: 25px;
-          display: flex;
-          gap: 10px;
-          flex-wrap: wrap;
-          justify-content: center;
-        "
-      >
-        <div
-          style="
-            border: 1px solid black;
-            border-radius: 50%;
-            background-color: black;
-            color: white;
-            padding: 10px;
-          "
-        >
-          011
-        </div>
-        <div
-          style="
-            border: 1px solid black;
-            border-radius: 50%;
-            background-color: black;
-            color: white;
-            padding: 10px;
-          "
-        >
-          099
-        </div>
-        <div
-          style="
-            border: 1px solid black;
-            border-radius: 50%;
-            background-color: black;
-            color: white;
-            padding: 10px;
-          "
-        >
-          205
-        </div>
-      </div>
-    </div>
+      
+         {numbers_div}
+        
+     
+    
                     </body>
                 </html>"""
         

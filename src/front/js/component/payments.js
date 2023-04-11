@@ -10,22 +10,28 @@ export const Payments = () => {
     }
   }, [store.talonarioSelect]);
 
-  const handlePayment = (
+  const handlePayment = async (
+    userId,
     number_of_tickets,
     talonario_id,
     user_ticket_id,
     paymentId
   ) => {
-    let response = actions.buyTickets(
+    let response = await actions.buyTickets(
       number_of_tickets,
       talonario_id,
       user_ticket_id
     );
+    console.log(response);
     if (response) {
       actions.toggleMessage("Tickets reservados", true);
-      let responsePayment = actions.updatePayment(paymentId, talonario_id);
+      let responsePayment = await actions.updatePayment(
+        paymentId,
+        talonario_id
+      );
       if (responsePayment) {
         actions.toggleMessage("Pago aprobado", true);
+        await actions.sendEmailVerifiedPayment(userId);
       } else actions.toggleMessage("El pago no pudo ser aprobado", false);
     } else {
       actions.toggleMessage("No se pudo reservar los tickets", false);
@@ -90,6 +96,7 @@ export const Payments = () => {
                           className="btn btn-success"
                           onClick={() =>
                             handlePayment(
+                              payment.user_ticket_id,
                               payment.number_of_tickets,
                               payment.talonario_id,
                               payment.user_ticket_id,
