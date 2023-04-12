@@ -57,49 +57,49 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
     
-class User_ticket(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), nullable=False)
-    phone = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
-    ticket = db.relationship("Ticket", backref="user_ticket")
+# class User_ticket(db.Model):
+#     id = db.Column(db.Integer, primary_key=True)
+#     name = db.Column(db.String(120), nullable=False)
+#     phone = db.Column(db.String(20), unique=True, nullable=False)
+#     email = db.Column(db.String(100), unique=True, nullable=False)
+#     ticket = db.relationship("Ticket", backref="user_ticket")
     
     
 
-    def __init__(self, **kwargs):
-        self.name = kwargs['name']
-        self.phone = kwargs['phone']
-        self.email = kwargs['email']
+#     def __init__(self, **kwargs):
+#         self.name = kwargs['name']
+#         self.phone = kwargs['phone']
+#         self.email = kwargs['email']
 
-    @classmethod
-    def create(cls, **kwargs):
-        new_user = cls(**kwargs)
-        db.session.add(new_user) # INSERT INTO
-        try:
-            db.session.commit() # Se ejecuta el INSERT INTO
-            return new_user
-        except Exception as error:
-            raise Exception(error.args[0],400)
+#     @classmethod
+#     def create(cls, **kwargs):
+#         new_user = cls(**kwargs)
+#         db.session.add(new_user) # INSERT INTO
+#         try:
+#             db.session.commit() # Se ejecuta el INSERT INTO
+#             return new_user
+#         except Exception as error:
+#             raise Exception(error.args[0],400)
         
-    @classmethod
-    def delete_user(cls,kwargs):
-        db.session.delete(kwargs)
-        try:
-            db.session.commit()
-            return {"msg":"el usuario fue eliminado correctamente"}
-        except Exception as error:
-            print("error")
-            raise Exception(error.args[0],400)
+#     @classmethod
+#     def delete_user(cls,kwargs):
+#         db.session.delete(kwargs)
+#         try:
+#             db.session.commit()
+#             return {"msg":"el usuario fue eliminado correctamente"}
+#         except Exception as error:
+#             print("error")
+#             raise Exception(error.args[0],400)
 
 
-    def serialize(self):
-        return{
-            "id": self.id,
-            "name": self.name,
-            "phone": self.phone,
-            "email": self.email,
+#     def serialize(self):
+#         return{
+#             "id": self.id,
+#             "name": self.name,
+#             "phone": self.phone,
+#             "email": self.email,
 
-        }
+#         }
     
 class Talonario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -167,7 +167,7 @@ class Ticket(db.Model):
     number = db.Column(db.Integer, nullable=False)
     status = db.Column(db.String, nullable=False )
     talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
-    user_ticket_id = db.Column(db.Integer, db.ForeignKey('user_ticket.id'))
+    payment_id = db.Column(db.Integer, db.ForeignKey('payment.id'))
     talonario = db.relationship("Talonario", back_populates="ticket")
     
     
@@ -221,9 +221,12 @@ class Payment(db.Model):
     total = db.Column(db.Float(10), unique=False, nullable=False)
     date = db.Column(db.Date, nullable=False)
     status = db.Column(db.String, nullable=False )
+    name = db.Column(db.String(120), nullable=False)
+    phone = db.Column(db.String(20), unique=True, nullable=False)
+    email = db.Column(db.String(100), unique=True, nullable=False)
     talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
-    user_ticket_id = db.Column(db.Integer, db.ForeignKey('user_ticket.id'))
     talonario = db.relationship("Talonario", back_populates="payment")
+    
 
     def __init__(self, **kwargs):
         self.payment_method = kwargs['payment_method']
@@ -232,8 +235,10 @@ class Payment(db.Model):
         self.total = kwargs['total']
         self.date = kwargs['date']
         self.status = "no-aprobado"
+        self.name = kwargs['name']
+        self.phone = kwargs['phone']
+        self.email = kwargs['email']
         self.talonario_id = kwargs['talonario_id']
-        self.user_ticket_id = kwargs['user_ticket_id']
     
     @classmethod
     def create(cls, **kwargs):
@@ -265,7 +270,9 @@ class Payment(db.Model):
             "total": self.total,
             "date": self.date,
             "status": self.status,
+            "name": self.name,
+            "phone": self.phone,
+            "email": self.email,
             "talonario_id": self.talonario_id,
-            "user_ticket_id": self.user_ticket_id
         
         } 
