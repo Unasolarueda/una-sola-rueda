@@ -176,7 +176,28 @@ const getState = ({ getStore, getActions, setStore }) => {
       },
 
       updateTalonario: async (talonarioId) => {
-        return true;
+        const actions = getActions();
+        const opts = {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/talonario/${talonarioId}`,
+            opts
+          );
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+          actions.getTalonarios();
+          return true;
+        } catch (error) {
+          console.error(error);
+          return false;
+        }
       },
 
       getTalonarios: async () => {
