@@ -49,7 +49,18 @@ export const Talonario = () => {
       confirmButtonText: "Si, eliminar",
     }).then((result) => {
       if (result.isConfirmed) {
-        Swal.fire("Eliminado!", "El talonario ha sido eliminado.", "success");
+        actions.deleteTalonario(store.talonarioSelect.id).then((response) => {
+          console.log(response);
+          if (response) {
+            Swal.fire("Rifa eliminada!", "El talonario se elimino", "success");
+          } else {
+            Swal.fire(
+              "Rifa no eliminada!",
+              "El talonario no pudo ser eliminado",
+              "error"
+            );
+          }
+        });
       }
     });
   };
