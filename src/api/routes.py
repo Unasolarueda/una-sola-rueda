@@ -3,7 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Talonario, User_ticket, Payment, Ticket
+from api.models import db, User, Talonario, Payment, Ticket
 from api.utils import generate_sitemap, APIException
 from werkzeug.security import generate_password_hash, check_password_hash
 from base64 import b64encode
@@ -169,52 +169,52 @@ def  delete_talonario(talonario_id):
                 db.session.rollback()
                 return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
 
-#endpoints user_ticket
-@api.route('/user-ticket', methods=['POST'])
-def add_user_ticket():
-    if request.method == 'POST':
+# #endpoints user_ticket
+# @api.route('/user-ticket', methods=['POST'])
+# def add_user_ticket():
+#     if request.method == 'POST':
 
-        body = request.json
-        name=body.get("name", None)
-        phone= body.get("phone",None)
-        email = body.get("email", None)
+#         body = request.json
+#         name=body.get("name", None)
+#         phone= body.get("phone",None)
+#         email = body.get("email", None)
 
        
-        if name is None or phone is None or email is None:
-            return "you need an name and a phone and a email",400
-        else:
-            try:
-                User_ticket.create(name = name, phone = phone, email=email)
-                return jsonify({"message": "User created"}),201
+#         if name is None or phone is None or email is None:
+#             return "you need an name and a phone and a email",400
+#         else:
+#             try:
+#                 User_ticket.create(name = name, phone = phone, email=email)
+#                 return jsonify({"message": "User created"}),201
                 
-            except Exception as error: 
-                db.session.rollback()
-                return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+#             except Exception as error: 
+#                 db.session.rollback()
+#                 return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
             
-@api.route('/user-ticket', methods=['GET'])
-def gell_all_user_ticket():
-    if request.method == 'GET':
-        all_users = User_ticket.query.all()
+# @api.route('/user-ticket', methods=['GET'])
+# def gell_all_user_ticket():
+#     if request.method == 'GET':
+#         all_users = User_ticket.query.all()
         
-        return jsonify(list(map(lambda user: user.serialize(), all_users))),200          
+#         return jsonify(list(map(lambda user: user.serialize(), all_users))),200          
 
        
         
-@api.route('/user-ticket/<int:user_id>', methods=['DELETE'])
-def delete_user_ticket(user_id=None):
-    if request.method == "DELETE":
-        if user_id is not None:
-            user = User_ticket.query.get(user_id)
+# @api.route('/user-ticket/<int:user_id>', methods=['DELETE'])
+# def delete_user_ticket(user_id=None):
+#     if request.method == "DELETE":
+#         if user_id is not None:
+#             user = User_ticket.query.get(user_id)
 
-            if user is None:
-                return jsonify({"message": "user not found"}),404
-            else:
-                try:
-                    user_delete = User_ticket.delete_user(user)
-                    return jsonify(user_delete),204
+#             if user is None:
+#                 return jsonify({"message": "user not found"}),404
+#             else:
+#                 try:
+#                     user_delete = User_ticket.delete_user(user)
+#                     return jsonify(user_delete),204
         
-                except Exception as error:
-                    return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+#                 except Exception as error:
+#                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
                     
       
 
