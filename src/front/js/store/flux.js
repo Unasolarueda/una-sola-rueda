@@ -288,32 +288,31 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore();
         const actions = getActions();
         console.log(numbers);
-        for (let i = 0; i < numbers.length; i++) {
-          const opts = {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              number: numbers[i],
-              status: "reservado",
-              talonario_id: talonario_id,
-              payment_id: payment_id,
-            }),
-          };
-          try {
-            const response = await fetch(
-              `${process.env.BACKEND_URL}/ticket`,
-              opts
-            );
-            if (!response.ok) {
-              const error = await response.json();
-              throw new Error(error.message);
-            }
-            actions.getTickets(talonario_id);
-          } catch (error) {
-            console.error(error);
+
+        const opts = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            numbers: numbers,
+            status: "reservado",
+            talonario_id: talonario_id,
+            payment_id: payment_id,
+          }),
+        };
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/ticket`,
+            opts
+          );
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
           }
+          actions.getTickets(talonario_id);
+        } catch (error) {
+          console.error(error);
         }
       },
 

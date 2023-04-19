@@ -224,17 +224,20 @@ def create_ticket():
 
     if request.method == "POST":
         body = request.json
-        number=body.get("number", None)
+        numbers=body.get("numbers", None)
+        #number=body.get("number", None)
         status= body.get("status",None)
         talonario_id = body.get("talonario_id", None)
         payment_id = body.get("payment_id", None)
 
-        if number is None or status is None or talonario_id is None or payment_id is None:
+        if numbers is None or status is None or talonario_id is None or payment_id is None:
             return jsonify({"message": "missing data"}),400
 
         try:
-            new_ticket = Ticket.create(**body)
-            return jsonify(new_ticket.serialize()), 201
+            for number in numbers:
+                Ticket.create(number=number, status = status, talonario_id= talonario_id, payment_id = payment_id)
+
+            return jsonify({"message": "Tickets creados"}), 201
         
         except Exception as error:
             return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
