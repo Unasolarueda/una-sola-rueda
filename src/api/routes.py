@@ -227,9 +227,9 @@ def create_ticket():
         number=body.get("number", None)
         status= body.get("status",None)
         talonario_id = body.get("talonario_id", None)
-        user_ticket_id = body.get("user_ticket_id", None)
+        payment_id = body.get("payment_id", None)
 
-        if number is None or status is None or talonario_id is None or user_ticket_id is None:
+        if number is None or status is None or talonario_id is None or payment_id is None:
             return jsonify({"message": "missing data"}),400
 
         try:
@@ -293,13 +293,16 @@ def create_payment():
     if request.method == "POST":
         body = request.json
         payment_method=body.get("payment_method", None)
+        payment_id=body.get("payment_id", None)
         number_of_tickets= body.get("number_of_tickets",None)
         total = body.get("total", None)
         date = body.get("date", None)
+        name=body.get("name", None)
+        phone= body.get("phone",None)
+        email = body.get("email", None)
         talonario_id = body.get("talonario_id", None)
-        user_ticket_id = body.get("user_ticket_id", None)
 
-        if payment_method is None or number_of_tickets is None or total is None or date is None or talonario_id is None or user_ticket_id is None:
+        if payment_method is None or payment_id is None or number_of_tickets is None or total is None or date is None or name is None or phone is None or email is None or talonario_id is None:
             return jsonify({"message": "missing data"}),400
 
         try:
@@ -416,15 +419,15 @@ def verify_pay():
             print("Email not sending, error")
             return jsonify({"message":"Error, try again, later"}),500
 
-@api.route('/verified-payment/<int:user_ticket_id>', methods = ['POST'])
-def verified_payment(user_ticket_id):
+@api.route('/verified-payment/<int:payment_id>', methods = ['POST'])
+def verified_payment(payment_id):
     if request.method == "POST":
         body = request.json
 
         numbers=body.get("numbers", None)
 
-        data_user = User_ticket.query.get(user_ticket_id)
-        data_payment = Payment.query.filter_by(user_ticket_id = user_ticket_id).first()
+        
+        data_payment = Payment.query.filter_by(id = payment_id).first()
 
         numbers_div = ""
 
@@ -452,7 +455,7 @@ def verified_payment(user_ticket_id):
       />
     </div>
     <h1>Pago verificado</h1>
-    <h2>Gracias por tu compra, {data_user.name}</h2>
+    <h2>Gracias por tu compra, {data_payment.name}</h2>
     <div style="text-align: center">
       <table border="1" style="margin: 0 auto; width: 100%">
         <tr>

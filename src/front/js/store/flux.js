@@ -284,7 +284,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      reserveTickets: async (numbers, talonario_id, user_ticket_id) => {
+      reserveTickets: async (numbers, talonario_id, payment_id) => {
         const store = getStore();
         const actions = getActions();
         console.log(numbers);
@@ -298,7 +298,7 @@ const getState = ({ getStore, getActions, setStore }) => {
               number: numbers[i],
               status: "reservado",
               talonario_id: talonario_id,
-              user_ticket_id: user_ticket_id,
+              payment_id: payment_id,
             }),
           };
           try {
@@ -317,7 +317,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      buyTickets: async (numberOfTickets, talonarioId, userId) => {
+      buyTickets: async (numberOfTickets, talonarioId, paymentId) => {
         const store = getStore();
         const actions = getActions();
         console.log(numberOfTickets);
@@ -355,7 +355,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           await actions.reserveTickets(
             randomTicketNumbers,
             talonarioId,
-            userId
+            paymentId
           );
           return true;
         } else {
@@ -363,7 +363,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
-      sendEmailVerifiedPayment: async (userId) => {
+      sendEmailVerifiedPayment: async (paymentId) => {
         const store = getStore();
         const opts = {
           method: "POST",
@@ -377,7 +377,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         };
         try {
           const response = await fetch(
-            `${process.env.BACKEND_URL}/verified-payment/${userId}`,
+            `${process.env.BACKEND_URL}/verified-payment/${paymentId}`,
             opts
           );
           if (!response.ok) {

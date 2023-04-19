@@ -161,59 +161,9 @@ class Talonario(db.Model):
         
             # do not serialize the password, its a security breach
         }
-    
-class Ticket(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    number = db.Column(db.Integer, nullable=False)
-    status = db.Column(db.String, nullable=False )
-    talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
-    payment_id = db.Column(db.Integer, db.ForeignKey('payment.id'))
-    talonario = db.relationship("Talonario", back_populates="ticket")
-    
-    
-
-    def __init__(self, **kwargs):
-        self.number = kwargs['number']
-        self.talonario_id = kwargs['talonario_id']
-        self.status = kwargs['status']
-        self.user_ticket_id = kwargs['user_ticket_id']
-    
-    @classmethod
-    def create(cls, **kwargs):
-        new_ticket = cls(**kwargs)
-        db.session.add(new_ticket)
-        
-        try:
-            db.session.commit()
-            return new_ticket
-        except Exception as error:
-            raise Exception(error.args[0],400)
-        
-    @classmethod
-    def delete(cls,kwargs):
-        db.session.delete(kwargs)
-        try:
-            db.session.commit()
-            return {"msg":"el ticket fue eliminado correctamente"}
-        except Exception as error:
-            print("error")
-            raise Exception(error.args[0],400)
-        
-    def serialize(self):
-        return {
-            "id": self.id,
-            "number": self.number,
-            "status": self.status,
-            "user_name": self.user_ticket.name,
-            "user_phone": self.user_ticket.phone,
-            "user_email": self.user_ticket.email,
-            "talonario_id": self.talonario_id,
-            "user_ticket_id": self.user_ticket_id,
-
-        
-        } 
 
 class Payment(db.Model):
+
     id = db.Column(db.Integer, primary_key=True)
     payment_method = db.Column(db.String(100), unique=False, nullable=False)
     payment_id = db.Column(db.String(200), unique=False, nullable=False)
@@ -222,10 +172,12 @@ class Payment(db.Model):
     date = db.Column(db.Date, nullable=False)
     status = db.Column(db.String, nullable=False )
     name = db.Column(db.String(120), nullable=False)
-    phone = db.Column(db.String(20), unique=True, nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
+    phone = db.Column(db.String(20), nullable=False)
+    email = db.Column(db.String(100), nullable=False)
+
     talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
     talonario = db.relationship("Talonario", back_populates="payment")
+    
     
 
     def __init__(self, **kwargs):
@@ -276,3 +228,59 @@ class Payment(db.Model):
             "talonario_id": self.talonario_id,
         
         } 
+    
+class Ticket(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    number = db.Column(db.Integer, nullable=False)
+    status = db.Column(db.String, nullable=False )
+
+    talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
+    talonario = db.relationship("Talonario", back_populates="ticket")
+
+    payment_id = db.Column(db.Integer, db.ForeignKey('payment.id'))
+    payment = db.relationship("Payment", backref="ticket")
+    
+    
+    
+
+    def __init__(self, **kwargs):
+        self.number = kwargs['number']
+        self.talonario_id = kwargs['talonario_id']
+        self.status = kwargs['status']
+        self.payment_id = kwargs['payment_id']
+    
+    @classmethod
+    def create(cls, **kwargs):
+        new_ticket = cls(**kwargs)
+        db.session.add(new_ticket)
+        
+        try:
+            db.session.commit()
+            return new_ticket
+        except Exception as error:
+            raise Exception(error.args[0],400)
+        
+    @classmethod
+    def delete(cls,kwargs):
+        db.session.delete(kwargs)
+        try:
+            db.session.commit()
+            return {"msg":"el ticket fue eliminado correctamente"}
+        except Exception as error:
+            print("error")
+            raise Exception(error.args[0],400)
+        
+    def serialize(self):
+        return {
+            "id": self.id,
+            "number": self.number,
+            "status": self.status,
+            "user_name": self.payment.name,
+            "user_phone": self.payment.phone,
+            "user_email": self.payment.email,
+            "talonario_id": self.talonario_id,
+            "payment_id": self.payment_id,
+
+        
+        } 
+    
