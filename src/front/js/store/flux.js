@@ -311,8 +311,10 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error(error.message);
           }
           actions.getTickets(talonario_id);
+          return true;
         } catch (error) {
           console.error(error);
+          return false;
         }
       },
 
@@ -351,12 +353,12 @@ const getState = ({ getStore, getActions, setStore }) => {
         if (randomTicketNumbers) {
           setStore({ ticketToreserve: randomTicketNumbers });
           console.log(randomTicketNumbers);
-          await actions.reserveTickets(
+          const responserReserve = await actions.reserveTickets(
             randomTicketNumbers,
             talonarioId,
             paymentId
           );
-          return true;
+          return responserReserve;
         } else {
           return false;
         }
