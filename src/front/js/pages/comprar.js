@@ -11,16 +11,45 @@ export const Comprar = () => {
   const [email, setEmail] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [tickets, setTickets] = useState(2);
+  const [dolar, setDolar] = useState(2);
 
-// hacer funcion de cada una o una para validar todas up
+  const sendData = async (event) => {
+    event.preventDefault();
+    if (name !== "" && phone !== "" && email !== ""){
+      let comprar = await actions.comprar(name, phone, email)
+      if (response) {
+        toast.success("ticket comprado exitosamente");
+      } else {
+        toast.error("No se pudo comprar ticket");
+      } 
+    }
+  };
 
-  let validPhone = /[+]*[0-9]{1,4}/
+  const validForm = (form) => {
+    let errors = {}; 
+    let validName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
+    let validPhone = /[+]*[0-9]{1,4}/;
+    let validEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
+    if (!form.name.trim()){
+      errors.name = "El campo es requerido"
+    } else if(!validName.test(form.name.trim())) {
+      errors.name = "El campo solo acepta letras"
+    }
 
-  function confirmationPhones (validPhone) {
-    
+    if (!form.phone.trim()){
+      errors.phone = "El campo es requerido"
+    } else if(!validPhone.test(form.phone.trim())) {
+      errors.name = "El campo solo acepta (+) y numeros"
+    }
+
+    if (!form.email.trim()){
+      errors.email = "El campo es requerido"
+    } else if(!validEmail.test(form.email.trim())) {
+      errors.name = "El campo solo acepta email"
+    }
+
+    return errors;
   }
-
-
 
 
   return (
@@ -45,7 +74,7 @@ export const Comprar = () => {
         <div className="input-group p-5">
           {/* cambiar a p  */}
           <div className="precio-ticket w-100">
-            <p className="text-center h2">{tickets}x1 = 2$</p>
+          <p className="text-center h2">{tickets} x {setDolar}$</p>
             <p className="tasa-cambio text-center h2">$1.00 <i class="fa-solid fa-right-left fa-fade"></i> Bs.25.00</p>
 
             
@@ -127,8 +156,8 @@ export const Comprar = () => {
         </div>
 
         <form
+          onSubmit={sendData}
           className="col g-3 d-flex align-items-center flex-column needs-validation"
-          noValidate
         >
           <div className="col-10">
             <label htmlFor="validationCustom01" className="form-label">
@@ -163,7 +192,7 @@ export const Comprar = () => {
               Correo:
             </label>
             <input
-              type="text"
+              type="email"
               className="form-control"
               id="validationCustom02"
               value={email}
@@ -223,7 +252,7 @@ export const Comprar = () => {
         </div>
 
           <button
-            type="button"
+            type="submit"
             className="botonc btn btn-success d-flex justify-content-center"
 			// onClick={}
           >

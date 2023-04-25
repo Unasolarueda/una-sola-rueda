@@ -5,6 +5,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       token: sessionStorage.getItem("token") || null,
       role: null,
       users: [],
+      comprar: [],
     },
     actions: 
     
@@ -124,6 +125,41 @@ const getState = ({ getStore, getActions, setStore }) => {
           console.error(error);
         }
       },
+
+      getComprar: async (name, phone, email) => {
+        const opts = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: name,
+            phone: phone,
+            email: email,
+          }),
+        };
+
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/api/comprar`,
+            opts
+          );
+          if (!response.ok) {
+            alert("no se pudo comprar ticket");
+            return false;
+          }
+
+          const data = await response.json();
+          return true;
+        } catch (error) {
+          console.error(error);
+        
+        }
+      },
+
+
+
+
     },
   };
 };
