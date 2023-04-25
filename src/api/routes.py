@@ -361,15 +361,15 @@ def delete_payment(payment_id=None):
                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
 
 #endpoint emails
-@api.route('/verify-pay', methods = ['POST'])
-def verify_pay():
+@api.route('/verify-pay/<int:payment_id>', methods = ['POST'])
+def verify_pay(payment_id):
     if request.method == "POST":
-        data = request.json
+        
 
         sender = "dmlord17@gmail.com"
         receptor = "dmlord17@gmail.com"
 
-        
+        data_payment = Payment.query.filter_by(id = payment_id).first()
 
         message = MIMEMultipart('alternatives')
         message['Subject'] = "Unasolarueda.com - Orden 155878"
@@ -377,15 +377,7 @@ def verify_pay():
         message['To'] = receptor
 
         text = ""
-        html = """<!DOCTYPE html>
-<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
-
-<head>
-	<title></title>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0"><!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]-->
-	<style>
-		* {
+        style = """* {
 			box-sizing: border-box;
 		}
 
@@ -461,7 +453,17 @@ def verify_pay():
 				display: table !important;
 				max-height: none !important;
 			}
-		}
+		}"""
+		
+        html = f"""<!DOCTYPE html>
+<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
+
+<head>
+	<title></title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"><!--[if mso]><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch><o:AllowPNG/></o:OfficeDocumentSettings></xml><![endif]-->
+	<style>
+		{style}
 	</style>
 </head>
 
@@ -514,7 +516,7 @@ def verify_pay():
 															<td class="pad" style="padding-bottom:25px;padding-left:20px;padding-right:20px;padding-top:10px;">
 																<div style="font-family: Georgia, 'Times New Roman', serif">
 																	<div class style="font-size: 14px; font-family: Georgia, Times, 'Times New Roman', serif; mso-line-height-alt: 16.8px; color: #2f2f2f; line-height: 1.2;">
-																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 16.8px;"><span style="font-size:42px;color:#ffffff;">Payment received</span></p>
+																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 16.8px;"><span style="font-size:42px;color:#ffffff;">Pago Recibido</span></p>
 																	</div>
 																</div>
 															</td>
@@ -525,10 +527,10 @@ def verify_pay():
 															<td class="pad" style="padding-bottom:10px;padding-left:30px;padding-right:30px;padding-top:10px;">
 																<div style="font-family: sans-serif">
 																	<div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 21px; color: #2f2f2f; line-height: 1.5;">
-																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Hi <strong><u>Jessy Doe</u></strong>,</span></p>
+																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Hola <strong><u>{data_payment.name}</u></strong>,</span></p>
 																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 21px;">&nbsp;</p>
-																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Thank you for your payment of <strong><span style>$25.00</span></strong> on <strong><span style>Nov. 3, 2021</span></strong></span></p>
-																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">using <strong><span style>Bank Account ****9876</span></strong></span></p>
+																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Gracias por tu pago de <strong><span style>${data_payment.total}</span></strong> el <strong><span style>{data_payment.date}</span></strong></span></p>
+																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">utilizando <strong><span style>{data_payment.payment_method}</span></strong></span></p>
 																	</div>
 																</div>
 															</td>
@@ -555,7 +557,7 @@ def verify_pay():
 															<td class="pad" style="padding-bottom:20px;padding-left:20px;padding-right:20px;padding-top:50px;">
 																<div style="font-family: sans-serif">
 																	<div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 16.8px; color: #2f2f2f; line-height: 1.2;">
-																		<p style="margin: 0; text-align: center; mso-line-height-alt: 16.8px; letter-spacing: 1px;"><strong><span style="font-size:18px;">PAYMENT DETAILS</span></strong></p>
+																		<p style="margin: 0; text-align: center; mso-line-height-alt: 16.8px; letter-spacing: 1px;"><strong><span style="font-size:18px;">DETALLES DE PAGO</span></strong></p>
 																	</div>
 																</div>
 															</td>
@@ -582,10 +584,11 @@ def verify_pay():
 															<td class="pad" style="padding-bottom:10px;padding-left:10px;padding-right:20px;padding-top:10px;">
 																<div style="font-family: sans-serif">
 																	<div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 28px; color: #393d47; line-height: 2;">
-																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Amount</span></span></strong></span></p>
-																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Date</span></span></strong></span></p>
-																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Method</span></span></strong></span></p>
-																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Confirmation</span></span></strong></span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style># Tickets</span></span></strong></span></p>
+                                                                        <p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Total</span></span></strong></span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Fecha</span></span></strong></span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Método de Pago</span></span></strong></span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Confirmación</span></span></strong></span></p>
 																	</div>
 																</div>
 															</td>
@@ -598,10 +601,11 @@ def verify_pay():
 															<td class="pad" style="padding-bottom:10px;padding-left:20px;padding-right:10px;padding-top:10px;">
 																<div style="font-family: sans-serif">
 																	<div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 28px; color: #2f2f2f; line-height: 2;">
-																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">$25.00</span></p>
-																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">03/10/21</span></p>
-																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;">Bank Account</p>
-																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;">2HEK9000</p>
+                                                                    <p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">{data_payment.number_of_tickets}</span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">${data_payment.total}</span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">{data_payment.date}</span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;">{data_payment.payment_method}</p>
+																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;">{data_payment.payment_id}</p>
 																	</div>
 																</div>
 															</td>
@@ -887,7 +891,7 @@ def verified_payment(payment_id):
 																	<div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 21px; color: #2f2f2f; line-height: 1.5;">
 																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Hola <strong><u>{data_payment.name}</u></strong>,</span></p>
 																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 21px;">&nbsp;</p>
-																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Gracias por tu pago de <strong><span style>{data_payment.total}</span></strong> el <strong><span style>{data_payment.date}</span></strong></span></p>
+																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Gracias por tu pago de <strong><span style>${data_payment.total}</span></strong> el <strong><span style>{data_payment.date}</span></strong></span></p>
 																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">utilizando <strong><span style>{data_payment.payment_method}</span></strong></span></p>
 																	</div>
 																</div>
@@ -942,7 +946,8 @@ def verified_payment(payment_id):
 															<td class="pad" style="padding-bottom:10px;padding-left:10px;padding-right:20px;padding-top:10px;">
 																<div style="font-family: sans-serif">
 																	<div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 28px; color: #393d47; line-height: 2;">
-																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Cantidad</span></span></strong></span></p>
+                                                                    <p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style># Tickets</span></span></strong></span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Total</span></span></strong></span></p>
 																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Fecha</span></span></strong></span></p>
 																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Método de Pago</span></span></strong></span></p>
 																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Confirmacion</span></span></strong></span></p>
@@ -958,6 +963,7 @@ def verified_payment(payment_id):
 															<td class="pad" style="padding-bottom:10px;padding-left:20px;padding-right:10px;padding-top:10px;">
 																<div style="font-family: sans-serif">
 																	<div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 28px; color: #2f2f2f; line-height: 2;">
+                                                                    <p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">{data_payment.number_of_tickets}</span></p>
 																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">${data_payment.total}</span></p>
 																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">{data_payment.date}</span></p>
 																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;">{data_payment.payment_method}</p>
@@ -991,7 +997,8 @@ def verified_payment(payment_id):
 																	
 																		{numbers_div}
 																	
-																	</div> </div>
+																</div> 
+                                                                </div>
 															</td>
 														</tr>
 													</table>
@@ -1097,12 +1104,7 @@ def verified_payment(payment_id):
 																	<tr>
 																		<td class="alignment" style="vertical-align: middle; text-align: center;"><!--[if vml]><table align="left" cellpadding="0" cellspacing="0" role="presentation" style="display:inline-block;padding-left:0px;padding-right:0px;mso-table-lspace: 0pt;mso-table-rspace: 0pt;"><![endif]-->
 																			<!--[if !vml]><!-->
-																			<table class="icons-inner" style="mso-table-lspace: 0pt; mso-table-rspace: 0pt; display: inline-block; margin-right: -4px; padding-left: 0px; padding-right: 0px;" cellpadding="0" cellspacing="0" role="presentation"><!--<![endif]-->
-																				<tr>
-																					<td style="vertical-align: middle; text-align: center; padding-top: 5px; padding-bottom: 5px; padding-left: 5px; padding-right: 6px;"><a href="https://www.designedwithbee.com/" target="_blank" style="text-decoration: none;"><img class="icon" alt="Designed with BEE" src="https://d15k2d11r6t6rl.cloudfront.net/public/users/Integrators/BeeProAgency/53601_510656/Signature/bee.png" height="32" width="34" align="center" style="display: block; height: auto; margin: 0 auto; border: 0;"></a></td>
-																					<td style="font-family: Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 15px; color: #9d9d9d; vertical-align: middle; letter-spacing: undefined; text-align: center;"><a href="https://www.designedwithbee.com/" target="_blank" style="color: #9d9d9d; text-decoration: none;">Designed with BEE</a></td>
-																				</tr>
-																			</table>
+																			
 																		</td>
 																	</tr>
 																</table>
