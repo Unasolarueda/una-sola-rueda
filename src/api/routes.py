@@ -874,7 +874,7 @@ def verified_payment(payment_id):
 															<td class="pad" style="padding-bottom:25px;padding-left:20px;padding-right:20px;padding-top:10px;">
 																<div style="font-family: Georgia, 'Times New Roman', serif">
 																	<div class style="font-size: 14px; font-family: Georgia, Times, 'Times New Roman', serif; mso-line-height-alt: 16.8px; color: #2f2f2f; line-height: 1.2;">
-																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 16.8px;"><span style="font-size:42px;color:#ffffff;">Payment received</span></p>
+																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 16.8px;"><span style="font-size:42px;color:#ffffff;">Pago Verificado</span></p>
 																	</div>
 																</div>
 															</td>
@@ -885,10 +885,10 @@ def verified_payment(payment_id):
 															<td class="pad" style="padding-bottom:10px;padding-left:30px;padding-right:30px;padding-top:10px;">
 																<div style="font-family: sans-serif">
 																	<div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 21px; color: #2f2f2f; line-height: 1.5;">
-																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Hi <strong><u>Jessy Doe</u></strong>,</span></p>
+																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Hola <strong><u>{data_payment.name}</u></strong>,</span></p>
 																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 21px;">&nbsp;</p>
-																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Thank you for your payment of <strong><span style>$25.00</span></strong> on <strong><span style>Nov. 3, 2021</span></strong></span></p>
-																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">using <strong><span style>Bank Account ****9876</span></strong></span></p>
+																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Gracias por tu pago de <strong><span style>{data_payment.total}</span></strong> el <strong><span style>{data_payment.date}</span></strong></span></p>
+																		<p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">utilizando <strong><span style>{data_payment.payment_method}</span></strong></span></p>
 																	</div>
 																</div>
 															</td>
@@ -915,7 +915,7 @@ def verified_payment(payment_id):
 															<td class="pad" style="padding-bottom:20px;padding-left:20px;padding-right:20px;padding-top:50px;">
 																<div style="font-family: sans-serif">
 																	<div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 16.8px; color: #2f2f2f; line-height: 1.2;">
-																		<p style="margin: 0; text-align: center; mso-line-height-alt: 16.8px; letter-spacing: 1px;"><strong><span style="font-size:18px;">PAYMENT DETAILS</span></strong></p>
+																		<p style="margin: 0; text-align: center; mso-line-height-alt: 16.8px; letter-spacing: 1px;"><strong><span style="font-size:18px;">DETALLES DE PAGO</span></strong></p>
 																	</div>
 																</div>
 															</td>
@@ -942,10 +942,10 @@ def verified_payment(payment_id):
 															<td class="pad" style="padding-bottom:10px;padding-left:10px;padding-right:20px;padding-top:10px;">
 																<div style="font-family: sans-serif">
 																	<div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 28px; color: #393d47; line-height: 2;">
-																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Amount</span></span></strong></span></p>
-																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Date</span></span></strong></span></p>
-																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Method</span></span></strong></span></p>
-																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Confirmation</span></span></strong></span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Cantidad</span></span></strong></span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Fecha</span></span></strong></span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Método de Pago</span></span></strong></span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Confirmacion</span></span></strong></span></p>
 																	</div>
 																</div>
 															</td>
@@ -958,10 +958,10 @@ def verified_payment(payment_id):
 															<td class="pad" style="padding-bottom:10px;padding-left:20px;padding-right:10px;padding-top:10px;">
 																<div style="font-family: sans-serif">
 																	<div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 28px; color: #2f2f2f; line-height: 2;">
-																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">$25.00</span></p>
-																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">03/10/21</span></p>
-																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;">Bank Account</p>
-																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;">2HEK9000</p>
+																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">${data_payment.total}</span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">{data_payment.date}</span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;">{data_payment.payment_method}</p>
+																		<p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;">{data_payment.payment_id}</p>
 																	</div>
 																</div>
 															</td>
