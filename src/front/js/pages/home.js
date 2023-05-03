@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
+
 import imagen1 from "../../img/317481662_1167955070805434_6691803026419288151_n.jpg";
 import imagen2 from "../../img/176599722_2965506053687072_5692659685441954106_n.jpg";
 import imagen3 from "../../img/293528203_727020271688354_6971905411783642798_n.jpg";
@@ -17,15 +17,14 @@ export const Home = () => {
       <button type="button" className="botonvr btn btn-danger">
         Rifa Activa
       </button>
-      {/* <div className="fotosinicio d-flex justify-content-center">
+      <div className="fotosinicio d-flex justify-content-center">
         <img src={imagen1} className="fi" />
         <img src={imagen2} className="fi" />
         <img src={imagen3} className="fi" />
         <img src={imagen4} className="fi" />
-      </div> */}
+      </div>
       <div className="ia d-flex justify-content-center">
-        <div className="cuadro">informacion </div>
-        {/* <div className="cuadro"></div> */}
+        <h2 className="tittle">Donde los Sueños los hacemos realidad</h2>
       </div>
     </div>
   );

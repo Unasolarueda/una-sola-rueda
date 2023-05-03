@@ -108,6 +108,15 @@ def get_talonarios():
 
         return (list(map(lambda talonario: talonario.serialize(),talonarios ))),200
 
+@api.route('/talonario/<talonario_id>', methods=['GET'])
+@jwt_required()
+def get_talonarios(talonario_id):
+    if request.method == 'GET':
+        talonario = Talonario.query.filter_by(id = talonario_id)
+
+
+        return (talonario.serialize()),200
+
 
 @api.route('/talonario', methods=['POST'])
 @jwt_required()

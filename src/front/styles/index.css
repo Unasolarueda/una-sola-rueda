@@ -3,6 +3,11 @@
 */
 /* #212529 negro
 #DC3545 rojo */
+@media (min-width: 576px) {
+    body{
+        background-color: #212529;
+    }
+}
 
 * {
   margin: 0;
@@ -12,3 +17,4 @@
 body {
   background-color: #212529;
 }
+

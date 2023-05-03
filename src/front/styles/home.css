@@ -5,7 +5,15 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+body {
+    background-color: #212529;
+}
 
+h2{
+  color: white;
+  font-size: 80px;
+  margin-bottom: 30px;
+}
 .title {
   color: white;
   font-size: 80px;
@@ -27,8 +35,8 @@
 }
 
 .fi {
-  width: 400px;
-  height: 350px;
+  width: 25%;
+  height: 25%;
 }
 
 .cuadro {
@@ -49,4 +57,15 @@
 
 .logonav-secondary {
   width: 130px;
+}
+
+@media screen and (max-width:480px)
+{
+  .title{
+    color: white;
+    font-size: 50px;
+  }
+  .fi{
+    color: white;  
+  }
 }
