@@ -162,13 +162,14 @@ def  delete_talonario(talonario_id):
                 cloudinary_delete_response = uploader.destroy(talonario.img_cloud_id)
 
                 if cloudinary_delete_response["result"] != "ok":
-                    return jsonify({"message":"Cloudinary delete error"})
+                    return jsonify({"message":"Cloudinary delete error"}),400
                 
-                talonario_to_delete = Talonario.delete_talonario(talonario)
-                return jsonify(talonario_to_delete),204
+                db.session.delete(talonario)
+                db.session.commit()
+                return jsonify({"msg", "Talonario eliminado"}),204
              except Exception as error: 
                 db.session.rollback()
-                return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+                return jsonify({"message": f"Error: {error.args[0]}"})
 
 # #endpoints user_ticket
 # @api.route('/user-ticket', methods=['POST'])
