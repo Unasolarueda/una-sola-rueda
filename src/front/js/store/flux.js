@@ -7,6 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       users: [],
       talonarios: [],
       talonarioSelect: null,
+      talonarioCompra: null,
       reservedTickets: [],
       ticketToreserve: [],
       payments: [],
@@ -253,12 +254,43 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      getTalonario: async (talonarioId) => {
+        const store = getStore();
+        const actions = getActions();
+
+        const opts = {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/talonario/${talonarioId}`,
+            opts
+          );
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+          const data = await response.json();
+          setStore({ talonarioCompra: data });
+        } catch (error) {
+          console.error(error);
+          return false;
+        }
+      },
+
       selectTalonario: (talonarioId) => {
         const store = getStore();
         const talonario = store.talonarios.find(
           (talonario) => talonario.id == talonarioId
         );
         setStore({ talonarioSelect: talonario });
+      },
+
+      sendPayment: async (data) => {
+        console.log(data);
       },
 
       getTickets: async (talonarioID) => {

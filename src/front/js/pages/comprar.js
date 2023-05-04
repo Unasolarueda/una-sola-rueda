@@ -8,6 +8,7 @@ export const Comprar = () => {
   const { store, actions } = useContext(Context);
   const params = useParams();
   const [name, setName] = useState("");
+  const [idPago, setIdPago] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
@@ -17,7 +18,14 @@ export const Comprar = () => {
   const sendData = async (event) => {
     event.preventDefault();
     if (name !== "" && phone !== "" && email !== "") {
-      let comprar = await actions.comprar(name, phone, email);
+      let response = await actions.comprar({
+        paymentMethod,
+        idPago,
+        tickets,
+        name,
+        phone,
+        email,
+      });
       if (response) {
         toast.success("ticket comprado exitosamente");
       } else {
@@ -53,7 +61,7 @@ export const Comprar = () => {
   };
 
   useEffect(() => {
-    actions.selectTalonario(params.talonario_id);
+    actions.getTalonario(params.talonario_id);
   }, []);
 
   return (
@@ -62,14 +70,14 @@ export const Comprar = () => {
         <div className="wrapper">
           <div className="cover">
             <img
-              src="https://img.olx.com.br/images/69/697162555331976.jpg"
+              src={store?.talonarioCompra?.img_url_prize}
               className="fportada"
             />
           </div>
           <div className="id-section">
             <div className="circle">
               <img
-                src="https://i.pinimg.com/originals/35/18/48/35184802e7fd8aaad3a84bef34ea37c6.jpg"
+                src="https://res.cloudinary.com/drcuplwe7/image/upload/v1680654977/STICKERS_CRUZANGELO_k8nf24.png"
                 className="logo"
               />
             </div>
@@ -258,8 +266,21 @@ export const Comprar = () => {
           )}
 
           {/* boton adjuntar archivo*/}
-          <div className="mt-3">
+          {/* <div className="mt-3">
             <input className="adjuntar-archivo form" type="file" />
+          </div> */}
+          <div className="col-10">
+            <label htmlFor="validationCustom02" className="form-label">
+              Id de pago:
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="validationCustom02"
+              value={idPago}
+              onChange={(event) => setIdPago(event.target.value)}
+              required
+            />
           </div>
 
           <button
