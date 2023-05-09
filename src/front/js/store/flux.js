@@ -289,8 +289,22 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ talonarioSelect: talonario });
       },
 
-      sendPayment: async (data) => {
-        console.log(data);
+      sendPayment: (data) => {
+        const store = getStore();
+        fetch(`${process.env.BACKEND_URL}/payment/${data.talonario_id}`,{
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer" + "" + store.token,
+          },
+        })
+        .then((res) => {
+          if (!res.ok) throw Error(res.statusText);
+          return res.json();
+        })
+        .then((resp) => console.log("Success", resp))
+        .catch((error) => console.error(error));
       },
 
       getTickets: async (talonarioID) => {

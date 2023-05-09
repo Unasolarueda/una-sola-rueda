@@ -12,26 +12,43 @@ export const Comprar = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
-  const [tickets, setTickets] = useState(2);
+  const [tickets, setTickets] = useState(0);
   const [dolar, setDolar] = useState(2);
+  let tasa = 25.00;
+  let monto = tickets * dolar;
+  let montoBs = monto * tasa;
+  const dateMs = Date.now();
+  const actualDate = new Date(dateMs);
+  const fecha = actualDate.toLocaleDateString();
+  const numeroDeTalonario = store?.talonarioCompra?.id;
+  console.log(store?.talonarioCompra?.id);
+  //const numeroDeTalonario = 1;
 
-  const sendData = async (event) => {
+  console.log(fecha);
+
+  const sendData = (event) => {
     event.preventDefault();
     if (name !== "" && phone !== "" && email !== "") {
-      let response = await actions.comprar({
-        paymentMethod,
-        idPago,
-        tickets,
-        name,
-        phone,
-        email,
+      actions.sendPayment({
+        payment_method: paymentMethod,
+        payment_id: idPago,
+        number_of_tickets: tickets,
+        name: name,
+        phone: phone,
+        email: email,
+        total: monto,
+        date: fecha,
+        talonario_id: numeroDeTalonario,
       });
-      if (response) {
-        toast.success("ticket comprado exitosamente");
+      actions.toggleMessage("ticket comprado exitosamente",true);
+      setName("");
+      setIdPago("");
+      setPhone("");
+      setEmail("");
       } else {
-        toast.error("No se pudo comprar ticket");
+        actions.toggleMessage("No se pudo comprar ticket", false);
       }
-    }
+    
   };
 
   const validForm = (form) => {
@@ -62,13 +79,28 @@ export const Comprar = () => {
 
   useEffect(() => {
     actions.getTalonario(params.talonario_id);
+    actions.getTickets(params.talonario_id);
   }, []);
+  
+  let ticketsDisponibles = 0
+  if(store.reservedTickets != 0) {
+   ticketsDisponibles = store.talonarioCompra.numbers - store.reservedTickets.length
+  }
+  console.log(ticketsDisponibles);
+  console.log(store.reservedTickets);
+  console.log(store.talonarioCompra);
+  useEffect(() => {
+    if (tickets > ticketsDisponibles) {
+      alert(`Hola!
+             solo hay ${ticketsDisponibles} tickets disponibles y estas intentando comprar ${tickets} tickets`)  
+    }}, [tickets])
 
   return (
     <div className="d-flex justify-content-center row">
       <section className="perfil-usuario mt-5">
         <div className="wrapper">
           <div className="cover">
+          <h4 className="text-white"> Talonario {numeroDeTalonario}</h4>
             <img
               src={store?.talonarioCompra?.img_url_prize}
               className="fportada"
@@ -89,11 +121,12 @@ export const Comprar = () => {
         <div className="input-group p-5">
           {/* cambiar a p  */}
           <div className="precio-ticket w-100">
+            
             <p className="text-center h2">
-              {tickets} x {setDolar}$
+              {tickets} x ${dolar} = ${monto} ó Bs.{montoBs}
             </p>
             <p className="tasa-cambio text-center h2">
-              $1.00 <i class="fa-solid fa-right-left fa-fade"></i> Bs.25.00
+              $1 <i className="fa-solid fa-right-left fa-fade"></i> Bs.{tasa}
             </p>
           </div>
         </div>
@@ -142,7 +175,7 @@ export const Comprar = () => {
           </div>
         </div>
 
-        <div className="input-group p-5">
+        <div className="input-group px-5 pt-5">
           <button
             className="btn btn-outline-secondary"
             type="button"
@@ -151,10 +184,9 @@ export const Comprar = () => {
           >
             -
           </button>
-
           <input
             type="number"
-            className="imput form-control"
+            className="input form-control"
             placeholder="10"
             aria-label="Example text with button addon"
             aria-describedby="button-addon1"
@@ -167,10 +199,11 @@ export const Comprar = () => {
             type="button"
             id="button-addon1"
             onClick={() => setTickets(tickets + 1)}
-          >
+            >
             +
           </button>
         </div>
+        <p className="pb-5 ps-5">Tickets disponibles: {ticketsDisponibles}</p>
 
         <form
           onSubmit={sendData}
@@ -186,6 +219,7 @@ export const Comprar = () => {
               id="validationCustom01"
               value={name}
               onChange={(event) => setName(event.target.value)}
+              placeholder="Pedro Perez"
               required
             />
           </div>
@@ -200,6 +234,7 @@ export const Comprar = () => {
               id="confirmationNumber validationCustom02"
               value={phone}
               onChange={(event) => setPhone(event.target.value)}
+              placeholder="04XX1234567"
               required
             />
           </div>
@@ -214,6 +249,7 @@ export const Comprar = () => {
               id="validationCustom02"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
+              placeholder="tucorreo@correo.com"
               required
             />
           </div>
@@ -279,17 +315,26 @@ export const Comprar = () => {
               id="validationCustom02"
               value={idPago}
               onChange={(event) => setIdPago(event.target.value)}
+              placeholder="1k234j4"
               required
             />
           </div>
-
-          <button
-            type="submit"
-            className="botonc btn btn-success d-flex justify-content-center"
-            // onClick={}
-          >
-            Comprar
-          </button>
+          <div className="col-10">
+            <label htmlFor="validationCustom02" className="form-label">
+              Fecha: {fecha}
+            </label>
+            
+          </div>
+          
+          {tickets < ticketsDisponibles ?
+            <button
+              type="submit"
+              className="botonc btn btn-success d-flex justify-content-center"
+       
+            >
+              Comprar
+            </button>
+          :""}
         </form>
       </div>
 

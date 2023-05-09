@@ -300,8 +300,8 @@ def delete_ticket(ticket_id=None):
                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
                 
 #endpoints payments
-@api.route('/payment', methods=['POST'])
-def create_payment():
+@api.route('/payment/<int:talonario_id>', methods=['POST'])
+def create_payment(talonario_id):
 
     if request.method == "POST":
         body = request.json
