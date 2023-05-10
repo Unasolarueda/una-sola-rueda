@@ -1,161 +1,158 @@
-body{
-    background-color: #212529;
+/* body {
+  background-color: #212529;
 }
 
 h2 {
-    font-size: 35px;
+  font-size: 35px;
 }
 
 h3 {
-    font-size: 150%;
-    margin-top: -30px;
+  font-size: 150%;
+  margin-top: -30px;
 }
 
-.rifaf{
-    height: auto;
-    width: auto;
+.rifaf {
+  height: auto;
+  width: auto;
 }
 
-p{
-    color: white;
+p {
+  color: white;
 }
-.cuadro{
-    /* margin-top: 15%; */
-    height: 70%;
-    width: 45%;
-    background-color: #4545456f;
-    color: white;
-}
-
-.opcion{
-    height: 100px;
-    width: 40%;
-    background-color: #212529;
-    margin-top: 15px;
-    margin-left: 35px;
-    color: white;
-    font-size: 60%;
+.cuadro {
+  height: 70%;
+  width: 45%;
+  background-color: #4545456f;
+  color: white;
 }
 
-.cuatro{
-    margin-top: -20px;
+.opcion {
+  height: 100px;
+  width: 40%;
+  background-color: #212529;
+  margin-top: 15px;
+  margin-left: 35px;
+  color: white;
+  font-size: 60%;
 }
 
-.botonc{
-    margin-bottom: 10%;
-    margin-top: auto;
-    border-radius: 10px;
-    padding: 0 35%;
-    font-size: 20px; 
-    margin-top: 50px;
-    border-color: white;
+.cuatro {
+  margin-top: -20px;
 }
 
-.p2{
+.botonc {
+  margin-bottom: 10%;
+  margin-top: auto;
+  border-radius: 10px;
+  padding: 0 35%;
+  font-size: 20px;
+  margin-top: 50px;
+  border-color: white;
+}
+
+.p2 {
+  font-size: 25px;
+}
+
+.imput {
+  background-color: #212529;
+}
+
+.wrapper {
+  width: 380px;
+
+  margin: auto;
+  border-radius: 18px;
+}
+
+.cover {
+  height: 200px;
+  width: 200px;
+}
+
+.cover img {
+  width: 380px;
+  height: 160px;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+.circle {
+  width: 155px;
+  height: 155px;
+  margin: auto;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  position: relative;
+  top: -90px;
+}
+
+.logo {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
+.datos-comprar {
+  margin-top: 10%;
+  height: 70%;
+  width: 60%;
+  background-color: #4545456f;
+  color: white;
+}
+
+.boton {
+  margin-top: 15px;
+}
+
+.datos-transferencia {
+  text-align: center;
+  background-color: #212529;
+  margin-top: 15px;
+}
+
+.adjuntar-archivo {
+  font-size: 10px;
+}
+
+.tasa-cambio {
+  background-color: green;
+}
+
+@media screen and (max-width: 480px) {
+  h2 {
     font-size: 25px;
-}
+  }
 
-.imput{
-    background-color:  #212529;
-}
+  h3 {
+    font-size: 8px;
+    margin-top: -40px;
+  }
 
-.wrapper{
-    width: 380px;
-    /* height: 680px; */
-    margin: auto;
-    border-radius: 18px;
-}
-
-.cover{
-    height: 200px;
-    width: 200px;
-}
-
-.cover img{
-    width: 380px;
-    height: 160px;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-}
-
-.circle{
-    width: 155px;
-    height: 155px;
-    margin: auto;
-    border-radius: 50%;
-    border: 3px solid #fff;
-    position: relative;
-    top: -90px;
-}
-
-.logo{
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-}
-
-.datos-comprar{
-    margin-top: 10%;
+  .cuadro {
+    margin-top: -50px;
     height: 70%;
     width: 60%;
     background-color: #4545456f;
     color: white;
-}
+  }
 
-.boton{
-    margin-top: 15px;
-}
-
-.datos-transferencia{
-    text-align: center;
-    background-color: #212529;
-    margin-top: 15px;
-}
-
-.adjuntar-archivo{
-    font-size: 10px;
-}
-
-.tasa-cambio {
+  .tasa-cambio {
     background-color: green;
-}
+    font-size: 16px;
+  }
 
+  .opcion {
+    height: 100px;
+    width: 40%;
+    background-color: #212529;
+    margin-top: 10px;
+    margin-left: 10px;
+    color: white;
+    font-size: 60%;
+  }
 
-@media screen and (max-width:480px)
-{
-    h2{
-        font-size: 25px;
-    }
-    
-    h3{
-        font-size: 8px;
-        margin-top: -40px;
-    }
-
-    .cuadro{
-        margin-top: -50px;
-        height: 70%;
-        width: 60%;
-        background-color: #4545456f;
-        color: white;
-    }
-
-    .tasa-cambio {
-        background-color: green;
-        font-size: 16px;
-    }
-
-    .opcion{
-        height: 100px;
-        width: 40%;
-        background-color: #212529;
-        margin-top: 10px;
-        margin-left: 10px;
-        color: white;
-        font-size: 60%;
-    }
-
-    .cuatro{
-        margin-top: -20px;
-    }
-}
+  .cuatro {
+    margin-top: -20px;
+  }
+} */

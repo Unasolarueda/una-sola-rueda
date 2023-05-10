@@ -70,7 +70,7 @@ export const NewUser = () => {
               <form onSubmit={sendData}>
                 <div className="form-group">
                   <label className="form-label text-white" htmlFor="email">
-                    <b>Usuario:</b>
+                    <b>Email:</b>
                   </label>
                   <input
                     className="form-control"
