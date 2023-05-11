@@ -51,6 +51,19 @@ export const Comprar = () => {
     
   };
 
+  useEffect(() => {
+    if (params.talonario_id !== undefined) {
+      actions.getPayments(params.talonario_id);
+    }
+  }, [store.talonarioSelect]);
+
+  let reservedButNotPaidArray = store.payments.filter(index => index.status == "no-aprobado")
+ console.log(reservedButNotPaidArray);
+  let totalReservedButNotPaidTickets = reservedButNotPaidArray.reduce ((sum, index) => sum + index.number_of_tickets,0 )
+  console.log(totalReservedButNotPaidTickets);
+  
+
+
   const validForm = (form) => {
     let errors = {};
     let validName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
@@ -82,17 +95,19 @@ export const Comprar = () => {
     actions.getTickets(params.talonario_id);
   }, []);
   
-  let ticketsDisponibles = 0
-  if(store.reservedTickets != 0) {
-   ticketsDisponibles = store.talonarioCompra.numbers - store.reservedTickets.length
-  }
+
+    let ticketsDisponibles = 0
+    if(store.reservedTickets != 0 && store.talonarioCompra.numbers != 0) {
+    ticketsDisponibles = store.talonarioCompra.numbers - store.reservedTickets.length - totalReservedButNotPaidTickets
+    }
+
   console.log(ticketsDisponibles);
   console.log(store.reservedTickets);
   console.log(store.talonarioCompra);
+  console.log(store.payments);
   useEffect(() => {
     if (tickets > ticketsDisponibles) {
-      alert(`Hola!
-             solo hay ${ticketsDisponibles} tickets disponibles y estas intentando comprar ${tickets} tickets`)  
+      alert(`¡Hola! estas intentando comprar más tickets de los que hay disponibles`)  
     }}, [tickets])
 
   return (
@@ -175,7 +190,7 @@ export const Comprar = () => {
           </div>
         </div>
 
-        <div className="input-group px-5 pt-5">
+        <div className="input-group px-5 pt-5 pb-5">
           <button
             className="btn btn-outline-secondary"
             type="button"
@@ -203,7 +218,7 @@ export const Comprar = () => {
             +
           </button>
         </div>
-        <p className="pb-5 ps-5">Tickets disponibles: {ticketsDisponibles}</p>
+        {/* <p className="pb-5 ps-5">Tickets disponibles: {ticketsDisponibles}</p> */}
 
         <form
           onSubmit={sendData}
