@@ -88,6 +88,7 @@ export const NewTalonario = () => {
                     className="form-control"
                     type="text"
                     id="name"
+                    placeholder="Introduzca nombre de la rifa"
                     required
                     value={name}
                     onChange={(event) => setName(event.target.value)}
@@ -101,6 +102,7 @@ export const NewTalonario = () => {
                     className="form-control"
                     type="text"
                     id="prize"
+                    placeholder="Introduzca premio a sortear"
                     required
                     value={prize}
                     onChange={(event) => setPrize(event.target.value)}
@@ -129,6 +131,7 @@ export const NewTalonario = () => {
                     className="form-control"
                     type="text"
                     id="price"
+                    placeholder="Ejemplo: 5"
                     required
                     value={price}
                     onChange={(event) => setPrice(event.target.value)}
@@ -139,6 +142,11 @@ export const NewTalonario = () => {
                     <b>Imagen del premio:</b>
                     <CloudinaryUploadWidget />
                   </label>
+                  {Object.entries(store.imageUrls).length > 0 && (
+                    <div>
+                      <img src={store.imageUrls.thumbnail}></img>
+                    </div>
+                  )}
                 </div>
 
                 <div className="modal-footer mt-4">

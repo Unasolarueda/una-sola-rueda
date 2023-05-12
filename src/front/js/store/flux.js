@@ -289,21 +289,28 @@ const getState = ({ getStore, getActions, setStore }) => {
         setStore({ talonarioSelect: talonario });
       },
 
-      sendPayment: (data) => {
+      sendPayment: async (data) => {
         const store = getStore();
-        fetch(`${process.env.BACKEND_URL}/payment`, {
-          method: "POST",
-          body: JSON.stringify(data),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
-          .then((res) => {
-            if (!res.ok) throw Error(res.statusText);
-            return res.json();
-          })
-          .then((resp) => console.log("Success", resp))
-          .catch((error) => console.error(error));
+        const actions = getActions();
+        try {
+          const response = await fetch(`${process.env.BACKEND_URL}/payment`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+
+          return true;
+        } catch (error) {
+          console.error(error);
+          return false;
+        }
       },
 
       getTickets: async (talonarioID) => {
@@ -332,7 +339,6 @@ const getState = ({ getStore, getActions, setStore }) => {
       reserveTickets: async (numbers, talonario_id, payment_id) => {
         const store = getStore();
         const actions = getActions();
-        console.log(numbers);
 
         const opts = {
           method: "POST",

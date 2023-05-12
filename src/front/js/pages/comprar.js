@@ -23,12 +23,17 @@ export const Comprar = () => {
   const actualDate = new Date(dateMs);
   const fecha = actualDate.toLocaleDateString();
 
-  console.log(fecha);
-
-  const sendData = (event) => {
+  const sendData = async (event) => {
     event.preventDefault();
-    if (name !== "" && phone !== "" && email !== "" && tickets > 2) {
-      actions.sendPayment({
+    if (
+      name !== "" &&
+      phone !== "" &&
+      email !== "" &&
+      tickets > 0 &&
+      paymentMethod != "" &&
+      idPago != ""
+    ) {
+      const response = await actions.sendPayment({
         payment_method: paymentMethod,
         payment_id: idPago,
         number_of_tickets: tickets,
@@ -39,14 +44,21 @@ export const Comprar = () => {
         date: fecha,
         talonario_id: params.talonario_id,
       });
-      actions.toggleMessage("ticket comprado exitosamente", true);
-      setName("");
-      setIdPago("");
-      setPhone("");
-      setEmail("");
-      setTickets(0);
+      if (response) {
+        actions.toggleMessage("ticket comprado exitosamente", true);
+        setName("");
+        setIdPago("");
+        setPhone("");
+        setEmail("");
+        setTickets(0);
+      } else {
+        actions.toggleMessage(
+          "No se pudo comprar los tickets, intente nuevamente",
+          false
+        );
+      }
     } else {
-      actions.toggleMessage("No se pudo comprar ticket", false);
+      actions.toggleMessage("Complete todos los campos", false);
     }
   };
 
@@ -72,8 +84,6 @@ export const Comprar = () => {
   useEffect(() => {
     actions.getTickets(params.talonario_id);
   }, []);
-
-  console.log(store.talonarioCompra);
 
   return (
     <div className="d-flex justify-content-center row">
