@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
+import toast, { Toaster } from "react-hot-toast";
 
 import "../../styles/comprar.css";
 
@@ -14,21 +15,19 @@ export const Comprar = () => {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [tickets, setTickets] = useState(0);
   const [dolar, setDolar] = useState(2);
-  let tasa = 25.00;
-  let monto = tickets * dolar;
+  const [availableTickets, setAvailableTickets] = useState(0);
+  let tasa = 25.0;
+  let monto = tickets * store.talonarioCompra?.price;
   let montoBs = monto * tasa;
   const dateMs = Date.now();
   const actualDate = new Date(dateMs);
   const fecha = actualDate.toLocaleDateString();
-  const numeroDeTalonario = store?.talonarioCompra?.id;
-  console.log(store?.talonarioCompra?.id);
-  //const numeroDeTalonario = 1;
 
   console.log(fecha);
 
   const sendData = (event) => {
     event.preventDefault();
-    if (name !== "" && phone !== "" && email !== "") {
+    if (name !== "" && phone !== "" && email !== "" && tickets > 2) {
       actions.sendPayment({
         payment_method: paymentMethod,
         payment_id: idPago,
@@ -38,84 +37,51 @@ export const Comprar = () => {
         email: email,
         total: monto,
         date: fecha,
-        talonario_id: numeroDeTalonario,
+        talonario_id: params.talonario_id,
       });
-      actions.toggleMessage("ticket comprado exitosamente",true);
+      actions.toggleMessage("ticket comprado exitosamente", true);
       setName("");
       setIdPago("");
       setPhone("");
       setEmail("");
-      } else {
-        actions.toggleMessage("No se pudo comprar ticket", false);
-      }
-    
+      setTickets(0);
+    } else {
+      actions.toggleMessage("No se pudo comprar ticket", false);
+    }
+  };
+
+  const obtnerPagos = async () => {
+    const response = await actions.getPayments(params.talonario_id);
+    if (response) {
+      await actions.getTalonario(params.talonario_id);
+      let sumWithInitial = store.payments.reduce(
+        (acc, obj) => acc + obj.number_of_tickets,
+        0
+      );
+      setAvailableTickets(store.talonarioCompra?.numbers - sumWithInitial);
+    }
   };
 
   useEffect(() => {
-    if (params.talonario_id !== undefined) {
-      actions.getPayments(params.talonario_id);
+    obtnerPagos();
+    if (tickets > availableTickets) {
+      actions.toggleMessage("No hay suficientes Tickets", false);
     }
-  }, [store.talonarioSelect]);
-
-  let reservedButNotPaidArray = store.payments.filter(index => index.status == "no-aprobado")
- console.log(reservedButNotPaidArray);
-  let totalReservedButNotPaidTickets = reservedButNotPaidArray.reduce ((sum, index) => sum + index.number_of_tickets,0 )
-  console.log(totalReservedButNotPaidTickets);
-  
-
-
-  const validForm = (form) => {
-    let errors = {};
-    let validName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
-    let validPhone = /[+]*[0-9]{1,4}/;
-    let validEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/;
-    if (!form.name.trim()) {
-      errors.name = "El campo es requerido";
-    } else if (!validName.test(form.name.trim())) {
-      errors.name = "El campo solo acepta letras";
-    }
-
-    if (!form.phone.trim()) {
-      errors.phone = "El campo es requerido";
-    } else if (!validPhone.test(form.phone.trim())) {
-      errors.name = "El campo solo acepta (+) y numeros";
-    }
-
-    if (!form.email.trim()) {
-      errors.email = "El campo es requerido";
-    } else if (!validEmail.test(form.email.trim())) {
-      errors.name = "El campo solo acepta email";
-    }
-
-    return errors;
-  };
+  }, [tickets]);
 
   useEffect(() => {
-    actions.getTalonario(params.talonario_id);
     actions.getTickets(params.talonario_id);
   }, []);
-  
 
-    let ticketsDisponibles = 0
-    if(store.reservedTickets != 0 && store.talonarioCompra.numbers != 0) {
-    ticketsDisponibles = store.talonarioCompra.numbers - store.reservedTickets.length - totalReservedButNotPaidTickets
-    }
-
-  console.log(ticketsDisponibles);
-  console.log(store.reservedTickets);
   console.log(store.talonarioCompra);
-  console.log(store.payments);
-  useEffect(() => {
-    if (tickets > ticketsDisponibles) {
-      alert(`¡Hola! estas intentando comprar más tickets de los que hay disponibles`)  
-    }}, [tickets])
 
   return (
     <div className="d-flex justify-content-center row">
+      <Toaster />
       <section className="perfil-usuario mt-5">
         <div className="wrapper">
           <div className="cover">
-          <h4 className="text-white"> Talonario {numeroDeTalonario}</h4>
+            <h4 className="text-white"> {store.talonarioCompra?.name}</h4>
             <img
               src={store?.talonarioCompra?.img_url_prize}
               className="fportada"
@@ -136,9 +102,9 @@ export const Comprar = () => {
         <div className="input-group p-5">
           {/* cambiar a p  */}
           <div className="precio-ticket w-100">
-            
             <p className="text-center h2">
-              {tickets} x ${dolar} = ${monto} ó Bs.{montoBs}
+              {tickets} x ${store.talonarioCompra?.price} = ${monto} ó Bs.
+              {montoBs}
             </p>
             <p className="tasa-cambio text-center h2">
               $1 <i className="fa-solid fa-right-left fa-fade"></i> Bs.{tasa}
@@ -149,6 +115,7 @@ export const Comprar = () => {
         <div className="container text-center d-flex justify-content-center ">
           <div className="cuatro row">
             <button
+              disabled={availableTickets < 2 ? true : false}
               type="button"
               className="opcion col-6 col-sm-4 btn btn-outline-secondary"
               onClick={() => setTickets(2)}
@@ -158,6 +125,7 @@ export const Comprar = () => {
               <h3>SELECCIONAR</h3>
             </button>
             <button
+              disabled={availableTickets < 5 ? true : false}
               type="button"
               className="opcion col-6 col-sm-4 btn btn-outline-secondary"
               onClick={() => setTickets(5)}
@@ -170,6 +138,7 @@ export const Comprar = () => {
             <div className="w-100 d-none d-md-block"></div>
 
             <button
+              disabled={availableTickets < 10 ? true : false}
               type="button"
               className="opcion col-6 col-sm-4 btn btn-outline-secondary"
               onClick={() => setTickets(10)}
@@ -179,6 +148,7 @@ export const Comprar = () => {
               <h3>SELECCIONAR</h3>
             </button>
             <button
+              disabled={availableTickets < 20 ? true : false}
               type="button"
               className="opcion col-6 col-sm-4 btn btn-outline-secondary"
               onClick={() => setTickets(20)}
@@ -192,6 +162,7 @@ export const Comprar = () => {
 
         <div className="input-group px-5 pt-5 pb-5">
           <button
+            disabled={tickets < 1 ? true : false}
             className="btn btn-outline-secondary"
             type="button"
             id="button-addon1"
@@ -210,15 +181,15 @@ export const Comprar = () => {
           />
 
           <button
+            disabled={tickets >= availableTickets ? true : false}
             className="btn btn-outline-secondary"
             type="button"
             id="button-addon1"
             onClick={() => setTickets(tickets + 1)}
-            >
+          >
             +
           </button>
         </div>
-        {/* <p className="pb-5 ps-5">Tickets disponibles: {ticketsDisponibles}</p> */}
 
         <form
           onSubmit={sendData}
@@ -238,7 +209,6 @@ export const Comprar = () => {
               required
             />
           </div>
-
           <div className="col-10">
             <label htmlFor="validationCustom02" className="form-label">
               Numero Telefono:
@@ -253,7 +223,6 @@ export const Comprar = () => {
               required
             />
           </div>
-
           <div className="col-10">
             <label htmlFor="validationCustom02" className="form-label">
               Correo:
@@ -268,7 +237,6 @@ export const Comprar = () => {
               required
             />
           </div>
-
           <div className="col-10 d-flex justify-content-center mt-4">
             <div className="metododepago">
               <label
@@ -290,7 +258,6 @@ export const Comprar = () => {
               </select>
             </div>
           </div>
-
           {paymentMethod == "pago movil" ? (
             <div className="datos-transferencia">
               Angelo Pasquale <br />
@@ -315,7 +282,6 @@ export const Comprar = () => {
               </div>
             )
           )}
-
           {/* boton adjuntar archivo*/}
           {/* <div className="mt-3">
             <input className="adjuntar-archivo form" type="file" />
@@ -338,18 +304,15 @@ export const Comprar = () => {
             <label htmlFor="validationCustom02" className="form-label">
               Fecha: {fecha}
             </label>
-            
           </div>
-          
-          {tickets < ticketsDisponibles ?
+          {tickets <= availableTickets && (
             <button
               type="submit"
               className="botonc btn btn-success d-flex justify-content-center"
-       
             >
               Comprar
             </button>
-          :""}
+          )}
         </form>
       </div>
 

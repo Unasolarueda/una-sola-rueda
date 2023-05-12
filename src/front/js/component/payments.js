@@ -78,7 +78,7 @@ export const Payments = () => {
               .map((payment, index) => (
                 <tr key={payment.id}>
                   <th scope="row">{index + 1}</th>
-                  <td>{new Date(payment.date).toLocaleDateString()}</td>
+                  <td>{payment.date}</td>
                   <td>{payment.payment_method}</td>
                   <td>{payment.payment_id}</td>
                   <td>{payment.number_of_tickets}</td>
