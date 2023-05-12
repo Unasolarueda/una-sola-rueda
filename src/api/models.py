@@ -154,6 +154,7 @@ class Talonario(db.Model):
             "prize": self.prize,
             "numbers": self.numbers,
             "price": self.price,
+            "talonario_id": self.talonario_id,
             "status": self.status,
             "img_url_prize": self.img_url_prize,
             "img_cloud_id": self.img_cloud_id,

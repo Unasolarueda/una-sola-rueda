@@ -679,7 +679,7 @@ def verified_payment(payment_id):
 
         numbers=body.get("numbers", None)
 
-        
+       
         data_payment = Payment.query.filter_by(id = payment_id).first()
 
         numbers_div = ""
@@ -695,7 +695,7 @@ def verified_payment(payment_id):
         
 
         message = MIMEMultipart('alternatives')
-        message['Subject'] = "Unasolarueda.com - Orden 155878"
+        message['Subject'] = f"Unasolarueda.com - Orden {data_payment.id}"
         message['From'] = sender
         message['To'] = receptor
 
@@ -912,7 +912,7 @@ def verified_payment(payment_id):
 																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Total</span></span></strong></span></p>
 																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Fecha</span></span></strong></span></p>
 																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Método de Pago</span></span></strong></span></p>
-																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Confirmacion</span></span></strong></span></p>
+																		<p style="margin: 0; font-size: 16px; text-align: right; mso-line-height-alt: 32px;"><span style="color:#000000;"><strong><span style="font-size:16px;"><span style>Confirmación</span></span></strong></span></p>
 																	</div>
 																</div>
 															</td>
@@ -1096,7 +1096,7 @@ def verified_payment(payment_id):
             server = smtplib.SMTP("smtp.gmail.com",587)
             server.starttls()
             server.login("dmlord17@gmail.com","ihdclnptddsmyqfs")
-            server.sendmail("dmlord17@gmail.com","dmlord17@gmail.com",message.as_string())
+            server.sendmail("dmlord17@gmail.com",receptor,message.as_string())
             server.quit()
             print("Email send")
             return jsonify({"message": "Email send succesfull"}),200

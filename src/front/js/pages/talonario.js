@@ -51,7 +51,6 @@ export const Talonario = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         actions.deleteTalonario(store.talonarioSelect.id).then((response) => {
-          console.log(response);
           if (response) {
             Swal.fire("Rifa eliminada!", "El talonario se elimino", "success");
           } else {
@@ -78,7 +77,6 @@ export const Talonario = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         actions.updateTalonario(store.talonarioSelect.id).then((response) => {
-          console.log(response);
           if (response) {
             Swal.fire(
               "Rifa finalizada!",

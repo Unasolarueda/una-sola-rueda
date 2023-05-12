@@ -16,7 +16,6 @@ export const Payments = () => {
       talonario_id,
       paymentId
     );
-    console.log(response);
     if (response) {
       actions.toggleMessage("Tickets reservados", true);
       let responsePayment = await actions.updatePayment(

@@ -372,13 +372,12 @@ const getState = ({ getStore, getActions, setStore }) => {
       buyTickets: async (numberOfTickets, talonarioId, paymentId) => {
         const store = getStore();
         const actions = getActions();
-        console.log(numberOfTickets);
+
         function getRandomTicketNumbers(tickets, numberOfTickets) {
           const ticketsAvailable = tickets.filter(
             (ticket) => ticket.status == "disponible"
           );
           if (numberOfTickets > ticketsAvailable.length) {
-            console.log("muchos tickets");
             return false;
           }
 
@@ -403,7 +402,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         );
         if (randomTicketNumbers) {
           setStore({ ticketToreserve: randomTicketNumbers });
-          console.log(randomTicketNumbers);
+
           const responserReserve = await actions.reserveTickets(
             randomTicketNumbers,
             talonarioId,

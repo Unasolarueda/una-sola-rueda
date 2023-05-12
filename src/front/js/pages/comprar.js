@@ -130,9 +130,9 @@ export const Comprar = () => {
               className="opcion col-6 col-sm-4 btn btn-outline-secondary"
               onClick={() => setTickets(2)}
             >
-              <h2>+02</h2>
+              <h2 className="select-number">+02</h2>
               <br />
-              <h3>SELECCIONAR</h3>
+              <h3 className="seleccionar">SELECCIONAR</h3>
             </button>
             <button
               disabled={availableTickets < 5 ? true : false}
@@ -140,9 +140,9 @@ export const Comprar = () => {
               className="opcion col-6 col-sm-4 btn btn-outline-secondary"
               onClick={() => setTickets(5)}
             >
-              <h2>+05</h2>
+              <h2 className="select-number">+05</h2>
               <br />
-              <h3>SELECCIONAR</h3>
+              <h3 className="seleccionar">SELECCIONAR</h3>
             </button>
 
             <div className="w-100 d-none d-md-block"></div>
@@ -153,9 +153,9 @@ export const Comprar = () => {
               className="opcion col-6 col-sm-4 btn btn-outline-secondary"
               onClick={() => setTickets(10)}
             >
-              <h2>+10</h2>
+              <h2 className="select-number">+10</h2>
               <br />
-              <h3>SELECCIONAR</h3>
+              <h3 className="seleccionar">SELECCIONAR</h3>
             </button>
             <button
               disabled={availableTickets < 20 ? true : false}
@@ -163,9 +163,9 @@ export const Comprar = () => {
               className="opcion col-6 col-sm-4 btn btn-outline-secondary"
               onClick={() => setTickets(20)}
             >
-              <h2>+20</h2>
+              <h2 className="select-number">+20</h2>
               <br />
-              <h3>SELECCIONAR</h3>
+              <h3 className="seleccionar">SELECCIONAR</h3>
             </button>
           </div>
         </div>
