@@ -5,6 +5,7 @@ import { Context } from "../store/appContext";
 import Swal from "sweetalert2";
 import "../../styles/talonario.css";
 import { Payments } from "../component/payments";
+import { BtnCompartir } from "../component/btnCompartir";
 
 export const Talonario = () => {
   const { store, actions } = useContext(Context);
@@ -102,6 +103,7 @@ export const Talonario = () => {
         <>
           <div className="text-center mt-5 mb-5 text-white">
             <h1>{store.talonarioSelect?.name}</h1>
+            <BtnCompartir talonario={store.talonarioSelect} />
             <NewTalonario />
             <div className="d-flex flex-column align-items-center mt-3">
               <label className="h4">Nuestra meta:</label>
