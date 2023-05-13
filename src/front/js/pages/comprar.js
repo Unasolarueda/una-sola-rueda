@@ -15,11 +15,11 @@ export const Comprar = () => {
   const [email, setEmail] = useState("");
   const [paymentMethod, setPaymentMethod] = useState("");
   const [tickets, setTickets] = useState(0);
-  const [dolar, setDolar] = useState(2);
+  const [dolar, setDolar] = useState({});
   const [availableTickets, setAvailableTickets] = useState(0);
-  let tasa = 25.0;
+
   let monto = tickets * store.talonarioCompra?.price;
-  let montoBs = monto * tasa;
+  let montoBs = monto * dolar.dollar;
   const dateMs = Date.now();
   const actualDate = new Date(dateMs);
   const fecha = actualDate.toLocaleDateString();
@@ -75,6 +75,22 @@ export const Comprar = () => {
     }
   };
 
+  const getTasaDolar = async () => {
+    try {
+      const response = await fetch(
+        "https://venecodollar.vercel.app/api/v1/dollar/entity?name=@EnParaleloVzla3"
+      );
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error);
+      }
+      const data = await response.json();
+      setDolar(data.Data.info);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     obtnerPagos();
     if (tickets > availableTickets) {
@@ -83,7 +99,7 @@ export const Comprar = () => {
   }, [tickets]);
 
   useEffect(() => {
-    actions.getTickets(params.talonario_id);
+    getTasaDolar();
   }, []);
 
   return (
@@ -121,7 +137,7 @@ export const Comprar = () => {
                 </p>
                 <p className="tasa-cambio text-center h2">
                   $1 <i className="fa-solid fa-right-left fa-fade"></i> Bs.
-                  {tasa}
+                  {dolar.dollar}
                 </p>
               </div>
             </div>
