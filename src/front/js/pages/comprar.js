@@ -27,12 +27,12 @@ export const Comprar = () => {
   const sendData = async (event) => {
     event.preventDefault();
     if (
-      name !== "" &&
-      phone !== "" &&
-      email !== "" &&
+      name.trim() !== "" &&
+      phone.trim() !== "" &&
+      email.trim() !== "" &&
       tickets > 0 &&
       paymentMethod != "" &&
-      idPago != ""
+      idPago.trim() != ""
     ) {
       const response = await actions.sendPayment({
         payment_method: paymentMethod,
