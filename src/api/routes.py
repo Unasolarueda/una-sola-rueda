@@ -1095,10 +1095,10 @@ def verified_payment(payment_id):
         message.attach(MIMEText(html,'html'))
 
         try:
-            server = smtplib.SMTP("smtp.gmail.com",587)
+            server = smtplib.SMTP("smtp.hostinger.com",465)
             server.starttls()
-            server.login("dmlord17@gmail.com","ihdclnptddsmyqfs")
-            server.sendmail("dmlord17@gmail.com",receptor,message.as_string())
+            server.login("info@unasolarueda.com","P*ul24a$")
+            server.sendmail("info@unasolarueda.com",receptor,message.as_string())
             server.quit()
             print("Email send")
             return jsonify({"message": "Email send succesfull"}),200
