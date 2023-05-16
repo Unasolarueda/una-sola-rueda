@@ -20,9 +20,6 @@ export const Comprar = () => {
 
   let monto = tickets * store.talonarioCompra?.price;
   let montoBs = monto * dolar.dollar;
-  const dateMs = Date.now();
-  const actualDate = new Date(dateMs);
-  const fecha = actualDate.toLocaleDateString();
 
   const sendData = async (event) => {
     event.preventDefault();
@@ -42,7 +39,6 @@ export const Comprar = () => {
         phone: phone,
         email: email,
         total: monto,
-        date: fecha,
         talonario_id: params.talonario_id,
       });
       if (response) {
@@ -330,11 +326,7 @@ export const Comprar = () => {
                   required
                 />
               </div>
-              <div className="col-10">
-                <label htmlFor="validationCustom02" className="form-label">
-                  Fecha: {fecha}
-                </label>
-              </div>
+
               {tickets <= availableTickets && (
                 <button
                   type="submit"

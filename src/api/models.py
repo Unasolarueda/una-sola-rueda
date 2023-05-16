@@ -1,5 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from enum import Enum
+import datetime
+
 
 db = SQLAlchemy()
 
@@ -57,50 +59,7 @@ class User(db.Model):
             # do not serialize the password, its a security breach
         }
     
-# class User_ticket(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     name = db.Column(db.String(120), nullable=False)
-#     phone = db.Column(db.String(20), unique=True, nullable=False)
-#     email = db.Column(db.String(100), unique=True, nullable=False)
-#     ticket = db.relationship("Ticket", backref="user_ticket")
-    
-    
 
-#     def __init__(self, **kwargs):
-#         self.name = kwargs['name']
-#         self.phone = kwargs['phone']
-#         self.email = kwargs['email']
-
-#     @classmethod
-#     def create(cls, **kwargs):
-#         new_user = cls(**kwargs)
-#         db.session.add(new_user) # INSERT INTO
-#         try:
-#             db.session.commit() # Se ejecuta el INSERT INTO
-#             return new_user
-#         except Exception as error:
-#             raise Exception(error.args[0],400)
-        
-#     @classmethod
-#     def delete_user(cls,kwargs):
-#         db.session.delete(kwargs)
-#         try:
-#             db.session.commit()
-#             return {"msg":"el usuario fue eliminado correctamente"}
-#         except Exception as error:
-#             print("error")
-#             raise Exception(error.args[0],400)
-
-
-#     def serialize(self):
-#         return{
-#             "id": self.id,
-#             "name": self.name,
-#             "phone": self.phone,
-#             "email": self.email,
-
-#         }
-    
 class Talonario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=False, nullable=False)
@@ -170,11 +129,12 @@ class Payment(db.Model):
     payment_id = db.Column(db.String(200), unique=False, nullable=False)
     number_of_tickets=db.Column(db.Integer, unique=False, nullable=False)
     total = db.Column(db.Float(10), unique=False, nullable=False)
-    date = db.Column(db.Date, nullable=False)
+    date = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now)
     status = db.Column(db.String, nullable=False )
     name = db.Column(db.String(120), nullable=False)
     phone = db.Column(db.String(20), nullable=False)
     email = db.Column(db.String(100), nullable=False)
+    updated_at = db.Column(db.DateTime(timezone=True), default=datetime.datetime.now, onupdate=datetime.datetime.now)
 
     talonario_id = db.Column(db.Integer, db.ForeignKey('talonario.id'))
     talonario = db.relationship("Talonario", back_populates="payment")
@@ -186,7 +146,6 @@ class Payment(db.Model):
         self.payment_id = kwargs['payment_id']
         self.number_of_tickets = kwargs['number_of_tickets']
         self.total = kwargs['total']
-        self.date = kwargs['date']
         self.status = "no-aprobado"
         self.name = kwargs['name']
         self.phone = kwargs['phone']

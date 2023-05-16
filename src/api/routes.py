@@ -268,21 +268,20 @@ def create_payment():
         payment_id=body.get("payment_id", None)
         number_of_tickets= body.get("number_of_tickets",None)
         total = body.get("total", None)
-        date = body.get("date", None)
         name=body.get("name", None)
         phone= body.get("phone",None)
         email = body.get("email", None)
         talonario_id = body.get("talonario_id", None)
 
-        if payment_method is None or payment_id is None or number_of_tickets is None or total is None or date is None or name is None or phone is None or email is None or talonario_id is None:
+        if payment_method is None or payment_id is None or number_of_tickets is None or total is None or name is None or phone is None or email is None or talonario_id is None:
             return jsonify({"message": "missing data"}),400
-
+        print(body)
         try:
             new_payment = Payment.create(**body)
             return jsonify(new_payment.serialize()), 201
         
         except Exception as error:
-            return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+            return jsonify({"message": f"Error: {error.args[0]}"}),500
 
 @api.route('/payment/<int:talonario_id>', methods=['GET'])
 def get_all_payments(talonario_id):
@@ -693,7 +692,7 @@ def verified_payment(payment_id):
         for number in new_numbers:
             numbers_div = numbers_div + f"<span style='margin-right: 20px' ><strong>{number}</strong></span>"
         
-        sender = "info@unasolarueda.com"
+        sender = os.environ.get('EMAIL')
         receptor = data_payment.email
        
         message = MIMEMultipart('alternatives')
@@ -1095,10 +1094,10 @@ def verified_payment(payment_id):
         message.attach(MIMEText(html,'html'))
 
         try:
-            server = smtplib.SMTP("smtp.hostinger.com",587)
+            server = smtplib.SMTP("smtp.gmail.com",587)
             server.starttls()
-            server.login("info@unasolarueda.com","P*ul24a$")
-            server.sendmail("info@unasolarueda.com",receptor,message.as_string())
+            server.login(sender,os.environ.get('PWD_EMAIL'))
+            server.sendmail(sender,receptor,message.as_string())
             server.quit()
             print("Email send")
             return jsonify({"message": "Email send succesfull"}),200
