@@ -12,7 +12,7 @@ import cloudinary.uploader as uploader
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import datetime
+from datetime import datetime
 
 api = Blueprint('api', __name__)
 
@@ -700,7 +700,10 @@ def verified_payment(payment_id):
         message['From'] = sender
         message['To'] = receptor
 
-
+        parsed_dt = data_payment.date.date()
+        print(parsed_dt)
+        
+        
         text = ""
         style = """* {
             box-sizing: border-box;
@@ -854,7 +857,7 @@ def verified_payment(payment_id):
                                                                                 <div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 21px; color: #2f2f2f; line-height: 1.5;">
                                                                                     <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Hola <strong><u>{data_payment.name}</u></strong>,</span></p>
                                                                                     <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 21px;">&nbsp;</p>
-                                                                                    <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Gracias por tu pago de <strong><span style>${data_payment.total}</span></strong> el <strong><span style>{data_payment.date}</span></strong></span></p>
+                                                                                    <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Gracias por tu pago de <strong><span style>${data_payment.total}</span></strong> el <strong><span style>{parsed_dt}</span></strong></span></p>
                                                                                     <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">utilizando <strong><span style>{data_payment.payment_method}</span></strong></span></p>
                                                                                 </div>
                                                                             </div>
@@ -928,7 +931,7 @@ def verified_payment(payment_id):
                                                                                 <div class style="font-size: 14px; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; mso-line-height-alt: 28px; color: #2f2f2f; line-height: 2;">
                                                                                 <p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">{data_payment.number_of_tickets}</span></p>
                                                                                     <p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">${data_payment.total}</span></p>
-                                                                                    <p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">{data_payment.date}</span></p>
+                                                                                    <p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;"><span style="font-size:16px;">{parsed_dt}</span></p>
                                                                                     <p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;">{data_payment.payment_method}</p>
                                                                                     <p style="margin: 0; font-size: 16px; text-align: left; mso-line-height-alt: 32px;">{data_payment.payment_id}</p>
                                                                                 </div>
