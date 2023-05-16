@@ -129,7 +129,7 @@ export const Comprar = () => {
               <div className="precio-ticket w-100">
                 <p className="text-center h2">
                   {tickets} x ${store.talonarioCompra?.price} = ${monto} ó Bs.
-                  {montoBs}
+                  {montoBs.toFixed(2)}
                 </p>
                 <p className="tasa-cambio text-center h2">
                   $1 <i className="fa-solid fa-right-left fa-fade"></i> Bs.

@@ -275,7 +275,7 @@ def create_payment():
 
         if payment_method is None or payment_id is None or number_of_tickets is None or total is None or name is None or phone is None or email is None or talonario_id is None:
             return jsonify({"message": "missing data"}),400
-        print(body)
+        
         try:
             new_payment = Payment.create(**body)
             return jsonify(new_payment.serialize()), 201
@@ -692,7 +692,7 @@ def verified_payment(payment_id):
         for number in new_numbers:
             numbers_div = numbers_div + f"<span style='margin-right: 20px' ><strong>{number}</strong></span>"
         
-        sender = os.environ.get('EMAIL')
+        sender = "info@unasolarueda.com"
         receptor = data_payment.email
        
         message = MIMEMultipart('alternatives')
@@ -858,7 +858,7 @@ def verified_payment(payment_id):
                                                                                     <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Hola <strong><u>{data_payment.name}</u></strong>,</span></p>
                                                                                     <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 21px;">&nbsp;</p>
                                                                                     <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">Gracias por tu pago de <strong><span style>${data_payment.total}</span></strong> el <strong><span style>{parsed_dt}</span></strong></span></p>
-                                                                                    <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">utilizando <strong><span style>{data_payment.payment_method}</span></strong></span></p>
+                                                                                    <p style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 24px;"><span style="font-size:16px;color:#ffffff;">utilizando <strong><span style>{data_payment.payment_method}</span></strong> estas participando en la rifa {data_talonario.name} por {data_talonario.prize}</span> </p>
                                                                                 </div>
                                                                             </div>
                                                                         </td>
@@ -1097,7 +1097,7 @@ def verified_payment(payment_id):
         message.attach(MIMEText(html,'html'))
 
         try:
-            server = smtplib.SMTP("smtp.gmail.com",587)
+            server = smtplib.SMTP("smtp.hostinger.com",587)
             server.starttls()
             server.login(sender,os.environ.get('PWD_EMAIL'))
             server.sendmail(sender,receptor,message.as_string())

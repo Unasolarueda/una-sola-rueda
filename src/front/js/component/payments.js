@@ -60,6 +60,8 @@ export const Payments = () => {
               <th scope="col">#</th>
               <th scope="col">Fecha</th>
               <th scope="col">Método de pago</th>
+              <th scope="col">Celular</th>
+              <th scope="col">Nombre</th>
               <th scope="col">ID pago</th>
               <th scope="col">Tickets comprados</th>
               <th scope="col">Total</th>
@@ -86,6 +88,8 @@ export const Payments = () => {
                     })}
                   </td>
                   <td>{payment.payment_method}</td>
+                  <td>{payment.phone}</td>
+                  <td>{payment.name}</td>
                   <td>{payment.payment_id}</td>
                   <td>{payment.number_of_tickets}</td>
                   <td>{payment.total}</td>
