@@ -286,9 +286,9 @@ export const Comprar = () => {
               </div>
               {paymentMethod == "pago movil" ? (
                 <div className="datos-transferencia">
-                  Angelo Pasquale <br />
-                  12163660 <br />
-                  04241854650 <br />
+                  Mercantil 0105 <br />
+                  V-12163660 <br />
+                  04243380957 <br />
                 </div>
               ) : paymentMethod == "banco santander" ? (
                 <div className="datos-transferencia">
@@ -301,10 +301,11 @@ export const Comprar = () => {
               ) : (
                 paymentMethod == "zelle" && (
                   <div className="datos-transferencia">
-                    +13464535821 <br />
-                    Jesus Pasquale <br />
-                    Nota:con el numero podra hacer el zelle sin usar correo
-                    <br />
+                    <p>+13464535821 </p>
+                    <p>Jesus Pasquale </p>
+                    <p>
+                      Nota:con el numero podra hacer el zelle sin usar correo
+                    </p>
                   </div>
                 )
               )}
