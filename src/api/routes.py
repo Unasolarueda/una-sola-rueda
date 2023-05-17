@@ -692,7 +692,7 @@ def verified_payment(payment_id):
         for number in new_numbers:
             numbers_div = numbers_div + f"<span style='margin-right: 20px' ><strong>{number}</strong></span>"
         
-        sender = "info@unasolarueda.com"
+        sender = os.environ.get('EMAIL')
         receptor = data_payment.email
        
         message = MIMEMultipart('alternatives')
@@ -1097,7 +1097,7 @@ def verified_payment(payment_id):
         message.attach(MIMEText(html,'html'))
 
         try:
-            server = smtplib.SMTP("smtp.hostinger.com",587)
+            server = smtplib.SMTP("smtp.gmail.com",587)
             server.starttls()
             server.login(sender,os.environ.get('PWD_EMAIL'))
             server.sendmail(sender,receptor,message.as_string())
