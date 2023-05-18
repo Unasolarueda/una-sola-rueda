@@ -102,7 +102,7 @@ export const Talonario = () => {
           <div className="text-center mt-5 mb-5 text-white">
             <h1>{store.talonarioSelect?.name}</h1>
             <BtnCompartir talonario={store.talonarioSelect} />
-            <NewTalonario />
+
             <div className="d-flex flex-column align-items-center mt-3">
               <label className="h4">Nuestra meta:</label>
 
@@ -169,7 +169,7 @@ export const Talonario = () => {
         </>
       ) : (
         <div className="text-center min-vh-100 d-flex justify-content-center align-items-center">
-          <NewTalonario />
+          <span className="text-white">Bienvenido</span>
         </div>
       )}
 
