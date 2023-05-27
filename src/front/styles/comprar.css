@@ -3,12 +3,11 @@ body {
 }
 
 .select-number {
-  font-size: 35px;
+  font-size: 2.18rem;
 }
 
 .seleccionar {
-  font-size: 150%;
-  margin-top: -30px;
+  font-size: 1rem;
 }
 
 .rifaf {
@@ -27,24 +26,20 @@ p {
 }
 
 .opcion {
-  height: 100px;
-  width: 40%;
   background-color: #212529;
-  margin-top: 15px;
-  margin-left: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: white;
   font-size: 60%;
-}
-
-.cuatro {
-  margin-top: -20px;
 }
 
 .botonc {
   margin-bottom: 10%;
   margin-top: auto;
   border-radius: 10px;
-  padding: 0 35%;
+
   font-size: 20px;
   margin-top: 50px;
   border-color: white;
@@ -120,10 +115,11 @@ p {
 }
 
 @media screen and (max-width: 480px) {
-  .select-number {
-    font-size: 25px;
+  .select-number,
+  .seleccionar {
+    font-size: 1rem;
   }
-
+} /*
   h3 {
     font-size: 8px;
     margin-top: -40px;
@@ -155,4 +151,4 @@ p {
   .cuatro {
     margin-top: -20px;
   }
-}
+} */

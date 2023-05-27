@@ -57,7 +57,7 @@ export const Payments = () => {
         <table className="table text-white">
           <thead>
             <tr>
-              <th scope="col">#</th>
+              <th scope="col"># Orden</th>
               <th scope="col">Fecha</th>
               <th scope="col">Método de pago</th>
               <th scope="col">Celular</th>
@@ -78,7 +78,7 @@ export const Payments = () => {
               })
               .map((payment, index) => (
                 <tr key={payment.id}>
-                  <th scope="row">{index + 1}</th>
+                  <th scope="row">{payment.id}</th>
                   <td>
                     {new Date(payment.date).toLocaleDateString("es-ES", {
                       weekday: "short",

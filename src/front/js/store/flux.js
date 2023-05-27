@@ -471,7 +471,11 @@ const getState = ({ getStore, getActions, setStore }) => {
             throw new Error(error.message);
           }
           let data = await response.json();
-          setStore({ payments: data });
+          let sortedPayments = data.sort((a, b) => {
+            return b.id - a.id;
+          });
+
+          setStore({ payments: sortedPayments });
           return true;
         } catch (error) {
           console.error(error);
