@@ -1,99 +1,99 @@
-import React, { useEffect, useContext, useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { NewTalonario } from "../component/newTalonario";
-import { Context } from "../store/appContext";
-import Swal from "sweetalert2";
-import "../../styles/talonario.css";
-import { Payments } from "../component/payments";
-import { BtnCompartir } from "../component/btnCompartir";
+import React, { useEffect, useContext, useState } from 'react'
+import { useNavigate, Link } from 'react-router-dom'
+import { NewTalonario } from '../component/newTalonario'
+import { Context } from '../store/appContext'
+import Swal from 'sweetalert2'
+import '../../styles/talonario.css'
+import { Payments } from '../component/payments'
+import { BtnCompartir } from '../component/btnCompartir'
 
 export const Talonario = () => {
-  const { store, actions } = useContext(Context);
-  const navigate = useNavigate();
-  const [ticketSelected, setTicketSelected] = useState({});
+  const { store, actions } = useContext(Context)
+  const navigate = useNavigate()
+  const [ticketSelected, setTicketSelected] = useState({})
 
   useEffect(() => {
     if (!store.token) {
-      navigate("/");
+      navigate('/')
     }
-  }, [store.token]);
+  }, [store.token])
 
   useEffect(() => {
-    if (store.talonarios && store.talonarios.length > 0) return;
-    actions.getTalonarios();
-  }, []);
+    if (store.talonarios && store.talonarios.length > 0) return
+    actions.getTalonarios()
+  }, [])
 
   useEffect(() => {
-    actions.numberFilter(store.reservedTickets, store.talonarioSelect?.numbers);
-  }, [store.reservedTickets]);
+    actions.numberFilter(store.reservedTickets, store.talonarioSelect?.numbers)
+  }, [store.reservedTickets])
 
   useEffect(() => {
     if (store.talonarioSelect !== null) {
-      actions.getTickets(store?.talonarioSelect?.id);
+      actions.getTickets(store?.talonarioSelect?.id)
     }
-  }, [store.talonarioSelect]);
+  }, [store.talonarioSelect])
 
   useEffect(() => {
     if (store.talonarios.length > 0) {
-      actions.selectTalonario(store.talonarios[0].id);
+      actions.selectTalonario(store.talonarios[0].id)
     }
-  }, [store.talonarios]);
+  }, [store.talonarios])
 
   const deleteTalonario = () => {
     Swal.fire({
-      title: "¿Estás seguro de elimnar la rifa?",
-      text: "Se eliminarán todos los datos relacionados al talonario, eliminar unicamente si ya se conoce el ganador",
-      icon: "warning",
+      title: '¿Estás seguro de elimnar la rifa?',
+      text: 'Se eliminarán todos los datos relacionados al talonario, eliminar unicamente si ya se conoce el ganador',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, eliminar",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar'
     }).then((result) => {
       if (result.isConfirmed) {
         actions.deleteTalonario(store.talonarioSelect.id).then((response) => {
           if (response) {
-            Swal.fire("Rifa eliminada!", "El talonario se elimino", "success");
+            Swal.fire('Rifa eliminada!', 'El talonario se elimino', 'success')
           } else {
             Swal.fire(
-              "Rifa no eliminada!",
-              "El talonario no pudo ser eliminado",
-              "error"
-            );
+              'Rifa no eliminada!',
+              'El talonario no pudo ser eliminado',
+              'error'
+            )
           }
-        });
+        })
       }
-    });
-  };
+    })
+  }
 
   const finishTalonario = () => {
     Swal.fire({
-      title: "¿Estás seguro de finalizar la rifa?",
-      text: "Al finalizar la rifa ya no se podrán comprar mas tickets de este talonario",
-      icon: "warning",
+      title: '¿Estás seguro de finalizar la rifa?',
+      text: 'Al finalizar la rifa ya no se podrán comprar mas tickets de este talonario',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Si, finalizar",
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, finalizar'
     }).then((result) => {
       if (result.isConfirmed) {
         actions.updateTalonario(store.talonarioSelect.id).then((response) => {
           if (response) {
             Swal.fire(
-              "Rifa finalizada!",
-              "El talonario se actualizo a estado finalizado",
-              "success"
-            );
+              'Rifa finalizada!',
+              'El talonario se actualizo a estado finalizado',
+              'success'
+            )
           } else {
             Swal.fire(
-              "Rifa no finalizada!",
-              "El talonario no pudo ser marcado como finalizado",
-              "error"
-            );
+              'Rifa no finalizada!',
+              'El talonario no pudo ser marcado como finalizado',
+              'error'
+            )
           }
-        });
+        })
       }
-    });
-  };
+    })
+  }
 
   return (
     <>
@@ -102,7 +102,7 @@ export const Talonario = () => {
           <div className="text-center mt-5 mb-5 text-white">
             <h1>{store.talonarioSelect?.name}</h1>
             <BtnCompartir talonario={store.talonarioSelect} />
-
+            <NewTalonario />
             <div className="d-flex flex-column align-items-center mt-3">
               <label className="h4">Nuestra meta:</label>
 
@@ -115,7 +115,7 @@ export const Talonario = () => {
                     width: `${
                       (store.reservedTickets.length * 100) /
                       store.talonarioSelect?.numbers
-                    }%`,
+                    }%`
                   }}
                   aria-valuenow="25"
                   aria-valuemin="0"
@@ -133,11 +133,11 @@ export const Talonario = () => {
                 <div
                   key={index}
                   className={
-                    numero.status == "reservado"
-                      ? "numero_reservado numero d-flex justify-content-center"
-                      : numero.status == "pagado"
-                      ? "numero_pagado numero d-flex justify-content-center"
-                      : "numero numero_disponible d-flex justify-content-center"
+                    numero.status == 'reservado'
+                      ? 'numero_reservado numero d-flex justify-content-center'
+                      : numero.status == 'pagado'
+                      ? 'numero_pagado numero d-flex justify-content-center'
+                      : 'numero numero_disponible d-flex justify-content-center'
                   }
                   data-bs-toggle="modal"
                   data-bs-target="#exampleModalToggle"
@@ -145,7 +145,7 @@ export const Talonario = () => {
                     setTicketSelected({
                       value: numero.value,
                       numero: numero.numero,
-                      status: numero.status,
+                      status: numero.status
                     })
                   }
                 >
@@ -154,7 +154,7 @@ export const Talonario = () => {
               ))}
             </div>
             <div className="mt-5">
-              {store.talonarioSelect?.status === "activa" ? (
+              {store.talonarioSelect?.status === 'activa' ? (
                 <button className="btn btn-danger" onClick={finishTalonario}>
                   Finalizar Rifa
                 </button>
@@ -169,7 +169,7 @@ export const Talonario = () => {
         </>
       ) : (
         <div className="text-center min-vh-100 d-flex justify-content-center align-items-center">
-          <span className="text-white">Bienvenido</span>
+          <NewTalonario />
         </div>
       )}
 
@@ -198,7 +198,7 @@ export const Talonario = () => {
               <span>
                 <strong>Estado: {ticketSelected.status}</strong>
               </span>
-              {ticketSelected.status !== "disponible" && (
+              {ticketSelected.status !== 'disponible' && (
                 <button
                   className="btn btn-outline-dark btn-closed"
                   data-bs-target="#exampleModalToggle2"
@@ -265,5 +265,5 @@ export const Talonario = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
