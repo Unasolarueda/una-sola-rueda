@@ -1,35 +1,32 @@
-import React, { useEffect, useContext, useState } from "react";
-import { Context } from "../store/appContext";
+import React, { useEffect, useContext, useState } from 'react'
+import { Context } from '../store/appContext'
 
 export const Payments = () => {
-  const { store, actions } = useContext(Context);
-  const [showPayment, setShowPayment] = useState(true);
+  const { store, actions } = useContext(Context)
+  const [showPayment, setShowPayment] = useState(true)
   useEffect(() => {
     if (store?.talonarioSelect?.id !== undefined) {
-      actions.getPayments(store?.talonarioSelect?.id);
+      actions.getPayments(store?.talonarioSelect?.id)
     }
-  }, [store.talonarioSelect]);
+  }, [store.talonarioSelect])
 
   const handlePayment = async (number_of_tickets, talonario_id, paymentId) => {
     let response = await actions.buyTickets(
       number_of_tickets,
       talonario_id,
       paymentId
-    );
+    )
     if (response) {
-      actions.toggleMessage("Tickets reservados", true);
-      let responsePayment = await actions.updatePayment(
-        paymentId,
-        talonario_id
-      );
+      actions.toggleMessage('Tickets reservados', true)
+      let responsePayment = await actions.updatePayment(paymentId, talonario_id)
       if (responsePayment) {
-        actions.toggleMessage("Pago aprobado", true);
-        await actions.sendEmailVerifiedPayment(paymentId);
-      } else actions.toggleMessage("El pago no pudo ser aprobado", false);
+        actions.toggleMessage('Pago aprobado', true)
+        await actions.sendEmailVerifiedPayment(paymentId)
+      } else actions.toggleMessage('El pago no pudo ser aprobado', false)
     } else {
-      actions.toggleMessage("No se pudo reservar los tickets", false);
+      actions.toggleMessage('No se pudo reservar los tickets', false)
     }
-  };
+  }
 
   return (
     <div className="mt-3">
@@ -62,7 +59,7 @@ export const Payments = () => {
               <th scope="col">Método de pago</th>
               <th scope="col">Celular</th>
               <th scope="col">Nombre</th>
-              <th scope="col">ID pago</th>
+              <th scope="col"># Refernecia</th>
               <th scope="col">Tickets comprados</th>
               <th scope="col">Total</th>
             </tr>
@@ -71,20 +68,20 @@ export const Payments = () => {
             {store.payments
               .filter((payment) => {
                 if (showPayment) {
-                  return payment.status == `no-aprobado`;
+                  return payment.status == `no-aprobado`
                 } else {
-                  return payment.status == `aprobado`;
+                  return payment.status == `aprobado`
                 }
               })
               .map((payment, index) => (
                 <tr key={payment.id}>
                   <th scope="row">{payment.id}</th>
                   <td>
-                    {new Date(payment.date).toLocaleDateString("es-ES", {
-                      weekday: "short",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
+                    {new Date(payment.date).toLocaleDateString('es-ES', {
+                      weekday: 'short',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
                     })}
                   </td>
                   <td>{payment.payment_method}</td>
@@ -130,5 +127,5 @@ export const Payments = () => {
         </table>
       </div>
     </div>
-  );
-};
+  )
+}
