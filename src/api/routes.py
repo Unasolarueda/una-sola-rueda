@@ -173,15 +173,10 @@ def  delete_talonario(talonario_id):
          if talonario is None:
              return jsonify({"message": "Talonario no encontrado"}),404
          else:
+             db.session.delete(talonario)
              try:
-                cloudinary_delete_response = uploader.destroy(talonario.img_cloud_id)
-
-                if cloudinary_delete_response["result"] != "ok":
-                    return jsonify({"message":"Cloudinary delete error"}),400
-                
-                db.session.delete(talonario)
                 db.session.commit()
-                return jsonify({"msg", "Talonario eliminado"}),204
+                return jsonify({"msg": "Talonario eliminado"}),200
              except Exception as error: 
                 db.session.rollback()
                 return jsonify({"message": f"Error: {error.args[0]}"})
