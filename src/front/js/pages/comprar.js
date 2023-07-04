@@ -1,44 +1,44 @@
-import React, { useState, useEffect, useContext } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Context } from "../store/appContext";
-import toast, { Toaster } from "react-hot-toast";
-import Swal from "sweetalert2";
+import React, { useState, useEffect, useContext } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { Context } from '../store/appContext'
+import toast, { Toaster } from 'react-hot-toast'
+import Swal from 'sweetalert2'
 
-import "../../styles/comprar.css";
-import { TalonarioFinalizado } from "../component/talonarioFinalizado";
+import '../../styles/comprar.css'
+import { TalonarioFinalizado } from '../component/talonarioFinalizado'
 
 export const Comprar = () => {
-  const { store, actions } = useContext(Context);
-  const params = useParams();
-  const [errors, setErrors] = useState({});
-  const [name, setName] = useState("");
-  const [idPago, setIdPago] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [paymentMethod, setPaymentMethod] = useState("");
-  const [tickets, setTickets] = useState(0);
-  const [dolar, setDolar] = useState({});
-  const [availableTickets, setAvailableTickets] = useState(0);
+  const { store, actions } = useContext(Context)
+  const params = useParams()
+  const [errors, setErrors] = useState({})
+  const [name, setName] = useState('')
+  const [idPago, setIdPago] = useState('')
+  const [phone, setPhone] = useState('')
+  const [email, setEmail] = useState('')
+  const [paymentMethod, setPaymentMethod] = useState('')
+  const [tickets, setTickets] = useState(0)
+  const [dolar, setDolar] = useState({})
+  const [availableTickets, setAvailableTickets] = useState(0)
 
-  let monto = tickets * store.talonarioCompra?.price;
-  let montoBs = monto * dolar.dollar;
+  let monto = tickets * store.talonarioCompra?.price
+  let montoBs = monto * dolar.dollar
 
   //Regex
   // name: ^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$
   // email: ^(?=.*[a-zA-Z])[a-zA-Z0-9_.+-]+@(gmail|yahoo|hotmail|outlook)\.(com|es)$
 
   const sendData = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     const err = onValidate({
       name,
       idPago,
       phone,
       email,
       paymentMethod,
-      tickets,
-    });
-    setErrors(err);
-    console;
+      tickets
+    })
+    setErrors(err)
+    console
     if (Object.keys(err).length === 0) {
       const response = await actions.sendPayment({
         payment_method: paymentMethod,
@@ -48,114 +48,113 @@ export const Comprar = () => {
         phone: phone,
         email: email,
         total: monto,
-        talonario_id: params.talonario_id,
-      });
+        talonario_id: params.talonario_id
+      })
       if (response) {
         Swal.fire(
-          "Tickets comprados con éxito",
-          "Su pago ha sido procesado, espere a que sea verificado, luego de ello recibirá un correo con sus números, tenga paciencia, no intente comprar nuevamente.",
-          "success"
-        );
-        setName("");
-        setIdPago("");
-        setPhone("");
-        setPaymentMethod("");
-        setEmail("");
-        setTickets(0);
+          'Tickets comprados con éxito',
+          'Su pago ha sido procesado, espere a que sea verificado, luego de ello recibirá un correo con sus números, tenga paciencia, no intente comprar nuevamente.',
+          'success'
+        )
+        setName('')
+        setIdPago('')
+        setPhone('')
+        setPaymentMethod('')
+        setEmail('')
+        setTickets(0)
       } else {
         Swal.fire(
-          "Error Tickets",
-          "No se pudo comprar los tickets, intente nuevamente",
-          "error"
-        );
+          'Error Tickets',
+          'No se pudo comprar los tickets, intente nuevamente',
+          'error'
+        )
       }
     } else {
-      actions.toggleMessage("Complete todos los campos", false);
+      actions.toggleMessage('Complete todos los campos', false)
     }
-  };
+  }
 
   const onValidate = (form) => {
-    let errors = {};
-    const regexName = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/;
+    let errors = {}
+    const regexName = /^[A-Za-záéíóúÁÉÍÓÚñÑ\s]+$/
     const regexEmail =
-      /(^(?=.*[a-zA-Z])[a-zA-Z0-9_.+-]+@(gmail|yahoo|hotmail|outlook)\.(com|es)$)/m;
+      /(^(?=.*[a-zA-Z])[a-zA-Z0-9_.+-]+@(gmail|yahoo|hotmail|outlook)\.(com|es)$)/m
 
     if (!form.name.trim()) {
-      errors.name = "El campo 'Nombre y Apellido' no debe ser vacio";
+      errors.name = "El campo 'Nombre y Apellido' no debe ser vacio"
     } else if (!regexName.test(form.name)) {
-      errors.name =
-        "El campo 'Nombre y Apellido' solo acepta letras y espacios";
+      errors.name = "El campo 'Nombre y Apellido' solo acepta letras y espacios"
     }
 
     if (!form.idPago.trim()) {
-      errors.idPago = "El campo 'Id de pago' no debe ser vacio";
+      errors.idPago = "El campo 'Número de referencia' no debe ser vacio"
     }
 
     if (!form.phone.trim()) {
-      errors.phone = "El campo 'Número Teléfono' no debe ser vacio";
+      errors.phone = "El campo 'Número Teléfono' no debe ser vacio"
     }
 
     if (!form.email.trim()) {
-      errors.email = "El campo 'Correo' no debe ser vacio";
+      errors.email = "El campo 'Correo' no debe ser vacio"
     } else if (!regexEmail.test(form.email)) {
-      errors.email = "El correo ingresado no es válido";
+      errors.email = 'El correo ingresado no es válido'
     }
 
     if (!form.paymentMethod.trim()) {
-      errors.paymentMethod = "Seleccione un Método de pago";
+      errors.paymentMethod = 'Seleccione un Método de pago'
     }
 
     if (form.tickets < 2) {
-      errors.tickets = "La compra miníma es de 2 tickets";
+      errors.tickets = 'La compra miníma es de 2 tickets'
     }
 
-    return errors;
-  };
+    return errors
+  }
 
   const obtnerPagos = async () => {
-    const response = await actions.getPayments(params.talonario_id);
+    const response = await actions.getPayments(params.talonario_id)
     if (response) {
-      await actions.getTalonario(params.talonario_id);
+      await actions.getTalonario(params.talonario_id)
       let sumWithInitial = store.payments.reduce(
         (acc, obj) => acc + obj.number_of_tickets,
         0
-      );
-      setAvailableTickets(store.talonarioCompra?.numbers - sumWithInitial);
+      )
+      setAvailableTickets(store.talonarioCompra?.numbers - sumWithInitial)
     }
-  };
+  }
 
   const getTasaDolar = async () => {
     try {
       const response = await fetch(
-        "https://venecodollar.vercel.app/api/v1/dollar/entity?name=@EnParaleloVzla3"
-      );
+        'https://venecodollar.vercel.app/api/v1/dollar/entity?name=@EnParaleloVzla3'
+      )
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error);
+        const error = await response.json()
+        throw new Error(error)
       }
-      const data = await response.json();
-      setDolar(data.Data.info);
+      const data = await response.json()
+      setDolar(data.Data.info)
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
-  };
+  }
 
   useEffect(() => {
-    obtnerPagos();
+    obtnerPagos()
     if (tickets > availableTickets) {
-      actions.toggleMessage("No hay suficientes Tickets", false);
+      actions.toggleMessage('No hay suficientes Tickets', false)
     }
-  }, [tickets]);
+  }, [tickets])
 
   useEffect(() => {
-    getTasaDolar();
-  }, []);
+    getTasaDolar()
+  }, [])
 
   return (
     <div className="d-flex justify-content-center row">
       <Toaster />
 
-      {store.talonarioCompra?.status == "activa" ? (
+      {store.talonarioCompra?.status == 'activa' ? (
         <>
           <section className="perfil-usuario mt-5">
             <div className="wrapper">
@@ -349,28 +348,30 @@ export const Comprar = () => {
                     onChange={(event) => setPaymentMethod(event.target.value)}
                   >
                     <option value="">Seleccione método de pago</option>
-                    <option value="banco santander">banco santander</option>
-                    <option value="pago movil">Pago movil</option>
+                    <option value="banco santander">
+                      banco santander Chile
+                    </option>
+                    <option value="pago movil">Pago móvil</option>
                     <option value="zelle">Zelle</option>
                   </select>
                 </div>
               </div>
-              {paymentMethod == "pago movil" ? (
+              {paymentMethod == 'pago movil' ? (
                 <div className="datos-transferencia">
-                  Mercantil 0105 <br />
-                  V-12163660 <br />
-                  04243380957 <br />
+                  Banco de Venezuela 0102 <br />
+                  V-14072384 <br />
+                  04241326694 <br />
                 </div>
-              ) : paymentMethod == "banco santander" ? (
+              ) : paymentMethod == 'banco santander' ? (
                 <div className="datos-transferencia">
-                  Cruzangelo Jhosed Pasquale <br />
-                  26.510.063-5 <br />
-                  Cuenta: 71001956137 <br />
+                  Henrique Jose Leon Infante <br />
+                  26.102.807-7 <br />
+                  Cuenta: 71004321280 <br />
                   Banco: Santander <br />
                   Tipo de cuenta: Vista <br />
                 </div>
               ) : (
-                paymentMethod == "zelle" && (
+                paymentMethod == 'zelle' && (
                   <div className="datos-transferencia">
                     <p>+13464535821 </p>
                     <p>Jesus Pasquale </p>
@@ -390,7 +391,7 @@ export const Comprar = () => {
                   htmlFor="validationCustom02"
                   className="form-label fw-bold"
                 >
-                  Id de pago:
+                  Número de referencia:
                 </label>
                 <input
                   type="text"
@@ -402,7 +403,7 @@ export const Comprar = () => {
                 />
                 {errors.idPago && (
                   <div className="alert alert-danger p-1" role="alert">
-                    Introduzca su id de pago
+                    Introduzca su Número de referencia
                   </div>
                 )}
               </div>
@@ -422,5 +423,5 @@ export const Comprar = () => {
         <TalonarioFinalizado />
       )}
     </div>
-  );
-};
+  )
+}
