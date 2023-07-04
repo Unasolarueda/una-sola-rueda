@@ -59,7 +59,7 @@ export const Payments = () => {
               <th scope="col">Método de pago</th>
               <th scope="col">Celular</th>
               <th scope="col">Nombre</th>
-              <th scope="col"># Refernecia</th>
+              <th scope="col"># Referencia</th>
               <th scope="col">Tickets comprados</th>
               <th scope="col">Total</th>
             </tr>
