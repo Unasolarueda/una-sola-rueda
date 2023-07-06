@@ -348,9 +348,7 @@ export const Comprar = () => {
                     onChange={(event) => setPaymentMethod(event.target.value)}
                   >
                     <option value="">Seleccione método de pago</option>
-                    <option value="banco santander">
-                      banco santander Chile
-                    </option>
+                    <option value="banco santander">banco estado Chile</option>
                     <option value="pago movil">Pago móvil</option>
                     <option value="zelle">Zelle</option>
                   </select>
@@ -364,11 +362,12 @@ export const Comprar = () => {
                 </div>
               ) : paymentMethod == 'banco santander' ? (
                 <div className="datos-transferencia">
-                  Henrique Jose Leon Infante <br />
-                  26.102.807-7 <br />
-                  Cuenta: 71004321280 <br />
-                  Banco: Santander <br />
-                  Tipo de cuenta: Vista <br />
+                  Teryl Castillo
+                  <br />
+                  Banco: banco estado <br />
+                  Número de cta: 26935972 <br />
+                  Rut: 26.935.972-2 <br />
+                  Tipo de cta: vista <br />
                 </div>
               ) : (
                 paymentMethod == 'zelle' && (
