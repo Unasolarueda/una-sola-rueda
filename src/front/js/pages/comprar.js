@@ -348,7 +348,9 @@ export const Comprar = () => {
                     onChange={(event) => setPaymentMethod(event.target.value)}
                   >
                     <option value="">Seleccione método de pago</option>
-                    <option value="banco santander">banco estado Chile</option>
+                    <option value="banco santander">
+                      Los Heroes PrePago Chile
+                    </option>
                     <option value="pago movil">Pago móvil</option>
                     <option value="zelle">Zelle</option>
                   </select>
@@ -362,12 +364,12 @@ export const Comprar = () => {
                 </div>
               ) : paymentMethod == 'banco santander' ? (
                 <div className="datos-transferencia">
-                  Teryl Castillo
+                  Banco: Los Heroes PrePago <br />
+                  Tipo de cta: Cuenta Vista Los Héroes
                   <br />
-                  Banco: banco estado <br />
-                  Número de cta: 26935972 <br />
+                  Teléfono: +56930016493 <br />
+                  Número de cta: 126935972 <br />
                   Rut: 26.935.972-2 <br />
-                  Tipo de cta: vista <br />
                 </div>
               ) : (
                 paymentMethod == 'zelle' && (
@@ -418,8 +420,12 @@ export const Comprar = () => {
             </form>
           </div>
         </>
-      ) : (
+      ) : store.talonarioCompra?.status == 'finalizada' ? (
         <TalonarioFinalizado />
+      ) : (
+        <div class="spinner-border text-danger" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
       )}
     </div>
   )
