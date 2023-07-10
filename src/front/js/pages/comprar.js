@@ -364,6 +364,8 @@ export const Comprar = () => {
                 </div>
               ) : paymentMethod == 'banco santander' ? (
                 <div className="datos-transferencia">
+                  Teryl Castillo
+                  <br />
                   Banco: Los Heroes PrePago <br />
                   Tipo de cta: Cuenta Vista Los Héroes
                   <br />
