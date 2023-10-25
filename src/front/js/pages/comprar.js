@@ -127,7 +127,7 @@ export const Comprar = () => {
   const getTasaDolar = async () => {
     try {
       const response = await fetch(
-        'https://venecodollar.vercel.app/api/v2/dollar/entity?name=EnParaleloVzla',
+        'https://venecodollar.vercel.app/api/v2/dollar/entity?name=D%C3%B3lar%20Monitor',
       );
       if (!response.ok) {
         const error = await response.json();
@@ -426,8 +426,8 @@ export const Comprar = () => {
       ) : store.talonarioCompra?.status == 'finalizada' ? (
         <TalonarioFinalizado />
       ) : (
-        <div class="spinner-border text-danger" role="status">
-          <span class="visually-hidden">Loading...</span>
+        <div className="spinner-border text-danger" role="status">
+          <span className="visually-hidden">Loading...</span>
         </div>
       )}
     </div>
