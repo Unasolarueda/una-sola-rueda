@@ -252,6 +252,18 @@ def delete_ticket(ticket_id=None):
         
                 except Exception as error:
                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+
+#enpoint para buscar tickets por payment_id de un talonario especifico
+@api.route('/tickets/<int:payment_id>/<int:talonario_id>', methods=['GET'])
+def get_tickets_by_payment_id(payment_id, talonario_id):
+    if request.method == "GET":
+        tickets = Ticket.query.filter_by(payment_id=payment_id, talonario_id=talonario_id)
+        tickets_dictionaries = []
+        for ticket in tickets:
+            tickets_dictionaries.append(ticket.serialize())
+        
+        return jsonify(tickets_dictionaries)
+
                 
 #endpoints payments
 @api.route('/payment', methods=['POST'])
