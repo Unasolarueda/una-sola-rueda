@@ -1,43 +1,44 @@
-import React, { useEffect, useContext, useState } from 'react'
-import { useNavigate, Link } from 'react-router-dom'
-import { NewTalonario } from '../component/newTalonario'
-import { Context } from '../store/appContext'
-import Swal from 'sweetalert2'
-import '../../styles/talonario.css'
-import { Payments } from '../component/payments'
-import { BtnCompartir } from '../component/btnCompartir'
+import React, { useEffect, useContext, useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { NewTalonario } from '../component/newTalonario';
+import { Context } from '../store/appContext';
+import Swal from 'sweetalert2';
+import '../../styles/talonario.css';
+import { Payments } from '../component/payments';
+import { BtnCompartir } from '../component/btnCompartir';
+import { TopParticipants } from '../component/topParticipants';
 
 export const Talonario = () => {
-  const { store, actions } = useContext(Context)
-  const navigate = useNavigate()
-  const [ticketSelected, setTicketSelected] = useState({})
+  const { store, actions } = useContext(Context);
+  const navigate = useNavigate();
+  const [ticketSelected, setTicketSelected] = useState({});
 
   useEffect(() => {
     if (!store.token) {
-      navigate('/')
+      navigate('/');
     }
-  }, [store.token])
+  }, [store.token]);
 
   useEffect(() => {
-    if (store.talonarios && store.talonarios.length > 0) return
-    actions.getTalonarios()
-  }, [])
+    if (store.talonarios && store.talonarios.length > 0) return;
+    actions.getTalonarios();
+  }, []);
 
   useEffect(() => {
-    actions.numberFilter(store.reservedTickets, store.talonarioSelect?.numbers)
-  }, [store.reservedTickets])
+    actions.numberFilter(store.reservedTickets, store.talonarioSelect?.numbers);
+  }, [store.reservedTickets]);
 
   useEffect(() => {
     if (store.talonarioSelect !== null) {
-      actions.getTickets(store?.talonarioSelect?.id)
+      actions.getTickets(store?.talonarioSelect?.id);
     }
-  }, [store.talonarioSelect])
+  }, [store.talonarioSelect]);
 
   useEffect(() => {
     if (store.talonarios.length > 0) {
-      actions.selectTalonario(store.talonarios[0].id)
+      actions.selectTalonario(store.talonarios[0].id);
     }
-  }, [store.talonarios])
+  }, [store.talonarios]);
 
   const deleteTalonario = () => {
     Swal.fire({
@@ -47,23 +48,23 @@ export const Talonario = () => {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar'
+      confirmButtonText: 'Si, eliminar',
     }).then((result) => {
       if (result.isConfirmed) {
         actions.deleteTalonario(store.talonarioSelect.id).then((response) => {
           if (response) {
-            Swal.fire('Rifa eliminada!', 'El talonario se elimino', 'success')
+            Swal.fire('Rifa eliminada!', 'El talonario se elimino', 'success');
           } else {
             Swal.fire(
               'Rifa no eliminada!',
               'El talonario no pudo ser eliminado',
-              'error'
-            )
+              'error',
+            );
           }
-        })
+        });
       }
-    })
-  }
+    });
+  };
 
   const finishTalonario = () => {
     Swal.fire({
@@ -73,7 +74,7 @@ export const Talonario = () => {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, finalizar'
+      confirmButtonText: 'Si, finalizar',
     }).then((result) => {
       if (result.isConfirmed) {
         actions.updateTalonario(store.talonarioSelect.id).then((response) => {
@@ -81,19 +82,19 @@ export const Talonario = () => {
             Swal.fire(
               'Rifa finalizada!',
               'El talonario se actualizo a estado finalizado',
-              'success'
-            )
+              'success',
+            );
           } else {
             Swal.fire(
               'Rifa no finalizada!',
               'El talonario no pudo ser marcado como finalizado',
-              'error'
-            )
+              'error',
+            );
           }
-        })
+        });
       }
-    })
-  }
+    });
+  };
 
   return (
     <>
@@ -103,7 +104,9 @@ export const Talonario = () => {
             <h1>{store.talonarioSelect?.name}</h1>
             <BtnCompartir talonario={store.talonarioSelect} />
             <NewTalonario />
+
             <div className="d-flex flex-column align-items-center mt-3">
+              <TopParticipants talonarioId={store.talonarioSelect?.id} />
               <label className="h4">Nuestra meta:</label>
 
               <div className="progress">
@@ -115,7 +118,7 @@ export const Talonario = () => {
                     width: `${
                       (store.reservedTickets.length * 100) /
                       store.talonarioSelect?.numbers
-                    }%`
+                    }%`,
                   }}
                   aria-valuenow="25"
                   aria-valuemin="0"
@@ -145,7 +148,7 @@ export const Talonario = () => {
                     setTicketSelected({
                       value: numero.value,
                       numero: numero.numero,
-                      status: numero.status
+                      status: numero.status,
                     })
                   }
                 >
@@ -206,7 +209,7 @@ export const Talonario = () => {
                   onClick={(e) =>
                     actions.infoTicket(
                       ticketSelected.numero,
-                      store.talonarioSelect.id
+                      store.talonarioSelect.id,
                     )
                   }
                 >
@@ -265,5 +268,5 @@ export const Talonario = () => {
         </div>
       </div>
     </>
-  )
-}
+  );
+};

@@ -1,36 +1,99 @@
-import React, { useEffect, useContext, useState } from 'react'
-import { Context } from '../store/appContext'
+import React, { useEffect, useContext, useState, useCallback } from 'react';
+import { Context } from '../store/appContext';
+import { PaymentDetail } from './paymentDetail';
 
 export const Payments = () => {
-  const { store, actions } = useContext(Context)
-  const [showPayment, setShowPayment] = useState(true)
-  useEffect(() => {
-    if (store?.talonarioSelect?.id !== undefined) {
-      actions.getPayments(store?.talonarioSelect?.id)
-    }
-  }, [store.talonarioSelect])
+  const { store, actions } = useContext(Context);
+  const [togglePaymentDetails, setTogglePaymentDetails] = useState(false);
+  const [detailPayments, setDetailPayments] = useState([]);
+  const [search, setSearch] = useState('');
+  const [showPayment, setShowPayment] = useState(true);
+
+  const handleTogglePaymentDetails = useCallback(() => {
+    setTogglePaymentDetails(!togglePaymentDetails);
+  }, [togglePaymentDetails]);
 
   const handlePayment = async (number_of_tickets, talonario_id, paymentId) => {
     let response = await actions.buyTickets(
       number_of_tickets,
       talonario_id,
-      paymentId
-    )
+      paymentId,
+    );
     if (response) {
-      actions.toggleMessage('Tickets reservados', true)
-      let responsePayment = await actions.updatePayment(paymentId, talonario_id)
+      actions.toggleMessage('Tickets reservados', true);
+      let responsePayment = await actions.updatePayment(
+        paymentId,
+        talonario_id,
+      );
       if (responsePayment) {
-        actions.toggleMessage('Pago aprobado', true)
-        await actions.sendEmailVerifiedPayment(paymentId)
-      } else actions.toggleMessage('El pago no pudo ser aprobado', false)
+        actions.toggleMessage('Pago aprobado', true);
+        await actions.sendEmailVerifiedPayment(paymentId);
+      } else actions.toggleMessage('El pago no pudo ser aprobado', false);
     } else {
-      actions.toggleMessage('No se pudo reservar los tickets', false)
+      actions.toggleMessage('No se pudo reservar los tickets', false);
     }
-  }
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    setSearch(event.target.value);
+  };
+
+  const handleDetailPayment = async (paymentId) => {
+    const response = await actions.getTicketsByPaymentId(
+      paymentId,
+      store?.talonarioSelect?.id,
+    );
+    if (response) {
+      setDetailPayments(response);
+      if (!togglePaymentDetails) {
+        handleTogglePaymentDetails();
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (store?.talonarioSelect?.id !== undefined) {
+      actions.getPayments2(store?.talonarioSelect?.id);
+      setSearch('');
+    }
+  }, [store.talonarioSelect]);
+
+  useEffect(() => {
+    let timeoutId;
+
+    timeoutId = setTimeout(() => {
+      actions.getPayments2(store?.talonarioSelect?.id, search);
+    }, 500);
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [search]);
 
   return (
     <div className="mt-3">
       <h3>Pagos</h3>
+      <div className="d-flex justify-content-center w-100 my-3">
+        <input
+          className="w-50 form-control"
+          type="text"
+          placeholder="Buscar por nombre, celular, referencia, email"
+          onChange={handleSearch}
+          value={search}
+        />
+      </div>
+
+      <div className="d-flex justify-content-center w-100 my-3">
+        {togglePaymentDetails ? (
+          <PaymentDetail
+            onClick={handleTogglePaymentDetails}
+            details={detailPayments}
+          />
+        ) : null}
+      </div>
 
       <div className="container  table-responsive table-user  mb-4">
         <div className="d-flex justify-content-center gap-2 mt-1">
@@ -68,20 +131,31 @@ export const Payments = () => {
             {store.payments
               .filter((payment) => {
                 if (showPayment) {
-                  return payment.status == `no-aprobado`
+                  return payment.status == `no-aprobado`;
                 } else {
-                  return payment.status == `aprobado`
+                  return payment.status == `aprobado`;
                 }
               })
               .map((payment, index) => (
                 <tr key={payment.id}>
-                  <th scope="row">{payment.id}</th>
+                  <th scope="row">
+                    <div className="d-flex flex-column">
+                      <span>{payment.id}</span>
+                      {payment.status == `aprobado` ? (
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => handleDetailPayment(payment.id)}
+                        >
+                          Ver Tickets
+                        </button>
+                      ) : null}
+                    </div>
+                  </th>
                   <td>
                     {new Date(payment.date).toLocaleDateString('es-ES', {
-                      weekday: 'short',
                       year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
+                      month: 'short',
+                      day: 'numeric',
                     })}
                   </td>
                   <td>{payment.payment_method}</td>
@@ -99,7 +173,7 @@ export const Payments = () => {
                             handlePayment(
                               payment.number_of_tickets,
                               payment.talonario_id,
-                              payment.id
+                              payment.id,
                             )
                           }
                         >
@@ -112,7 +186,7 @@ export const Payments = () => {
                           onClick={() =>
                             actions.deletePayment(
                               payment.id,
-                              payment.talonario_id
+                              payment.talonario_id,
                             )
                           }
                         >
@@ -127,5 +201,5 @@ export const Payments = () => {
         </table>
       </div>
     </div>
-  )
-}
+  );
+};

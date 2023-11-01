@@ -2,8 +2,8 @@ const getState = ({ getStore, getActions, setStore }) => {
   return {
     store: {
       imageUrls: {},
-      token: sessionStorage.getItem("token") || null,
-      role: sessionStorage.getItem("role") || null,
+      token: sessionStorage.getItem('token') || null,
+      role: sessionStorage.getItem('role') || null,
       users: [],
       talonarios: [],
       talonarioSelect: null,
@@ -13,7 +13,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       payments: [],
       tickets: [],
       infoTicket: null,
-      message: { text: "", type: false },
+      message: { text: '', type: false },
     },
     actions: {
       toggleMessage: (text, type) => {
@@ -28,9 +28,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       login: async (email, password) => {
         const opts = {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             email: email,
@@ -40,26 +40,26 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/user/login`,
-            opts
+            opts,
           );
 
           if (!response.ok) {
             return false;
           }
           const data = await response.json();
-          sessionStorage.setItem("token", data.token);
-          sessionStorage.setItem("role", data.role);
+          sessionStorage.setItem('token', data.token);
+          sessionStorage.setItem('role', data.role);
           setStore({ token: data.token });
           setStore({ role: data.role });
           return true;
         } catch (error) {
-          console.error("There was been an error login in");
+          console.error('There was been an error login in');
         }
       },
 
       logout: () => {
-        sessionStorage.removeItem("token");
-        sessionStorage.removeItem("role");
+        sessionStorage.removeItem('token');
+        sessionStorage.removeItem('role');
         setStore({ token: null });
         setStore({ role: null });
       },
@@ -75,7 +75,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const response = await fetch(`${process.env.BACKEND_URL}/user`, opts);
           if (!response.ok) {
-            alert("no se pudo obteber usuarios");
+            alert('no se pudo obteber usuarios');
             return false;
           }
 
@@ -91,9 +91,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore();
         const actions = getActions();
         const opts = {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${store.token}`,
           },
           body: JSON.stringify({
@@ -118,19 +118,19 @@ const getState = ({ getStore, getActions, setStore }) => {
       deleteUser: async (userId) => {
         const actions = getActions();
         const opts = {
-          method: "DELETE",
+          method: 'DELETE',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         };
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/user/${userId}`,
-            opts
+            opts,
           );
 
           if (!response.ok) {
-            alert("No se pudo eliminar");
+            alert('No se pudo eliminar');
             return false;
           }
           let data = await response.json();
@@ -145,9 +145,9 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore();
         const actions = getActions();
         const opts = {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${store.token}`,
           },
           body: JSON.stringify({
@@ -162,7 +162,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/talonario`,
-            opts
+            opts,
           );
           if (!response.ok) {
             const error = await response.json();
@@ -179,15 +179,15 @@ const getState = ({ getStore, getActions, setStore }) => {
       updateTalonario: async (talonarioId) => {
         const actions = getActions();
         const opts = {
-          method: "PUT",
+          method: 'PUT',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         };
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/talonario/${talonarioId}`,
-            opts
+            opts,
           );
           if (!response.ok) {
             const error = await response.json();
@@ -204,15 +204,15 @@ const getState = ({ getStore, getActions, setStore }) => {
       deleteTalonario: async (talonarioId) => {
         const actions = getActions();
         const opts = {
-          method: "DELETE",
+          method: 'DELETE',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         };
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/talonario/${talonarioId}`,
-            opts
+            opts,
           );
           if (!response.ok) {
             const error = await response.json();
@@ -231,16 +231,16 @@ const getState = ({ getStore, getActions, setStore }) => {
         const actions = getActions();
 
         const opts = {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${store.token}`,
           },
         };
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/talonario`,
-            opts
+            opts,
           );
           if (!response.ok) {
             const error = await response.json();
@@ -259,15 +259,15 @@ const getState = ({ getStore, getActions, setStore }) => {
         const actions = getActions();
 
         const opts = {
-          method: "GET",
+          method: 'GET',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
         };
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/talonario/${talonarioId}`,
-            opts
+            opts,
           );
           if (!response.ok) {
             const error = await response.json();
@@ -284,7 +284,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       selectTalonario: (talonarioId) => {
         const store = getStore();
         const talonario = store.talonarios.find(
-          (talonario) => talonario.id == talonarioId
+          (talonario) => talonario.id == talonarioId,
         );
         setStore({ talonarioSelect: talonario });
       },
@@ -294,10 +294,10 @@ const getState = ({ getStore, getActions, setStore }) => {
         const actions = getActions();
         try {
           const response = await fetch(`${process.env.BACKEND_URL}/payment`, {
-            method: "POST",
+            method: 'POST',
             body: JSON.stringify(data),
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           });
 
@@ -322,7 +322,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         };
         const response = await fetch(
           `${process.env.BACKEND_URL}/ticket/${talonarioID}`,
-          opts
+          opts,
         );
         try {
           if (!response.ok) {
@@ -336,18 +336,35 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      getTicketsByPaymentId: async (paymentId, talonarioId) => {
+        try {
+          const response = await fetch(
+            `${process.env.BACKEND_URL}/tickets/${paymentId}/${talonarioId}`,
+          );
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+          let data = await response.json();
+          return data;
+        } catch (error) {
+          console.error(error);
+          return false;
+        }
+      },
+
       reserveTickets: async (numbers, talonario_id, payment_id) => {
         const store = getStore();
         const actions = getActions();
 
         const opts = {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             numbers: numbers,
-            status: "reservado",
+            status: 'reservado',
             talonario_id: talonario_id,
             payment_id: payment_id,
           }),
@@ -355,7 +372,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/ticket`,
-            opts
+            opts,
           );
           if (!response.ok) {
             const error = await response.json();
@@ -375,7 +392,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
         function getRandomTicketNumbers(tickets, numberOfTickets) {
           const ticketsAvailable = tickets.filter(
-            (ticket) => ticket.status == "disponible"
+            (ticket) => ticket.status == 'disponible',
           );
           if (numberOfTickets > ticketsAvailable.length) {
             return false;
@@ -385,7 +402,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
           while (result.length < numberOfTickets) {
             let randomIndex = Math.floor(
-              Math.random() * ticketsAvailable.length
+              Math.random() * ticketsAvailable.length,
             );
             let ticketNumber = ticketsAvailable[randomIndex].numero;
             if (result.indexOf(ticketNumber) === -1) {
@@ -398,7 +415,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         //Llamamos la funcion return false en caso de haber muchos tickets hay que colocar un if para ver si return false o result
         let randomTicketNumbers = getRandomTicketNumbers(
           store.tickets,
-          numberOfTickets
+          numberOfTickets,
         );
         if (randomTicketNumbers) {
           setStore({ ticketToreserve: randomTicketNumbers });
@@ -406,7 +423,7 @@ const getState = ({ getStore, getActions, setStore }) => {
           const responserReserve = await actions.reserveTickets(
             randomTicketNumbers,
             talonarioId,
-            paymentId
+            paymentId,
           );
           return responserReserve;
         } else {
@@ -417,9 +434,9 @@ const getState = ({ getStore, getActions, setStore }) => {
       sendEmailVerifiedPayment: async (paymentId) => {
         const store = getStore();
         const opts = {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
             Authorization: `Bearer ${store.token}`,
           },
           body: JSON.stringify({
@@ -429,7 +446,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/verified-payment/${paymentId}`,
-            opts
+            opts,
           );
           if (!response.ok) {
             const error = await response.json();
@@ -444,7 +461,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
       infoTicket: async (numero, talonarioID) => {
         const response = await fetch(
-          `${process.env.BACKEND_URL}/ticket/${numero}/${talonarioID}`
+          `${process.env.BACKEND_URL}/ticket/${numero}/${talonarioID}`,
         );
         try {
           if (!response.ok) {
@@ -463,7 +480,7 @@ const getState = ({ getStore, getActions, setStore }) => {
       getPayments: async (talonarioId) => {
         const store = getStore();
         const response = await fetch(
-          `${process.env.BACKEND_URL}/payment/${talonarioId}`
+          `${process.env.BACKEND_URL}/payment/${talonarioId}`,
         );
         try {
           if (!response.ok) {
@@ -483,17 +500,57 @@ const getState = ({ getStore, getActions, setStore }) => {
         }
       },
 
+      getPayments2: async (talonarioId, search = '') => {
+        const store = getStore();
+        const response = await fetch(
+          `${process.env.BACKEND_URL}/payments/${talonarioId}?search=${search}`,
+        );
+        try {
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+          let data = await response.json();
+          let sortedPayments = data.sort((a, b) => {
+            return b.id - a.id;
+          });
+
+          setStore({ payments: sortedPayments });
+          return true;
+        } catch {
+          console.error(error);
+          return false;
+        }
+      },
+
+      getTopParticipants: async (talonarioId) => {
+        const response = await fetch(
+          `${process.env.BACKEND_URL}/payments/top-tickets/${talonarioId}`,
+        );
+        try {
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message);
+          }
+          let data = await response.json();
+          return data;
+        } catch (error) {
+          console.error(error);
+          return false;
+        }
+      },
+
       updatePayment: async (paymentId, talonarioId) => {
         const actions = getActions();
         try {
           const response = await fetch(
             `${process.env.BACKEND_URL}/payment/${paymentId}`,
             {
-              method: "PUT",
+              method: 'PUT',
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
-            }
+            },
           );
           if (!response.ok) {
             const error = await response.json();
@@ -513,21 +570,21 @@ const getState = ({ getStore, getActions, setStore }) => {
           const response = await fetch(
             `${process.env.BACKEND_URL}/payment/${paymentId}`,
             {
-              method: "DELETE",
+              method: 'DELETE',
               headers: {
-                "Content-Type": "application/json",
+                'Content-Type': 'application/json',
               },
-            }
+            },
           );
           if (!response.ok) {
             const error = await response.json();
             throw new Error(error.message);
           }
           actions.getPayments(talonarioId);
-          actions.toggleMessage("Pago eliminado", true);
+          actions.toggleMessage('Pago eliminado', true);
           return true;
         } catch (error) {
-          actions.toggleMessage("El pago no pudo ser eliminado", false);
+          actions.toggleMessage('El pago no pudo ser eliminado', false);
           console.error(error);
           return false;
         }
@@ -537,13 +594,13 @@ const getState = ({ getStore, getActions, setStore }) => {
         const store = getStore();
         let num = [];
         const numerosReservados = reservedTickets.map((numero) => {
-          if (numero.status == "reservado") {
+          if (numero.status == 'reservado') {
             return numero.number;
           }
         });
 
         const numerosPagados = reservedTickets.map((numero) => {
-          if (numero.status == "pagado") {
+          if (numero.status == 'pagado') {
             return numero.number;
           }
         });
@@ -551,21 +608,21 @@ const getState = ({ getStore, getActions, setStore }) => {
         for (let i = 0; i < numeros; i++) {
           if (numerosReservados.includes(i)) {
             num.push({
-              value: i.toString().padStart(String(numeros).length - 1, "0"),
+              value: i.toString().padStart(String(numeros).length - 1, '0'),
               numero: i,
-              status: "reservado",
+              status: 'reservado',
             });
           } else if (numerosPagados.includes(i)) {
             num.push({
-              value: i.toString().padStart(String(numeros).length - 1, "0"),
+              value: i.toString().padStart(String(numeros).length - 1, '0'),
               numero: i,
-              status: "pagado",
+              status: 'pagado',
             });
           } else {
             num.push({
-              value: i.toString().padStart(String(numeros).length - 1, "0"),
+              value: i.toString().padStart(String(numeros).length - 1, '0'),
               numero: i,
-              status: "disponible",
+              status: 'disponible',
             });
           }
         }

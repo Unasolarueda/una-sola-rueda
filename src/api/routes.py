@@ -13,6 +13,9 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from datetime import datetime
+from sqlalchemy import and_, or_, func
+
+
 
 api = Blueprint('api', __name__)
 
@@ -252,8 +255,8 @@ def delete_ticket(ticket_id=None):
         
                 except Exception as error:
                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+                
 
-#enpoint para buscar tickets por payment_id de un talonario especifico
 @api.route('/tickets/<int:payment_id>/<int:talonario_id>', methods=['GET'])
 def get_tickets_by_payment_id(payment_id, talonario_id):
     if request.method == "GET":
@@ -263,6 +266,26 @@ def get_tickets_by_payment_id(payment_id, talonario_id):
             tickets_dictionaries.append(ticket.serialize())
         
         return jsonify(tickets_dictionaries)
+    
+
+#endpoint para buscar en un en el modelo Payments en un talonario en especifico los 3 email con mas tickets y retorne un json con name, email y numero de tickets
+# @api.route('/payments/top-tickets/<int:talonario_id>', methods=['GET'])
+# def get_top_tickets(talonario_id):
+#     if request.method == "GET":
+#         query = db.session.query(Payment.name, Payment.email, func.count(Ticket.id)).join(Ticket).filter(Payment.talonario_id == talonario_id).group_by(Payment.name, Payment.email).order_by(func.count(Ticket.id).desc()).limit(10).all()
+        
+#         top_tickets = [{"name": name, "email": email, "ticket_count": count} for name, email, count in query]
+        
+#         return jsonify(top_tickets)
+
+@api.route('/payments/top-tickets/<int:talonario_id>', methods=['GET'])
+def get_top_tickets(talonario_id):
+    if request.method == "GET":
+        query = db.session.query(Payment.email, func.count(Ticket.id)).join(Ticket).filter(Payment.talonario_id == talonario_id).group_by(Payment.email).order_by(func.count(Ticket.id).desc()).limit(3).all()
+        
+        top_tickets = [{"email": email, "ticket_count": count} for email, count in query]
+        
+        return jsonify(top_tickets)
 
                 
 #endpoints payments
@@ -333,6 +356,20 @@ def delete_payment(payment_id=None):
         
                 except Exception as error:
                     return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
+
+@api.route('/payments/<int:talonario_id>', methods=['GET'])
+def get_payments(talonario_id):
+    querySearch= f'%{request.args.get("search","")}%'
+
+    query = Payment.query.filter(or_(Payment.email.ilike(querySearch), Payment.phone.ilike(querySearch), Payment.name.ilike(querySearch), Payment.payment_id.ilike(querySearch))).filter(Payment.talonario_id == talonario_id)
+
+    query = query.all()
+
+    payments_dictionaries = []
+    for payment in query:
+        payments_dictionaries.append(payment.serialize())
+    
+    return jsonify(payments_dictionaries)
 
 #endpoint emails
 @api.route('/verify-pay/<int:payment_id>', methods = ['POST'])
