@@ -530,7 +530,7 @@ const getState = ({ getStore, getActions, setStore }) => {
         try {
           if (!response.ok) {
             const error = await response.json();
-            throw new Error(error.message);
+            throw new Error(error);
           }
           let data = await response.json();
           return data;

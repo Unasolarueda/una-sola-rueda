@@ -123,7 +123,9 @@ def get_talonario(talonario_id):
     if request.method == 'GET':
         talonario = Talonario.query.filter_by(id = talonario_id).first()
 
-
+        if talonario is None:
+            return jsonify({"message": "talonario not found"}),404
+        
         return (talonario.serialize()),200
 
 
@@ -284,7 +286,7 @@ def get_top_tickets(talonario_id):
         query = db.session.query(Payment.email, func.count(Ticket.id)).join(Ticket).filter(Payment.talonario_id == talonario_id).group_by(Payment.email).order_by(func.count(Ticket.id).desc()).limit(3).all()
         
         top_tickets = [{"email": email, "ticket_count": count} for email, count in query]
-        
+
         return jsonify(top_tickets)
 
                 
@@ -730,14 +732,17 @@ def verified_payment(payment_id):
 
         data_payment = Payment.query.filter_by(id = payment_id).first()
         data_talonario = Talonario.query.filter_by(id = data_payment.talonario_id).first()
+        user = User.query.filter_by(id = data_talonario.user_id).first()
         numbers_div = ""
         new_numbers = number_to_string(numbers, data_talonario.numbers)
         
         for number in new_numbers:
             numbers_div = numbers_div + f"<span style='margin-right: 20px' ><strong>{number}</strong></span>"
         
-        sender = os.environ.get('EMAIL')
+        sender = user.email
         receptor = data_payment.email
+
+        pwd = os.environ.get("PWD_EMAIL_PRINCIPAL") if user.email == os.environ.get("EMAIL_PRINCIPAL") else os.environ.get("PWD_EMAIL_2")
        
         message = MIMEMultipart('alternatives')
         message['Subject'] = f"Unasolarueda.com - Orden {data_payment.id}"
@@ -1143,7 +1148,7 @@ def verified_payment(payment_id):
         try:
             server = smtplib.SMTP("smtp.gmail.com",587)
             server.starttls()
-            server.login(sender,os.environ.get('PWD_EMAIL'))
+            server.login(sender,pwd)
             server.sendmail(sender,receptor,message.as_string())
             server.quit()
             print("Email send")
@@ -1151,5 +1156,6 @@ def verified_payment(payment_id):
         except Exception as error:
             print(error)
             print("Email not sending, error")
+            db.session.rollback()
             return jsonify({"message":"Error, try again, later"}),500
         

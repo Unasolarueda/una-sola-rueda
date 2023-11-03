@@ -13,6 +13,7 @@ export const TopParticipants = ({ talonarioId }) => {
   };
 
   useEffect(() => {
+    if (!talonarioId) return;
     getTopParticipants();
   }, [talonarioId]);
 

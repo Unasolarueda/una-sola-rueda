@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
-import { Context } from '../store/appContext'
+import React, { Component } from 'react';
+import { Context } from '../store/appContext';
 
 class CloudinaryUploadWidget extends Component {
-  static contextType = Context
+  static contextType = Context;
   componentDidMount() {
-    const cloudName = 'dernmijnb' // replace with your own cloud name
-    const uploadPreset = 'm3soqsno'
+    // const cloudName = 'dernmijnb' // replace with your own cloud name
+    // const uploadPreset = 'm3soqsno'
+    const cloudName = process.env.CLOUD_NAME;
+    const uploadPreset = process.env.UPLOAD_PRESET;
     // Remove the comments from the code below to add
     // additional functionality.
     // Note that these are only a few examples, to see
@@ -20,7 +22,7 @@ class CloudinaryUploadWidget extends Component {
         // cropping: true, //add a cropping step
         // showAdvancedOptions: true,  //add advanced options (public_id and tag)
         // sources: [ "local", "url"], // restrict the upload sources to URL and local files
-        multiple: false //restrict upload to a single file
+        multiple: false, //restrict upload to a single file
         //folder: "img_talonarios", //upload files to the specified folder
         // tags: ["users", "profile"], //add the given tags to the uploaded files
         // context: {alt: "user_uploaded"}, //add the given context data to the uploaded files
@@ -31,24 +33,24 @@ class CloudinaryUploadWidget extends Component {
       },
       (error, result) => {
         if (!error && result && result.event === 'success') {
-          console.log('Done! Here is the image info: ', result.info)
-          console.log(result.info)
+          console.log('Done! Here is the image info: ', result.info);
+          console.log(result.info);
           this.context.actions.addImageUrl(
             result.info.secure_url,
             result.info.thumbnail_url,
-            result.info.public_id
-          )
+            result.info.public_id,
+          );
         }
-      }
-    )
+      },
+    );
     document.getElementById('upload_widget').addEventListener(
       'click',
       function (e) {
-        e.preventDefault()
-        myWidget.open()
+        e.preventDefault();
+        myWidget.open();
       },
-      false
-    )
+      false,
+    );
   }
 
   render() {
@@ -58,8 +60,8 @@ class CloudinaryUploadWidget extends Component {
           Upload
         </button>
       </div>
-    )
+    );
   }
 }
 
-export default CloudinaryUploadWidget
+export default CloudinaryUploadWidget;
