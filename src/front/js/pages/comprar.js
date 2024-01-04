@@ -356,6 +356,7 @@ export const Comprar = () => {
                     <option value="zelle">ZELLE</option>
                     <option value="binance usdt">BINANCE USDT</option>
                   </select>
+                  </div>
                 </div>
               </div>
               {paymentMethod == 'pago movil' ? (
@@ -384,13 +385,13 @@ export const Comprar = () => {
                       Nota:con el numero podra hacer el zelle sin usar correo
                     </p>
                   </div>
-               ) : paymentMethod == 'binance usdt' ? (
+               ) : paymentMethod == 'binance usdt' && (
                  <div className="datos-transferencia">
                  <p>ID BINANCE </p>
                  <p>USUARIO NAME </p>
                  <p>
                       Nota:con el ID BINANCE podra hacer el pago sin usar correo
-               </p>
+                 </p>
                </div>
                 )
               )}
