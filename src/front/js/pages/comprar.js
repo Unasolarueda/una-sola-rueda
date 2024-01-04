@@ -384,15 +384,6 @@ export const Comprar = () => {
                       Nota:con el numero podra hacer el zelle sin usar correo
                     </p>
                   </div>
-               ) : (
-                paymentMethod == 'binance usdt' && (
-                  <div className="datos-transferencia">
-                    <p>ID BINANCE </p>
-                    <p>NOMBRE USUARIO </p>
-                    <p>
-                      Nota:con el ID podra hacer el pago sin usar correo
-                    </p>
-                  </div>
                 )
               )}
               {errors.paymentMethod && (
