@@ -297,7 +297,7 @@ export const Comprar = () => {
                   htmlFor="validationCustom02"
                   className="form-label fw-bold"
                 >
-                  Número Teléfono:
+                  Número de teléfono:
                 </label>
                 <input
                   type="text"
@@ -348,7 +348,7 @@ export const Comprar = () => {
                     value={paymentMethod}
                     onChange={(event) => setPaymentMethod(event.target.value)}
                   >
-                    <option value="">Seleccione método de pago</option>
+                    <option value="">Seleccione su método de pago</option>
                     <option value="banco santander">
                       Los Heroes PrePago Chile
                     </option>
@@ -395,7 +395,7 @@ export const Comprar = () => {
                   htmlFor="validationCustom02"
                   className="form-label fw-bold"
                 >
-                  Número de referencia - Operacion - Movimiento:
+                  Número de referencia - Operación - Movimiento:
                 </label>
                 <input
                   type="text"
