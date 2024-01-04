@@ -348,12 +348,13 @@ export const Comprar = () => {
                     value={paymentMethod}
                     onChange={(event) => setPaymentMethod(event.target.value)}
                   >
-                    <option value="">Seleccione su método de pago</option>
+                    <option value="">SELECCIONE SUS MÉTODOS DE PAGO</option>
                     <option value="banco santander">
-                      Los Heroes PrePago Chile
+                      LOS HEROES PREPAGO CHILE
                     </option>
-                    <option value="pago movil">Pago móvil</option>
-                    <option value="zelle">Zelle</option>
+                    <option value="pago movil">PAGO MÓVIL</option>
+                    <option value="zelle">ZELLE</option>
+                    <option value="binance">BINANCE</option>
                   </select>
                 </div>
               </div>
