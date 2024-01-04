@@ -53,7 +53,7 @@ export const Comprar = () => {
       if (response) {
         Swal.fire(
           'Tickets comprados con éxito',
-          'Su pago ha sido procesado, espere a que sea verificado, luego de ello recibirá un correo con sus números, tenga paciencia, no intente comprar nuevamente.',
+          'Su pago ha sido procesado, espere a que sea verificado, luego de ello recibirá un correo con sus números en su bandeja de spam, tenga paciencia, no intente comprar nuevamente, NUMERO DE SOPORTE SOLO VIA WHATSAPP NO LLAMADAS +584241326694',
           'success',
         );
         setName('');
