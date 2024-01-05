@@ -368,7 +368,7 @@ export const Comprar = () => {
                 <div className="datos-transferencia">
                   Id: 828178208 <br />
                   Alias: Therex78 <br />
-                  Nota: AL COLOCAR EL NUMERO DE REFENCIA DEL PAGO COLOCAR AL LADO SU ALIAS DE BINANCE <br />
+                  Nota: COLOCAR SU ALIAS DE BINANCE AL LADO DE LA REFERENCIA DEL PAGO <br />
                 </div>
               ) : paymentMethod == 'banco santander' ? (
                 <div className="datos-transferencia">
