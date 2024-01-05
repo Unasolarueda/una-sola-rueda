@@ -368,7 +368,7 @@ export const Comprar = () => {
                 <div className="datos-transferencia">
                   Id: 828178208 <br />
                   Alias: Therex78 <br />
-                  Nota: con el ID Binance podra hacer el pago sin usar correo <br />
+                  Nota: AL COLOCAR EL NUMERO DE REFENCIA DEL PAGO COLOCAR AL LADO SU ALIAS DE BINANCE <br />
                 </div>
               ) : paymentMethod == 'banco santander' ? (
                 <div className="datos-transferencia">
@@ -387,7 +387,7 @@ export const Comprar = () => {
                     <p>+13464535821 </p>
                     <p>Jesus Pasquale </p>
                     <p>
-                      Nota: con el numero indicado podra hacer el zelle sin usar correo
+                      Nota: CON EL NÚMERO INDICADO PODRA HACER EL PAGO SIN USAR EL CORREO
                     </p>
                   </div>
                 ) 
