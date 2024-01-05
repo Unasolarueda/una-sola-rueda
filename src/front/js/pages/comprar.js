@@ -364,6 +364,12 @@ export const Comprar = () => {
                   V-14072384 <br />
                   04241326694 <br />
                 </div>
+              ) : paymentMethod == 'binance' ? (
+                <div className="datos-transferencia">
+                  Binance 0102 <br />
+                  V-14072384 <br />
+                  04241326694 <br />
+                </div>
               ) : paymentMethod == 'banco santander' ? (
                 <div className="datos-transferencia">
                   Teryl Castillo
