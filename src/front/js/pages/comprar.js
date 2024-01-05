@@ -366,9 +366,9 @@ export const Comprar = () => {
                 </div>
               ) : paymentMethod == 'binance' ? (
                 <div className="datos-transferencia">
-                  ID: 828178208 <br />
-                  ALIAS: Therex78 <br />
-                  Nota:con el ID Binance podra hacer el pago sin usar correo <br />
+                  Id: 828178208 <br />
+                  Alias: Therex78 <br />
+                  Nota: con el ID Binance podra hacer el pago sin usar correo <br />
                 </div>
               ) : paymentMethod == 'banco santander' ? (
                 <div className="datos-transferencia">
@@ -387,7 +387,7 @@ export const Comprar = () => {
                     <p>+13464535821 </p>
                     <p>Jesus Pasquale </p>
                     <p>
-                      Nota:con el numero indicado podra hacer el zelle sin usar correo
+                      Nota: con el numero indicado podra hacer el zelle sin usar correo
                     </p>
                   </div>
                 ) 
