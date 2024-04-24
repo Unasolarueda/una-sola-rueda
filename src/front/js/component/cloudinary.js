@@ -5,7 +5,7 @@ class CloudinaryUploadWidget extends Component {
   static contextType = Context;
   componentDidMount() {
     // const cloudName = 'drwl7rtyd' // replace with your own cloud name
-    // const uploadPreset = 'causr24'
+    // const uploadPreset = 'noe5iqoz'
     const cloudName = process.env.CLOUD_NAME;
     const uploadPreset = process.env.UPLOAD_PRESET;
     // Remove the comments from the code below to add
