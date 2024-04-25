@@ -4,16 +4,10 @@ import { Context } from '../store/appContext';
 class CloudinaryUploadWidget extends Component {
   static contextType = Context;
   componentDidMount() {
-    // const cloudName = 'drwl7rtyd' // replace with your own cloud name
-    // const uploadPreset = 'noe5iqoz'
+   
     const cloudName = process.env.CLOUD_NAME;
     const uploadPreset = process.env.UPLOAD_PRESET;
-    // Remove the comments from the code below to add
-    // additional functionality.
-    // Note that these are only a few examples, to see
-    // the full list of possible parameters that you
-    // can add see:
-    //   https://cloudinary.com/documentation/upload_widget_reference
+   
 
     var myWidget = window.cloudinary.createUploadWidget(
       {
