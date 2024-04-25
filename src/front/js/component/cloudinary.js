@@ -4,8 +4,8 @@ import { Context } from '../store/appContext';
 class CloudinaryUploadWidget extends Component {
   static contextType = Context;
   componentDidMount() {
-    // const cloudName = 'dernmijnb' // replace with your own cloud name
-    // const uploadPreset = 'm3soqsno'
+    // const cloudName = 'drwl7rtyd' // replace with your own cloud name
+    // const uploadPreset = 'noe5iqoz'
     const cloudName = process.env.CLOUD_NAME;
     const uploadPreset = process.env.UPLOAD_PRESET;
     // Remove the comments from the code below to add
