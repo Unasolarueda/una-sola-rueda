@@ -14,7 +14,7 @@ export const Footer = () => (
         </div>
         <div className="col-md-2 col-lg-2 col-xl-2 mx-auto mt-3">
           <h5 className="text-uppercase text-center mb-4 font-weight-bold text-white">
-            Redes Sociales
+            Redes sociales
           </h5>
           <div className="d-flex gap-2 justify-content-center">
             <img src={whatsappLogo} className="social-media-logo" />
