@@ -375,7 +375,7 @@ export const Comprar = () => {
                   TERYL CASTILLO
                   <br />
                   Banco: Prepago Los Heroes <br />
-                  Tipo de cuenta: Cuenta Vista
+                  Tipo de Cuenta: Cuenta Vista
                   <br />
                   Teléfono: +56930016493 <br />
                   Número de Cuenta: 126935972 <br />
