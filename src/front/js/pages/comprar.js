@@ -375,10 +375,10 @@ export const Comprar = () => {
                   TERYL CASTILLO
                   <br />
                   Banco: Prepago Los Heroes <br />
-                  Tipo de cta: Cuenta Vista
+                  Tipo de cuenta: Cuenta Vista
                   <br />
                   Teléfono: +56930016493 <br />
-                  Cuenta Vista: 126935972 <br />
+                  Número de Cuenta: 126935972 <br />
                   Rut: 269359722 <br />
                 </div>
               ) : (
