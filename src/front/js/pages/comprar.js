@@ -53,7 +53,7 @@ export const Comprar = () => {
       if (response) {
         Swal.fire(
           'Tickets comprados con éxito',
-          'Su pago ha sido procesado y será verificado, enviar el comprobante de pago a soporte, luego de ello recibirá un correo con sus números en su bandeja de spam, tenga paciencia, NO SE REGISTRE MAS DE UNA VEZ O DEBERÁ CANCELAR TODAS LAS COMPRAS GENERADAS, Número de soporte via whatsapp OJO NO LLAMADAS +584241326694',
+          'SOMOS UNA SOLA RUEDA, Su pago está siendo procesado, te estaremos informando por su correo electrónico, enviar comprobante de pago via whatsapp a soporte +584241326694',
           'success',
         );
         setName('');
