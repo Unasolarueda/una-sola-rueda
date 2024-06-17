@@ -53,7 +53,7 @@ export const Comprar = () => {
       if (response) {
         Swal.fire(
           'Tickets comprados con éxito',
-          'SOMOS UNA SOLA RUEDA, Su pago está siendo procesado, te estaremos informando por su correo electrónico, enviar comprobante de pago via whatsapp a soporte +584241326694',
+          'Su pago está siendo procesado, te estaremos informando por su correo electrónico, enviar comprobante de pago via whatsapp a soporte +584241326694',
           'success',
         );
         setName('');
