@@ -24,7 +24,7 @@ export const Home = () => {
         <img src={imagen4} className="fi" />
       </div>
       <div className="ia d-flex justify-content-center">
-        <h2 className="tittle">Donde los Sueños los hacemos realidad</h2>
+        <h2 className="tittle">Donde los sueños los hacemos realidad</h2>
       </div>
     </div>
   );
