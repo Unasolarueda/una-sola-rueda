@@ -355,6 +355,7 @@ export const Comprar = () => {
                     <option value="pago movil">PAGO MÓVIL</option>
                     <option value="zelle">ZELLE</option>
                     <option value="binance">BINANCE-USDT</option>
+                    <option value="espana">ESPAÑA</option>
                   </select>
                 </div>
               </div>
@@ -370,6 +371,11 @@ export const Comprar = () => {
                   Alias: Therex78 <br />
                   Nota: COLOCAR SU ALIAS DE BINANCE AL LADO DE LA REFERENCIA DEL PAGO <br />
                 </div>
+              ) : paymentMethod == 'espana' ? (
+                <div className="datos-transferencia">
+                  BIZUM ESPAÑA  <br />
+                  +34614146078 <br />
+                </div>
               ) : paymentMethod == 'Prepago Los Heroes' ? (
                 <div className="datos-transferencia">
                   TERYL CASTILLO
@@ -384,8 +390,9 @@ export const Comprar = () => {
               ) : (
                 paymentMethod == 'zelle' && (
                   <div className="datos-transferencia">
-                    <p>+13464535821 </p>
-                    <p>Jesus Pasquale </p>
+                    <p>+3169007758 </p>
+                    <p>Lyonnerd Domínguez </p>
+                    <p>Lyonnerddominguez@gmail.com </p>
                     <p>
                       Nota: CON EL NÚMERO INDICADO PODRA HACER EL PAGO SIN USAR EL CORREO
                     </p>
