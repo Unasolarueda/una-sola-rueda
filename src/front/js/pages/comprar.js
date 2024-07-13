@@ -353,7 +353,7 @@ export const Comprar = () => {
                       LOS HEROES PREPAGO CHILE
                     </option>
                     <option value="pago movil">PAGO MÓVIL</option>
-                    <option value="zelle">ZELLE</option>
+                    {/*<option value="zelle">ZELLE</option>*/}
                     <option value="binance">BINANCE-USDT</option>
                   </select>
                 </div>
