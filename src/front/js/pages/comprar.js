@@ -358,19 +358,19 @@ export const Comprar = () => {
                   </select>
                 </div>
               </div>
-              {paymentMethod == 'pago movil' ? (
+              {paymentMethod === 'pago movil' ? (
                 <div className="datos-transferencia">
                   Banco de Venezuela 0102 <br />
                   V-14072384 <br />
                   04241326694 <br />
                 </div>
-              ) : paymentMethod == 'binance' ? (
+              ) : paymentMethod === 'binance' ? (
                 <div className="datos-transferencia">
                   Id: 828178208 <br />
                   Alias: Therex78 <br />
                   Nota: COLOCAR SU ALIAS DE BINANCE AL LADO DE LA REFERENCIA DEL PAGO <br />
                 </div>
-              ) : paymentMethod == 'Prepago Los Heroes' ? (
+              ) : paymentMethod === 'Prepago Los Heroes' ? (
                 <div className="datos-transferencia">
                   TERYL CASTILLO
                   <br />
@@ -380,9 +380,9 @@ export const Comprar = () => {
                   Número de cuenta: 126935972 <br />
                 </div>
               ) : (
-                paymentMethod == 'zelle' && (
+                paymentMethod === 'zelle' && (
                   <div className="datos-transferencia">
-                    <p>Johan sequeira </p>
+                    <p>Johan Sequeira </p>
                     <p>Johandavid2710@gmail.com </p>
                   </div>
                 ) 
