@@ -353,7 +353,7 @@ export const Comprar = () => {
                       LOS HEROES PREPAGO CHILE
                     </option>
                     <option value="pago movil">PAGO MÓVIL</option>
-                    {/*<option value="zelle">ZELLE</option>*/}
+                    <option value="zelle">ZELLE</option>
                     <option value="binance">BINANCE-USDT</option>
                   </select>
                 </div>
@@ -377,19 +377,13 @@ export const Comprar = () => {
                   Banco: Prepago Los Heroes <br />
                   Tipo de cuenta: Cuenta Vista
                   <br />
-                  Teléfono: +56930016493 <br />
                   Número de cuenta: 126935972 <br />
-                  Rut: 269359722 <br />
                 </div>
               ) : (
                 paymentMethod == 'zelle' && (
                   <div className="datos-transferencia">
-                    <p>+3169007758 </p>
-                    <p>Lyonnerd Domínguez </p>
-                    <p>Lyonnerddominguez@gmail.com </p>
-                    <p>
-                      Nota: CON EL NÚMERO INDICADO PODRA HACER EL PAGO SIN USAR EL CORREO
-                    </p>
+                    <p>Johan sequeira </p>
+                    <p>Johandavid2710@gmail.com </p>
                   </div>
                 ) 
               )}
