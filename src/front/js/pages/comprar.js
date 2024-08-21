@@ -349,9 +349,6 @@ export const Comprar = () => {
                     onChange={(event) => setPaymentMethod(event.target.value)}
                   >
                     <option value="">SELECCIONE SUS MÉTODOS DE PAGO</option>
-                    <option value="Prepago Los Heroes">
-                      LOS HEROES PREPAGO CHILE
-                    </option>
                     <option value="pago movil">PAGO MÓVIL</option>
                     <option value="zelle">ZELLE</option>
                     <option value="binance">BINANCE-USDT</option>
@@ -370,20 +367,10 @@ export const Comprar = () => {
                   Alias: Therex78 <br />
                   Nota: COLOCAR SU ALIAS DE BINANCE AL LADO DE LA REFERENCIA DEL PAGO <br />
                 </div>
-              ) : paymentMethod === 'Prepago Los Heroes' ? (
-                <div className="datos-transferencia">
-                  TERYL CASTILLO
-                  <br />
-                  Banco: Prepago Los Heroes <br />
-                  Tipo de cuenta: Cuenta Vista
-                  <br />
-                  Número de cuenta: 126935972 <br />
-                </div>
               ) : (
                 paymentMethod === 'zelle' && (
                   <div className="datos-transferencia">
-                    <p>Johan Sequeira </p>
-                    <p>Johandavid2710@gmail.com </p>
+                    <p>Lyonnerdjesus@gmail.com </p>
                   </div>
                 ) 
               )}
