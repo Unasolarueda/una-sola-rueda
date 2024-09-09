@@ -343,13 +343,14 @@ export const Comprar = () => {
                     <p>Método de pago:</p>
                   </label>
                   <select
-                    className="form-select"
-                    aria-label="Default select example"
-                    value={paymentMethod}
-                    onChange={(event) => setPaymentMethod(event.target.value)}
+                      className="form-select"
+                      aria-label="Default select example"
+                      value={paymentMethod}
+                      onChange={(event) => setPaymentMethod(event.target.value)}
                   >
                     <option value="">SELECCIONE SUS MÉTODOS DE PAGO</option>
                     <option value="pago movil">PAGO MÓVIL</option>
+                    <option value="mercado">Mercado Pago</option>
                     <option value="zelle">ZELLE</option>
                     <option value="binance">BINANCE-USDT</option>
                   </select>
@@ -361,6 +362,13 @@ export const Comprar = () => {
                   V-14072384 <br />
                   04241326694 <br />
                 </div>
+              ) : paymentMethod === 'mercado' ? (
+                  <div className="datos-transferencia">
+                    #1026407183 <br />
+                    RUT 269359722 <br />
+                    Banco Mercado Pago <br />
+                    Tipo de Cuenta: Vista <br />
+                  </div>
               ) : paymentMethod === 'binance' ? (
                 <div className="datos-transferencia">
                   Id: 828178208 <br />
@@ -372,7 +380,7 @@ export const Comprar = () => {
                   <div className="datos-transferencia">
                     <p>Lyonnerdjesus@gmail.com </p>
                   </div>
-                ) 
+                )
               )}
               {errors.paymentMethod && (
                 <div className="alert alert-danger p-1" role="alert">
