@@ -364,10 +364,12 @@ export const Comprar = () => {
                 </div>
               ) : paymentMethod === 'mercado' ? (
                   <div className="datos-transferencia">
-                    #1026407183 <br />
-                    RUT 269359722 <br />
-                    Banco Mercado Pago <br />
-                    Tipo de Cuenta: Vista <br />
+                    Mercado Pago <br/>
+                    TERYL CASTILLO <br/>
+                    #1026407183 <br/>
+                    RUT 269359722 <br/>
+                    Banco Mercado Pago <br/>
+                    Tipo de Cuenta: Vista <br/>
                   </div>
               ) : paymentMethod === 'binance' ? (
                 <div className="datos-transferencia">
