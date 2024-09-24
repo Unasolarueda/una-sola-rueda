@@ -349,8 +349,8 @@ export const Comprar = () => {
                     onChange={(event) => setPaymentMethod(event.target.value)}
                   >
                     <option value="">SELECCIONE SUS MÉTODOS DE PAGO</option>
-                    <option value="MERCADO PAGO">
-                      MERCADO PAGO BCO DE CHILE
+                    <option value="MERCADOPAGO">
+                      MERCADOPAGO BCO DE CHILE
                     </option>
                     <option value="pago movil">PAGO MÓVIL</option>
                     <option value="zelle">ZELLE</option>
