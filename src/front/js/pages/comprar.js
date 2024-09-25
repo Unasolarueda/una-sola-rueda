@@ -377,6 +377,7 @@ export const Comprar = () => {
                   Banco: Mercado Pago <br />
                   Tipo de cuenta: Cuenta Vista
                   <br />
+                  Rut: 269359722 <br />
                   Número de cuenta: 1026407183 <br />
                 </div>
               ) : (
