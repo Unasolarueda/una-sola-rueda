@@ -383,8 +383,8 @@ export const Comprar = () => {
               ) : (
                 paymentMethod === 'zelle' && (
                   <div className="datos-transferencia">
-                    <p>JOHAN SEQUEIRA </p>
-                    <p>terylcastillomarron@gmail.com </p>
+                    <p>LYONNERD DOMINGUEZ </p>
+                    <p>lyonnerdjesus@gmail.com </p>
                   </div>
                 ) 
               )}
