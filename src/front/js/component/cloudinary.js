@@ -6,8 +6,8 @@ class CloudinaryUploadWidget extends Component {
   componentDidMount() {
    
     //const cloudName = "du8wenys3";
-      const cloudName = "djci1lkde"
-    const uploadPreset = "asd24asd";
+      const cloudName = "dfz1iqflf"
+    const uploadPreset = "cruzangelo1";
     //const uploadPreset = process.env.UPLOAD_PRESET;
    
 
