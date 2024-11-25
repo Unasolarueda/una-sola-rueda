@@ -360,7 +360,7 @@ export const Comprar = () => {
               </div>
               {paymentMethod === 'pago movil' ? (
                 <div className="datos-transferencia">
-                  Banco Mercantil 0105 <br />
+                  Banco del Tesoro 0163 <br />
                   V-12163660 <br />
                   04243380957 <br />
                 </div>
