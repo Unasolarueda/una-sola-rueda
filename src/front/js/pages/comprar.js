@@ -56,7 +56,7 @@ export const Comprar = () => {
           'Muchas gracias por su compra
      En este momento estamos verificando tu pago. 
 Te enviaremos un correo electrónico en las próximas 24 horas con la confirmación de la compra de sus tickets
-Debe enviar comprobante de pago via whatsapp a soporte +584241326694 ',
+Debe enviar comprobante de pago via whatsapp a soporte +584241326694',
           'success',
         );
         setName('');
