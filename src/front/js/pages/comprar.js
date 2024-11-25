@@ -53,7 +53,10 @@ export const Comprar = () => {
       if (response) {
         Swal.fire(
           'ORDEN DE COMPRA CREADA CON ÉXITO',
-          'Su pago está siendo procesado, sus tickets le llegarán a su correo electrónico una vez validemos su transferencia bancaria, enviar comprobante de pago via whatsapp a soporte +584241326694',
+          'Muchas gracias por su compra
+     En este momento estamos verificando tu pago. 
+Te enviaremos un correo electrónico en las próximas 24 horas con la confirmación de la compra de sus tickets
+Debe enviar comprobante de pago via whatsapp a soporte +584241326694 ',
           'success',
         );
         setName('');
