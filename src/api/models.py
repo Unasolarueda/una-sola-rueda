@@ -232,15 +232,15 @@ class Ticket(db.Model):
         
     def serialize(self):
         return {
-            "id": self.id,
-            "number": self.number,
-            "status": self.status,
-            "user_name": self.payment.name,
-            "user_phone": self.payment.phone,
-            "user_email": self.payment.email,
-            "talonario_id": self.talonario_id,
-            "payment_id": self.payment_id,
+        "id": self.id,
+        "number": self.number,
+        "status": self.status,
+        "user_name": self.payment.name if self.payment else None,
+        "user_phone": self.payment.phone if self.payment else None,
+        "user_email": self.payment.email if self.payment else None,
+        "talonario_id": self.talonario_id,
+        "payment_id": self.payment_id,
 
-        
+
         } 
     
