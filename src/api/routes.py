@@ -242,7 +242,13 @@ def get_ticket(talonario_id):
                 return jsonify({"msg": "No tickets found for the given talonario_id."}), 404
             
             # Serializa los tickets en un diccionario
-            tickets_dictionaries = [ticket.serialize() for ticket in tickets]
+            tickets_dictionaries = []
+            for ticket in tickets:
+                # Asegúrate de que el ticket no es None
+                if ticket is not None:
+                    tickets_dictionaries.append(ticket.serialize())
+                else:
+                    return jsonify({"msg": "One of the tickets is None."}), 500
 
             return jsonify(tickets_dictionaries), 200
         
@@ -251,7 +257,7 @@ def get_ticket(talonario_id):
             return jsonify({"msg": "An error occurred while querying the database.", "error": str(e)}), 500
         
         except Exception as e:
-            # Maneja cualquier otro tipo de error
+            # Captura el error y permite obtener más detalles
             return jsonify({"msg": "An unexpected error occurred.", "error": str(e)}), 500
 
 @api.route('/ticket/<int:number>/<int:talonario_id>', methods=['GET'])
