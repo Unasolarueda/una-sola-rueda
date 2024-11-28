@@ -14,6 +14,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from datetime import datetime
 from sqlalchemy import and_, or_, func
+from sqlalchemy.exc import SQLAlchemyError
 
 
 
@@ -222,14 +223,36 @@ def get_all_ticket():
         return jsonify(tickets_dictionaries)
 
 @api.route('/ticket/<int:talonario_id>', methods=['GET'])
+#def get_ticket(talonario_id):
+#    if request.method == "GET":
+#        tickets = Ticket.query.filter_by(talonario_id = talonario_id)
+#        tickets_dictionaries = []
+#        for ticket in tickets :
+#            tickets_dictionaries.append(ticket.serialize())
+#        
+#        return jsonify(tickets_dictionaries)
 def get_ticket(talonario_id):
     if request.method == "GET":
-        tickets = Ticket.query.filter_by(talonario_id = talonario_id)
-        tickets_dictionaries = []
-        for ticket in tickets :
-            tickets_dictionaries.append(ticket.serialize())
+        try:
+            # Intenta recuperar los tickets asociados al talonario_id
+            tickets = Ticket.query.filter_by(talonario_id=talonario_id).all()
+            
+            # Verifica si se encontraron tickets
+            if not tickets:
+                return jsonify({"msg": "No tickets found for the given talonario_id."}), 404
+            
+            # Serializa los tickets en un diccionario
+            tickets_dictionaries = [ticket.serialize() for ticket in tickets]
+
+            return jsonify(tickets_dictionaries), 200
         
-        return jsonify(tickets_dictionaries)
+        except SQLAlchemyError as e:
+            # Maneja errores de la base de datos
+            return jsonify({"msg": "An error occurred while querying the database.", "error": str(e)}), 500
+        
+        except Exception as e:
+            # Maneja cualquier otro tipo de error
+            return jsonify({"msg": "An unexpected error occurred.", "error": str(e)}), 500
 
 @api.route('/ticket/<int:number>/<int:talonario_id>', methods=['GET'])
 def get_one_ticket(number, talonario_id):
