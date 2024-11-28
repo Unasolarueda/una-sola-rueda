@@ -398,7 +398,7 @@ export const Comprar = () => {
                   htmlFor="validationCustom02"
                   className="form-label fw-bold"
                 >
-                  Número de referencia - Operación - Movimiento:
+                  Número de Referencia - Operación - Movimiento:
                 </label>
                 <input
                   type="text"
