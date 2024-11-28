@@ -188,35 +188,28 @@ def  delete_talonario(talonario_id):
 
 
 #enpoinst ticket     
-# @api.route('/ticket/<int:talonario_id>', methods=['GET'])
-# def get_ticket(talonario_id):
-#     if request.method == "GET":
-#         tickets = Ticket.query.filter_by(talonario_id=talonario_id)
-#         tickets_dictionaries = []
-#         for ticket in tickets:
-#             tickets_dictionaries.append(ticket.serialize())
-#         
-#         return jsonify(tickets_dictionaries)
+@api.route('/ticket', methods=['POST'])
+def create_ticket():
 
-@api.route('/ticket/<int:talonario_id>', methods=['GET'])
-def get_ticket(talonario_id):
-    if request.method == "GET":
+    if request.method == "POST":
+        body = request.json
+        numbers=body.get("numbers", None)
+        #number=body.get("number", None)
+        status= body.get("status",None)
+        talonario_id = body.get("talonario_id", None)
+        payment_id = body.get("payment_id", None)
+
+        if numbers is None or status is None or talonario_id is None or payment_id is None:
+            return jsonify({"message": "missing data"}),400
+
         try:
-            # Consulta los tickets para el talonario_id especificado
-            tickets = Ticket.query.filter_by(talonario_id=talonario_id).all()
+            for number in numbers:
+                Ticket.create(number=number, status = status, talonario_id= talonario_id, payment_id = payment_id)
 
-            # Verifica si se encontraron tickets
-            if not tickets:
-                return jsonify({"message": "No se encontraron tickets para el talonario especificado."}), 404
-
-            # Serializa los tickets
-            tickets_dictionaries = [ticket.serialize() for ticket in tickets]
-
-            return jsonify(tickets_dictionaries), 200
+            return jsonify({"message": "Tickets creados"}), 201
         
-        except Exception as e:
-            # Manejo de excepciones y retorno de un mensaje de error
-            return jsonify({"error": str(e)}), 500
+        except Exception as error:
+            return jsonify({"message": f"Error: {error.args[0]}"}),error.args[1]
  
 @api.route('/ticket', methods=['GET'])
 def get_all_ticket():
