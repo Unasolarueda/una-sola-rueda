@@ -408,8 +408,8 @@ def verify_pay(payment_id):
     if request.method == "POST":
         
 
-        sender = "dmlord17@gmail.com"
-        receptor = "dmlord17@gmail.com"
+        sender = "unasolaruedadev@gmail.com"
+        receptor = "unasolaruedadev@gmail.com"
 
         data_payment = Payment.query.filter_by(id = payment_id).first()
 
@@ -740,10 +740,10 @@ def verify_pay(payment_id):
         message.attach(MIMEText(html,'html'))
 
         try:
-            server = smtplib.SMTP("smtp.gmail.com",587)
+            server = smtplib.SMTP("send.smtp.com",587)
             server.starttls()
-            server.login("dmlord17@gmail.com","ihdclnptddsmyqfs")
-            server.sendmail("dmlord17@gmail.com","dmlord17@gmail.com",message.as_string())
+            server.login("unasolaruedadev@gmail.com","Unasolarueda$$")
+            server.sendmail("unasolaruedadev@gmail.com","unasolaruedadev@gmail.com",message.as_string())
             server.quit()
             print("Email send")
             return jsonify({"message": "Email send succesfull"}),200
@@ -1175,7 +1175,7 @@ def verified_payment(payment_id):
         message.attach(MIMEText(html,'html'))
 
         try:
-            server = smtplib.SMTP("smtp.gmail.com",587)
+            server = smtplib.SMTP("send.smtp.com",587)
             server.starttls()
             server.login(sender,pwd)
             server.sendmail(sender,receptor,message.as_string())
